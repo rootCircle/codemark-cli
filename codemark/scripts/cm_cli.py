@@ -1,4 +1,6 @@
 import click
+import codemark.get
+import codemark.review
 
 @click.group()
 def cli():
@@ -38,6 +40,8 @@ def list(completed, pending):
 def get(code):
     """Fetches assignments from cloud, based on assignment Code"""
     print("Downloading assignment into that folder and open code into that dir. Check if completed or not")
+    codemark.get.fetch()
+
 
 @click.command()
 def check():
@@ -56,7 +60,7 @@ def submit(force):
 @click.command()
 def review():
     """Let AI review your code and recommend error you might be doing"""
-    print("CHATGPT API")
+    codemark.review.reviewCode()
 
 @click.command()
 def doctor():

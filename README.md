@@ -57,6 +57,18 @@ To use CodeMark CLI, run the following command:
 
 CodeMark CLI requires a working internet connection to interact with the CodeMark cloud service. Additionally, make sure you have Python installed on your system.
 
+### These fine people helped us with the project
+
+For HackOFiesta v4.0 Submission | Team Silicon Sorcerers
+
+| Name | Username | Role | Key Contributions
+| --- | --- | --- | --- |
+| Praveen Jaiswal | @rootCircle | Team Lead, CLI Developer | CLI App and Code Integration |
+| Umesh Verma | @umeshSinghVerma | Backend Developer | Firebase Integration in Website |
+| Vansh Khare | @realVanshKhare | AI & Algorithm Design with frontend web developer | Frontend Pages Designs, Plag Report Detection |
+| Yash Agarwal | @YASH7406 | Chief Frontend Developer | All the frontend designs and pages and their integrations with backend |
+| Manan Patel | @manan9993 | Blockchain Developer | Web3 based decentralised Storage and management for report of submitted code |
+
 ## License
 
 CodeMark CLI is released under the Apache-2.0 License. See LICENSE for details.

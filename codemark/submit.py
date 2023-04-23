@@ -52,17 +52,30 @@ def generate_report_and_push(success, total, force = False):
 
     if filename and assgn_data and not force:
         student_data = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
+        if not student_data:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
 
         print("INFO: Generating Result Report")
         report = generate_report(filename, assgn_data['assignment_id'], success, total)
         
         print("INFO: Sending data to Web3 Storage")
         cid = sendTOIPFS(report)
-
+        if not cid:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
+            
         submission_id = generate_hash()
-
+        if not submission_id:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
+            
         print("INFO: Sending file to Cloud")
         cloud_url = db.sendDataStorage(filename, submission_id + filename)
+        if not cloud_url:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
+
 
         details = {
             "submission_id": submission_id,
@@ -74,21 +87,34 @@ def generate_report_and_push(success, total, force = False):
         }
         
         print("INFO: Logging Submission to Cloud")
-        db.pushData("submissions", details)
+        if not db.pushData("submissions", details):
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
 
         print("Submitted successfully!")
         
     elif filename and assgn_data:
-        print("Submitting in force mode! Marks are calculated manually")
         student_data = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
+        if not student_data:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
 
         print("INFO: Generating Result Report")
         report = generate_report(filename, assgn_data['assignment_id'], success, total)
+        
+        cid = ""
 
         submission_id = generate_hash()
-
+        if not submission_id:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
+            
         print("INFO: Sending file to Cloud")
         cloud_url = db.sendDataStorage(filename, submission_id + filename)
+        if not cloud_url:
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
+
 
         details = {
             "submission_id": submission_id,
@@ -96,11 +122,13 @@ def generate_report_and_push(success, total, force = False):
             "assignment_id": assgn_data["assignment_id"],
             "submission_time": str(datetime.now()),
             "code_url": cloud_url,
-            "cid": "",
+            "cid": cid,
         }
         
         print("INFO: Logging Submission to Cloud")
-        db.pushData("submissions", details)
+        if not db.pushData("submissions", details):
+            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            return False
 
         print("Submitted successfully!")
 
@@ -130,7 +158,7 @@ def sendTOIPFS(report):
 
     cid = upload_file_to_web3storage(codemark.secrets.web3storage_api_key, tmpReportFile)
 
-    # os.remove(tmpReportFile)
+    os.remove(tmpReportFile)
 
     return cid
 

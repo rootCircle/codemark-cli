@@ -3,6 +3,7 @@ import os
 import codemark.utils
 import codemark.account
 import codemark.firebase.database as FireDB
+import getpass
 
 db = FireDB.FirebaseDB()
 
@@ -30,7 +31,7 @@ def initialiseCred():
         print("Invalid Email")
         return False
     
-    password = input("Enter Password : ")
+    password = getpass.getpass("Enter Password : ")
     if len(password) < 8:
         print("Please enter at-least 8 character password!")
         return False

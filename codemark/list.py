@@ -12,6 +12,12 @@ def listSmart(completed, pending):
             for assignment in assignments:
                 del assignment['test_cases']
                 del assignment['batch_id']
+        else:
+            for assignment in assignments:
+                del assignment['cid']
+                del assignment['code_url']
+                del assignment['student_id']
+
         print(tabulate(assignments, headers="keys", tablefmt="fancy_grid", 
                numalign="center", stralign="center"))
 

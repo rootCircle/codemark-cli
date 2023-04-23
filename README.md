@@ -59,7 +59,7 @@ CodeMark CLI requires a working internet connection to interact with the CodeMar
 
 ## License
 
-CodeMark CLI is released under the Apache License. See LICENSE for details.
+CodeMark CLI is released under the Apache-2.0 License. See LICENSE for details.
 
 ## Support
 

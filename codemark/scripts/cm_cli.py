@@ -39,8 +39,8 @@ def list(completed, pending):
 @click.argument('code')
 def get(code):
     """Fetches assignments from cloud, based on assignment Code"""
-    print("Downloading assignment into that folder and open code into that dir. Check if completed or not")
-    codemark.get.fetch()
+    #TODO: Check if assignment is completed or not and inform users
+    codemark.get.fetch(code)
 
 
 @click.command()

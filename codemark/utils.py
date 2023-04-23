@@ -1,4 +1,5 @@
 import os
+import json
 
 def detectFile(extension="c"):
     matchingFiles = []
@@ -17,11 +18,33 @@ def smartGetCode(extension="c"):
     matchingFiles = detectFile(extension)
 
     if len(matchingFiles) > 1:
-        print("More than one file found!")
+        print("ERROR: More than one file found!")
         return -1 
     elif len(matchingFiles) == 0:
-        print("No {} files found!".format(extension))
+        print("ERROR: No {} files found!".format(extension))
         return -2
-    print("Found {} file in root file!".format(matchingFiles[0]))
+    print("INFO: Found {} file in root file!".format(matchingFiles[0]))
     return getProgramCode(matchingFiles[0])
+
+
+def makeDirectory(directory):
+    try:
+        # Create target Directory
+        os.mkdir(directory)
+        return True
+    except FileExistsError:
+        print("ERROR: Directory ", directory, " already exists.")
+        return False
+
+
+def writeToFile(filename, content):
+    with open(filename, 'w') as file:
+        file.write(content)
+
+def writeJSONToFile(filename, content):
+    # Open a file in write mode
+    with open(filename, 'w') as f:
+
+        # Write the dictionary to the file in JSON format
+        json.dump(content, f, indent=4)
 

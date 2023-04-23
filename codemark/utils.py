@@ -48,3 +48,13 @@ def writeJSONToFile(filename, content):
         # Write the dictionary to the file in JSON format
         json.dump(content, f, indent=4)
 
+def readJSONFile(filename):
+    try:
+        with open(filename, 'r') as f:
+
+            # Load the JSON data from the file into a dictionary
+            my_dict = json.load(f)
+
+        return my_dict
+    except FileNotFoundError as e:
+        print("No", filename, "file found!")

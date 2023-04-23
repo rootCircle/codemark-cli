@@ -2,6 +2,11 @@
 
 CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests with the CodeMark cloud service. With this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations. The tool is designed to simplify your experience with CodeMark and streamline your coding workflow. ⌨️💻👨‍💻
 
+### Download
+[<img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white"
+     alt="Download from GitHub"
+     height="60">](https://github.com/rootCircle/codemark-cli/releases)
+
 ## Installation instructions
 
 To install and use CodeMark CLI, follow these steps:

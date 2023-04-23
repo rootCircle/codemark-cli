@@ -6,7 +6,7 @@ import re
 import psutil
 
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
-limit_time = 180 # 3 minutes in seconds
+limit_time = 1 # 3 minutes in seconds
 MAX_CHECK_CODE = 3 # Maximum codes to be checked
 
 # match_io function has three modes : exact match, regex match, fuzzy match

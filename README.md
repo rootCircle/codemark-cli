@@ -64,3 +64,7 @@ CodeMark CLI is released under the Apache License. See LICENSE for details.
 ## Support
 
 If you have any questions or issues with CodeMark CLI, please raise an issue request. We are here to help! 💬👋
+
+## Logo
+![CodeMark logo](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/logo.png)
+

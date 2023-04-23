@@ -42,6 +42,9 @@ def getPending():
 
 def getCompleted():
     student_id = codemark.account.getCurrentStudentID()
+    if not student_id:
+        print("O o....Somes issues\nRun codemark doctor for resolving")
+        return
     assignments = db.getdataOrderEqual("submissions", "student_id", student_id)
 
     if assignments is None:
@@ -55,6 +58,9 @@ def getCompleted():
 
 def getAllAssignment():
     batch_id = codemark.account.getBatchID()
+    if not batch_id:
+        print("O o....Somes issues\nRun codemark doctor for resolving")
+        return
     assignments = db.getdataOrderEqual("assignments", "batch_id", batch_id)
 
     if assignments is None:

@@ -1,6 +1,7 @@
 import click
 import codemark.get
 import codemark.review
+import codemark.list
 
 @click.group()
 def cli():
@@ -26,12 +27,7 @@ def list(completed, pending):
     if completed and pending:
         click.echo("Error: -C and -P are mutually exclusive.")
         return
-    if completed:
-        click.echo("Will list only completed assignments")
-    elif pending:
-        click.echo("Will list only pending assignments")
-    else:
-        click.echo("Will list all assignments")
+    codemark.list.listSmart(completed, pending)
 
 
 @click.command()

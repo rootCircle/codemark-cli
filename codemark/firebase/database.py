@@ -44,7 +44,19 @@ in firebase variable:storage-bucket can be fetched from Storage section in Fireb
 
 dbURL = codemark.secrets.dbURL
 SERVICEACCOUNTFILE = codemark.secrets.SERVICEACCOUNTFILE
+STORAGE_BUCKET_URL = codemark.secrets.STORAGE_BUCKET_URL
 
+firebaseConfig = codemark.secrets.firebaseConfig
+
+
+pfirebase = pyrebase.initialize_app(firebaseConfig)
+pauth = pfirebase.auth()
+
+cred = firebaseadmin.credentials.Certificate(SERVICEACCOUNTFILE)
+firebase = firebaseadmin.initialize_app(cred, {
+    'databaseURL': dbURL,
+    'storageBucket': STORAGE_BUCKET_URL
+})
 
 SESSION_USER = None
 SESSION_FILE_FOLDER = "res"
@@ -53,19 +65,7 @@ SESSION_CACHE_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), S
 
 class FirebaseDB:
     def __init__(self):
-        STORAGE_BUCKET_URL = codemark.secrets.STORAGE_BUCKET_URL
-
-        firebaseConfig = codemark.secrets.firebaseConfig
-
-
-        pfirebase = pyrebase.initialize_app(firebaseConfig)
-        self.pauth = pfirebase.auth()
-
-        cred = firebaseadmin.credentials.Certificate(SERVICEACCOUNTFILE)
-        self.firebase = firebaseadmin.initialize_app(cred, {
-            'databaseURL': dbURL,
-            'storageBucket': STORAGE_BUCKET_URL
-        })
+        pass
 
     @staticmethod
     def signout(self):
@@ -76,7 +76,7 @@ class FirebaseDB:
                 None :if some error occurs
         """
         try:
-            self.pauth.current_user = None
+            pauth.current_user = None
             return True
         except Exception as e:
             print(e)
@@ -97,7 +97,7 @@ class FirebaseDB:
         """
         if self.connect():
             try:
-                user = self.pauth.sign_in_with_email_and_password(email, password)
+                user = pauth.sign_in_with_email_and_password(email, password)
                 return user
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
@@ -540,20 +540,20 @@ class FirebaseDB:
 
     def logout(self):
         self.clearImgCache()
-        self.pauth.current_user = None
+        pauth.current_user = None
         self.clearSession()
         globals()['SESSION_USER'] = None
 
     @staticmethod
     def writeSession(self):
-        if self.pauth.current_user:
+        if pauth.current_user:
             try:
                 os.makedirs(SESSION_FILE_FOLDER)
             except OSError as e:
                 if e.errno != errno.EEXIST:
                     print("LOG : ", e)
             with open(SESSION_CACHE_FILE, 'wb') as f:
-                pickle.dump(self.pauth.current_user, f)
+                pickle.dump(pauth.current_user, f)
 
     @staticmethod
     def readSession(self):
@@ -567,7 +567,7 @@ class FirebaseDB:
             with open(SESSION_CACHE_FILE, "rb") as f:
                 file_contents = pickle.load(f)
                 if file_contents and self.connect():
-                    self.pauth.current_user = ses = file_contents
+                    pauth.current_user = ses = file_contents
                     globals()['SESSION_USER'] = auth.get_user(ses['localId'])
         except IOError as e:
             pass
@@ -575,7 +575,7 @@ class FirebaseDB:
         except EOFError as e:
             pass
         except firebase_admin._auth_utils.UserNotFoundError as e:
-            self.pauth.current_user = None
+            pauth.current_user = None
             self.clearSession()
             globals()['SESSION_USER'] = None
             print("LOG : ", e)

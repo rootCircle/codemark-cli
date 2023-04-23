@@ -311,8 +311,7 @@ class FirebaseDB:
             if self.connect():
                 bucket = storage.bucket()
                 if fileLocation and saveAsName:
-                    extension = ".png"
-                    savefilename = saveAsName + extension
+                    savefilename = saveAsName
                     blob = bucket.blob(savefilename)
                     blob.upload_from_filename(fileLocation)
                     return savefilename

@@ -26,6 +26,17 @@ def smartGetCode(extension="c"):
     print("INFO: Found {} file in root file!".format(matchingFiles[0]))
     return getProgramCode(matchingFiles[0])
 
+def smartGetFileName(extension="c"):
+    matchingFiles = detectFile(extension)
+
+    if len(matchingFiles) > 1:
+        print("ERROR: More than one file found!")
+        return -1 
+    elif len(matchingFiles) == 0:
+        print("ERROR: No {} files found!".format(extension))
+        return -2
+    print("INFO: Found {} file in root file!".format(matchingFiles[0]))
+    return matchingFiles[0]
 
 def makeDirectory(directory):
     try:

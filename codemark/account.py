@@ -1,4 +1,6 @@
 import keyring
+import codemark.utils
+import codemark.initialise
 
 service_name = "silicon-sorcerers-codemark-cli"
 
@@ -12,7 +14,9 @@ def getStudentEmail():
     pass
 
 def getCurrentStudentID():
-    return "STU001"
+    student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
+    return student_info['student_id']
 
 def getBatchID():
-    return "B1"
+    student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
+    return student_info["batch_id"]

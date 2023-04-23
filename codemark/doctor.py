@@ -87,7 +87,8 @@ def check_compiler():
     print("5. Checking if C compilers are installed or not.")
     
     # List of C compilers to check for
-    compilers = ['gcc', 'clang', 'cl']
+    # compilers = ['gcc', 'clang', 'cl']
+    compilers = ['gcc']
 
     hasCompiler = False
     # Check if each compiler is available on the system

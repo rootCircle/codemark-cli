@@ -4,6 +4,8 @@ import codemark.review
 import codemark.list
 import codemark.initialise
 import codemark.doctor
+import codemark.check
+import codemark.logout
 
 @click.group()
 def cli():
@@ -43,8 +45,7 @@ def get(code):
 @click.command()
 def check():
     """Checks the code against selected test cases and report errors"""
-    print("Checks the code based on cached assignment code fetched from a file")
-
+    codemark.check.checkCode()
 
 @click.command()
 @click.option( '-f', '--force', is_flag=True, help='Submit code even if all tests have not passed')
@@ -64,6 +65,11 @@ def doctor():
     """Fixes any known common issues for the app"""
     codemark.doctor.doctor()
 
+@click.command()
+def logout():
+    """Logout the user"""
+    codemark.logout.logout()
+
 cli.add_command(init)
 cli.add_command(list)
 cli.add_command(get)
@@ -71,3 +77,4 @@ cli.add_command(check)
 cli.add_command(submit)
 cli.add_command(review)
 cli.add_command(doctor)
+cli.add_command(logout)

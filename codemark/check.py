@@ -3,7 +3,7 @@ import subprocess
 import codemark.utils
 from fuzzywuzzy import fuzz
 import re
-import resource
+import psutil
 
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
 limit_time = 180 # 3 minutes in seconds
@@ -13,11 +13,12 @@ MAX_CHECK_CODE = 3 # Maximum codes to be checked
 # By default only regex match is enabled, but can be modified using functional arguments
 
 def set_limits():
-    # Set the memory limit
-    resource.setrlimit(resource.RLIMIT_AS, (limit_memory, limit_memory))
+    process = psutil.Process()
+    process.rlimit(psutil.RLIMIT_DATA, (limit_memory, limit_memory))
 
-    # Set the time limit
-    resource.setrlimit(resource.RLIMIT_CPU, (limit_time, limit_time))
+    # Set the time limit (in seconds)
+    process.cpu_times()
+    process.cpu_percent(interval=limit_time)
 
 
 def checkCode(byPassMAXCheck = False):
@@ -56,7 +57,7 @@ def checkCode(byPassMAXCheck = False):
         print("\n\nAll tests passed successfully!")
     else:
         print("\n\nSome test cases failed. Retry harder!")
-        
+
     if not byPassMAXCheck:
         return final
     else:
@@ -87,10 +88,15 @@ def match_io(file, input_str, output_str, fuzzy_match=False, regexMatch=False):
         # Linux platform
         run_command = ["./" + executable_file]  # prefix with './' on Linux
     try:
-        output = subprocess.check_output(run_command, input=input_str.encode(), preexec_fn=set_limits)
+        result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
+        output = result.stdout
     except subprocess.CalledProcessError:
         print('ERROR: Execution error')
         exit()
+    except subprocess.TimeoutExpired:
+        print("TIMEOUT: Codes takes more than {} seconds to execute.".format(limit_time))
+        exit()
+    
 
 
     if fuzzy_match:

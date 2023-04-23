@@ -6,6 +6,7 @@ import codemark.initialise
 import codemark.doctor
 import codemark.check
 import codemark.logout
+import codemark.submit
 
 @click.group()
 def cli():
@@ -51,9 +52,7 @@ def check():
 @click.option( '-f', '--force', is_flag=True, help='Submit code even if all tests have not passed')
 def submit(force):
     """Submit the code against selected test cases and report errors"""
-    if force:
-        print("Forced!")
-    print("Checks the code based on cached assignment code fetched from a file. Submit late")
+    codemark.submit.submit(force)
 
 @click.command()
 def review():

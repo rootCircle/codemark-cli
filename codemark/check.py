@@ -9,6 +9,8 @@ limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
 limit_time = 180 # 3 minutes in seconds
 MAX_CHECK_CODE = 3 # Maximum codes to be checked
 
+# match_io function has three modes : exact match, regex match, fuzzy match
+# By default only regex match is enabled, but can be modified using functional arguments
 
 def set_limits():
     # Set the memory limit
@@ -18,14 +20,15 @@ def set_limits():
     resource.setrlimit(resource.RLIMIT_CPU, (limit_time, limit_time))
 
 
-def checkCode():
+def checkCode(byPassMAXCheck = False):
     print("Checking Code......")
     print("Checks the code based on cached assignment code fetched from a file\n")
 
     filename = codemark.utils.smartGetFileName()
 
     if not filename or filename in (-1, -2):
-        return
+        return False
+
     compileCCode(filename)
     
     test_cases = codemark.utils.readJSONFile("config.json")
@@ -34,6 +37,7 @@ def checkCode():
     
     test_cases = test_cases['test_cases'].values()
     counter = 0
+    success = 0
     final = True
 
     print()
@@ -43,13 +47,21 @@ def checkCode():
         final = final and result
         print("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
         counter+=1
-        if counter == MAX_CHECK_CODE or not result:
+        if (counter == MAX_CHECK_CODE  or not result) and not byPassMAXCheck:
             break
+        if result:
+            success += 1
     
     if final:
         print("\n\nAll tests passed successfully!")
     else:
         print("\n\nSome test cases failed. Retry harder!")
+        
+    if not byPassMAXCheck:
+        return final
+    else:
+        return (success, counter)
+
 
 def compileCCode(filename):
     # Compile the C file

@@ -2,6 +2,8 @@ import click
 import codemark.get
 import codemark.review
 import codemark.list
+import codemark.initialise
+import codemark.doctor
 
 @click.group()
 def cli():
@@ -16,8 +18,7 @@ def cli():
 @click.command()
 def init():
     """Initialize the configuration globally for codemark"""
-    print("ASK user for EMAIL AND API KEY")
-    print("Store the .conf file inside home directory")
+    codemark.initialise.initApp()
 
 @click.command()
 @click.option( '-C', '--completed', is_flag=True, help='Show only completed assignments')
@@ -61,7 +62,7 @@ def review():
 @click.command()
 def doctor():
     """Fixes any known common issues for the app"""
-    print("Checks init file config and credentials and if server is down. Version, compilers etc")
+    codemark.doctor.doctor()
 
 cli.add_command(init)
 cli.add_command(list)

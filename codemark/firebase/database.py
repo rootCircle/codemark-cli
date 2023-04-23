@@ -12,6 +12,7 @@ Email must always be in lower case
 
 """
 TODO : Add support for '#.$[]\' in firebase
+TODO : Uncomment connect tests
 """
 
 
@@ -504,7 +505,7 @@ class FirebaseDB:
                                    "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
         print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
 
-    def connect(self, hosts=['http://google.com', dbURL]):
+    def connect(self, hosts=['http://google.com', dbURL], check = False):
         """
         Tries to connect to various hosts (By default Google and Firebase Server)
         and check if user has valid internet connection or not.
@@ -518,16 +519,19 @@ class FirebaseDB:
                 False if failed to connect to server
         """
         try:
-            if isinstance(hosts, (list, tuple)):
-                # for host in hosts:
-                #     urllib.request.urlopen(host)
-                return True
-            elif isinstance(hosts, str):
-                urllib.request.urlopen(hosts)
-                return True
+            if check:
+                if isinstance(hosts, (list, tuple)):
+                    for host in hosts:
+                        urllib.request.urlopen(host)
+                    return True
+                elif isinstance(hosts, str):
+                    urllib.request.urlopen(hosts)
+                    return True
+                else:
+                    print("LOG : ", "Invalid data type 'hosts'-expected string/tuple/list\nself.connect")
+                    return False
             else:
-                print("LOG : ", "Invalid data type 'hosts'-expected string/tuple/list\nself.connect")
-                return False
+                return True
         except:
             return False
 

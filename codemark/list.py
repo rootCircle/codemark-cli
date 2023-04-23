@@ -2,6 +2,7 @@ import codemark.account
 import codemark.firebase.database as FireDB
 from tabulate import tabulate
 
+
 db = FireDB.FirebaseDB()
 
 def listSmart(completed, pending):
@@ -33,14 +34,14 @@ def listAssignments(completed, pending):
 
 def getPending():
     assignments = getAllAssignment()
-    completed_assignments = getCompleted()
+    completed_assignments = getCompleted(printto=False)
     pending = [item for item in assignments if item['assignment_id'] not in [completed_assignment['assignment_id'] for completed_assignment in completed_assignments]]
     if not pending:
         print("No Pending Assignment! What a relief!")
     return pending  
 
 
-def getCompleted():
+def getCompleted(printto=True):
     student_id = codemark.account.getCurrentStudentID()
     if not student_id:
         print("O o....Somes issues\nRun codemark doctor for resolving")
@@ -51,7 +52,7 @@ def getCompleted():
         print("Some error occurred, while fetching assignments")
         return
 
-    if not assignments:
+    if not assignments and printto:
         print("Nothing here yet!")
 
     return list(assignments.values())

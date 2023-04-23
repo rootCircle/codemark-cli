@@ -1,52 +1,116 @@
 import os
 import subprocess
 import codemark.utils
-# from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz
+import re
+import resource
+
+limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
+limit_time = 180 # 3 minutes in seconds
+MAX_CHECK_CODE = 3 # Maximum codes to be checked
+
+
+def set_limits():
+    # Set the memory limit
+    resource.setrlimit(resource.RLIMIT_AS, (limit_memory, limit_memory))
+
+    # Set the time limit
+    resource.setrlimit(resource.RLIMIT_CPU, (limit_time, limit_time))
+
 
 def checkCode():
     print("Checking Code......")
-    print("Checks the code based on cached assignment code fetched from a file")
+    print("Checks the code based on cached assignment code fetched from a file\n")
 
     filename = codemark.utils.smartGetFileName()
 
-    if not filename:
+    if not filename or filename in (-1, -2):
+        return
+    compileCCode(filename)
+    
+    test_cases = codemark.utils.readJSONFile("config.json")
+    if not test_cases:
         return
     
-    compileCCode(filename)
+    test_cases = test_cases['test_cases'].values()
+    counter = 0
+    final = True
 
+    print()
+
+    for test_case in test_cases:
+        result = match_io(filename, test_case["input"], test_case["output"], regexMatch=True)
+        final = final and result
+        print("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
+        counter+=1
+        if counter == MAX_CHECK_CODE or not result:
+            break
+    
+    if final:
+        print("\n\nAll tests passed successfully!")
+    else:
+        print("\n\nSome test cases failed. Retry harder!")
 
 def compileCCode(filename):
-
-
-    # Define the input and expected output strings
-    input_str = '5\n'
-    expected_output_str = 'The factorial of 5 is 120\n'
-
     # Compile the C file
     try:
         # filename[:-2] trims out extension
         subprocess.check_output(['gcc', filename, '-o', filename[:-2]])
     except subprocess.CalledProcessError:
-        print('Compilation error')
+        print('ERROR: Compilation error')
         exit()
+    
 
-def match_io():
+def match_io(file, input_str, output_str, fuzzy_match=False, regexMatch=False):
+    """
+    Fuzzy match will take priority over regex Match
+    """
     # Run the program with the input string
+    executable_file = file[:-2]
+    if os.name == "nt":
+    # Windows platform
+        executable_file += ".exe"  # add the .exe extension for Windows
+        run_command = [executable_file]  # no need to prefix with './' on Windows
+    else:
+        # Linux platform
+        run_command = ["./" + executable_file]  # prefix with './' on Linux
     try:
-        output = subprocess.check_output(['./main'], input=input_str.encode())
+        output = subprocess.check_output(run_command, input=input_str.encode(), preexec_fn=set_limits)
     except subprocess.CalledProcessError:
-        print('Execution error')
+        print('ERROR: Execution error')
         exit()
 
-    # Perform fuzzy matching on the output string
-    match_score = fuzz.ratio(output.decode(), expected_output_str)
-    print(f'Match score: {match_score}')
-    if match_score > 80: # set a threshold for the match score
-        print('Output matches expected output')
-        match = True
-    else:
-        print('Output does not match expected output')
-        match = False
 
-def check_io(input_str, output_str):
-    pass
+    if fuzzy_match:
+       return fuzzyMatching(output, output_str)
+    elif regexMatch:
+        return regexIOMatching(output_str, output.decode())
+    else:
+        return output.decode() == output_str
+
+def fuzzyMatching(output, output_str):
+     # Perform fuzzy matching on the output string
+        match_score = fuzz.ratio(output.decode(), output_str)
+        print(f'Fuzzy Match score: {match_score}')
+        if match_score > 80: # set a threshold for the match score
+            match = True
+        else:
+            match = False
+        return match
+
+def regexIOMatching(output, output_str):
+    pattern = ""
+
+    output.replace('\n',' ')
+    output.replace('\t', ' ')
+
+    for i in output.split(" "):
+        pattern += ".*" + i
+
+    pattern += ".*"
+    patternIOMatch = re.compile(pattern, re.MULTILINE | re.DOTALL)
+
+    # Search for the pattern in the target string
+    match = patternIOMatch.search(output_str)
+
+    return bool(match)

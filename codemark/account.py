@@ -11,7 +11,8 @@ def getPasswordFromKeyring(email):
     return keyring.get_password(service_name, email)
 
 def getStudentEmail():
-    pass
+    student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
+    return student_info["email"]
 
 def getCurrentStudentID():
     student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)

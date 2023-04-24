@@ -56,21 +56,22 @@ def generate_report_and_push(success, total, force = False):
         if not student_data:
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
-
-        print("INFO: Generating Result Report")
-        report = generate_report(filename, assgn_data['assignment_id'], success, total)
-        
+            
         print("INFO: Logging In")
         email = student_data['email']
         password = codemark.account.getPasswordFromKeyring(email)
         if not password:
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
-            
+
         login_cred = db.login(email,password)
         if not login_cred:
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
+
+        print("INFO: Generating Result Report")
+        report = generate_report(filename, assgn_data['assignment_id'], success, total)
+        
         if not force:
             print("INFO: Sending data to Web3 Storage")
             cid = sendTOIPFS(report)
@@ -171,7 +172,7 @@ def plagcheck(filename, assignment_id):
         for sf in cache['cache'].values():
             plag_percent = max(plag_percent, similarity_vansh_algo(cf1, sf['hash']))
 
-    print("Plag Percent: " + plag_percent + " %")
+    print("\n\nPlag Percent: " + plag_percent + " %\n\n")
 
     return plag_percent
 

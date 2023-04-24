@@ -5,10 +5,10 @@ from tabulate import tabulate
 
 db = FireDB.FirebaseDB()
 
-def listSmart(completed, pending):
-    assignments = listAssignments(completed, pending)
+def listSmart(submitted, pending):
+    assignments = listAssignments(submitted, pending)
     if assignments:
-        if not completed:
+        if not submitted:
             for assignment in assignments:
                 del assignment['test_cases']
                 del assignment['batch_id']
@@ -21,7 +21,7 @@ def listSmart(completed, pending):
         print(tabulate(assignments, headers="keys", tablefmt="fancy_grid", 
                numalign="center", stralign="center"))
 
-def listAssignments(completed, pending):
+def listAssignments(submitted, pending):
     assignment = getAllAssignment()
 
     if assignment is None:
@@ -31,8 +31,8 @@ def listAssignments(completed, pending):
         print("No Assignments found! Relax")
         return
     
-    if completed:
-        return getCompleted()
+    if submitted:
+        return getSubmitted()
     elif pending:
         return getPending()
     else:
@@ -40,14 +40,14 @@ def listAssignments(completed, pending):
 
 def getPending():
     assignments = getAllAssignment()
-    completed_assignments = getCompleted(printto=False)
-    pending = [item for item in assignments if item['assignment_id'] not in [completed_assignment['assignment_id'] for completed_assignment in completed_assignments]]
+    submitted_assignments = getSubmitted(printto=False)
+    pending = [item for item in assignments if item['assignment_id'] not in [submitted_assignment['assignment_id'] for submitted_assignment in submitted_assignments]]
     if not pending:
         print("No Pending Assignment! What a relief!")
     return pending  
 
 
-def getCompleted(printto=True):
+def getSubmitted(printto=True):
     student_id = codemark.account.getCurrentStudentID()
     if not student_id:
         print("O o....Somes issues\nRun codemark doctor for resolving")

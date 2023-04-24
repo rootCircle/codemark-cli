@@ -20,6 +20,9 @@ def fetch_and_download(assgn_code):
 
     assign_info = db.getdataOrderEqual("assignments", "assignment_id", assgn_code)
     
+    if assign_info is None:
+        return False
+
     if not assign_info:
         print("Enter valid Assignment Code or Retry after some time")
         return False

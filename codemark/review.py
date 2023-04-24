@@ -41,7 +41,9 @@ def reviewCode():
     expectedOutput = output[0]
     extension = EXTENSION
 
-    print("\n\n" + generate_query_and_response(programCode,  questionTitle, questionDescription, expectedInput, expectedOutput, "c"))
+    response_report = generate_query_and_response(programCode,  questionTitle, questionDescription, expectedInput, expectedOutput, extension)
+    if response_report:
+        print("\n\n" + response_report)
      
 
 
@@ -55,20 +57,28 @@ def generate_query_and_response(programCode, questionTitle, questionDescription,
             "\n\nProgram Code to be reviewed: \n\n{0}\n\n\nQuestion: \n\n{1}\n\n{2}\n\nExpected Input:\n\n{3}\n\nExpected Output:\n\n{4}".format(programCode, questionTitle, questionDescription, expectedInput, expectedOutput, extension)
     
     response_text = response(query)
-    return "RESPONSE\n\n" + speaker_remove.sub("", response_text).strip().replace("\n\n", "\n").replace(". ", ".\n\n")
+    if response_text:
+        return "RESPONSE\n\n" + speaker_remove.sub("", response_text).strip().replace("\n\n", "\n").replace(". ", ".\n\n")
+    else:
+        return
+
 
 #TODO: Handle no internet issues
 def response(query):
     prompt=query
     model_engine = "text-davinci-003"
-    completion=openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.7,
-    )
-    answer=completion.choices[0].text
-    return answer.strip()
+    try:
+        completion=openai.Completion.create(
+            engine=model_engine,
+            prompt=prompt,
+            max_tokens=1024,
+            n=1,
+            stop=None,
+            temperature=0.7,
+        )
+        answer=completion.choices[0].text
+        return answer.strip()
+    except openai.error.APIConnectionError:
+        print("ERROR: Network is unreachable.")
+        return
 

@@ -24,14 +24,14 @@ def init():
     codemark.initialise.initApp()
 
 @click.command()
-@click.option( '-C', '--completed', is_flag=True, help='Show only completed assignments')
+@click.option( '-S', '--submitted', is_flag=True, help='Show only completed assignments')
 @click.option( '-P', '--pending', is_flag=True, help='Show only pending assignments')
-def list(completed, pending):
+def list(submitted, pending):
     """Lists all assignments"""
-    if completed and pending:
-        click.echo("Error: -C and -P are mutually exclusive.")
+    if submitted and pending:
+        click.echo("Error: -S and -P are mutually exclusive.")
         return
-    codemark.list.listSmart(completed, pending)
+    codemark.list.listSmart(submitted, pending)
 
 
 @click.command()
@@ -53,6 +53,14 @@ def check():
 def submit(force):
     """Submit the code against selected test cases and report errors"""
     codemark.submit.submit(force)
+
+@click.command()
+@click.option('--code', help='Assignment Code')
+@click.argument('code')
+def get(code):
+    """Fetches assignments from cloud, based on assignment Code"""
+    #TODO: Check if assignment is completed or not and inform users
+    codemark.get.fetch(code)
 
 @click.command()
 def review():

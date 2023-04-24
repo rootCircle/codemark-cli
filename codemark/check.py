@@ -5,12 +5,14 @@ from fuzzywuzzy import fuzz
 import re
 import psutil
 
+"""
+match_io function has three modes : exact match, regex match, fuzzy match
+# By default only regex match is enabled, but can be modified using functional arguments
+"""
+
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
 limit_time = 1 # 3 minutes in seconds
 MAX_CHECK_CODE = 3 # Maximum codes to be checked
-
-# match_io function has three modes : exact match, regex match, fuzzy match
-# By default only regex match is enabled, but can be modified using functional arguments
 
 def set_limits():
     process = psutil.Process()
@@ -23,7 +25,7 @@ def set_limits():
 
 def checkCode(byPassMAXCheck = False):
     print("Checking Code......")
-    print("Checks the code based on cached assignment code fetched from a file\n")
+    print("Checking the code based on cached assignment code fetched from a file\n")
 
     filename = codemark.utils.smartGetFileName()
 

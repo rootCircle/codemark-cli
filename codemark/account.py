@@ -12,12 +12,21 @@ def getPasswordFromKeyring(email):
 
 def getStudentEmail():
     student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
-    return student_info["email"]
+    if student_info:
+        return student_info["email"]
+    else:
+        return
 
 def getCurrentStudentID():
     student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
-    return student_info['student_id']
+    if student_info:
+        return student_info['student_id']
+    else:
+        return
 
 def getBatchID():
     student_info = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
-    return student_info["batch_id"]
+    if student_info:
+        return student_info["batch_id"]
+    else:
+        return

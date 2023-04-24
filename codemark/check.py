@@ -34,11 +34,11 @@ def checkCode(byPassMAXCheck = False):
 
     compileCCode(filename)
     
-    test_cases = codemark.utils.readJSONFile("config.json")
-    if not test_cases:
+    config_info = codemark.utils.readJSONFile("config.json")
+    if not config_info:
         return
     
-    test_cases = test_cases['test_cases'].values()
+    test_cases = config_info['test_cases'].values()
     counter = 0
     success = 0
     final = True
@@ -46,7 +46,7 @@ def checkCode(byPassMAXCheck = False):
     print()
 
     for test_case in test_cases:
-        result = match_io(filename, test_case["input"], test_case["output"], regexMatch=True)
+        result = match_io(filename, test_case["input"], test_case["output"], matchType = config_info['match_type'])
         final = final and result
         print("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
         counter+=1
@@ -77,10 +77,15 @@ def compileCCode(filename):
         exit()
     
 
-def match_io(file, input_str, output_str, fuzzy_match=False, regexMatch=False):
+def match_io(file, input_str, output_str, matchType = "regex"):
     """
-    Fuzzy match will take priority over regex Match
+    Match type
+    1. Exact Match
+    2. Fuzzy Match with 80 % threshold
+    3. Regex Match
     """
+    print("Matching output using " + matchType + " match algorithm.")
+
     # Run the program with the input string
     executable_file = file[:-2]
     if os.name == "nt":
@@ -101,12 +106,14 @@ def match_io(file, input_str, output_str, fuzzy_match=False, regexMatch=False):
         exit()
     
 
+    matchType = matchType.lower()
 
-    if fuzzy_match:
+    if matchType == "fuzzy":
        return fuzzyMatching(output, output_str)
-    elif regexMatch:
+    elif matchType == "regex":
         return regexIOMatching(output_str, output.decode())
     else:
+        # Matches to matchType == "exact"
         return output.decode() == output_str
 
 def fuzzyMatching(output, output_str):

@@ -7,6 +7,8 @@ import codemark.doctor
 import codemark.check
 import codemark.logout
 import codemark.submit
+import codemark.result
+
 
 @click.group()
 def cli():
@@ -63,6 +65,14 @@ def get(code):
     codemark.get.fetch(code)
 
 @click.command()
+@click.option('--id', help='Submission ID')
+@click.argument('id')
+def result(id):
+    """Fetches result from ipfs storage, based on submission ID.
+    Submission ID can be found by running `codemark list --submitted`."""
+    codemark.result.fetch(id)
+
+@click.command()
 def review():
     """Let AI review your code and recommend error you might be doing"""
     codemark.review.reviewCode()
@@ -80,6 +90,7 @@ def logout():
 cli.add_command(init)
 cli.add_command(list)
 cli.add_command(get)
+cli.add_command(result)
 cli.add_command(check)
 cli.add_command(submit)
 cli.add_command(review)

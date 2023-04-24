@@ -9,6 +9,7 @@ import codemark.firebase.database as FireDB
 import codemark.utils
 import codemark.secrets
 import codemark.initialise
+import codemark.account
 
 comment_re = re.compile(r"([\/][*](.|\n)*[*][\/])|([\/]{2}.*$)", re.MULTILINE)
 include_re = re.compile(r"#include.*")
@@ -50,30 +51,44 @@ def generate_report_and_push(success, total, force = False):
     filename = codemark.utils.smartGetFileName()
     assgn_data = codemark.utils.readJSONFile("config.json")
 
-    if filename and assgn_data and not force:
+    if filename and assgn_data:
         student_data = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
         if not student_data:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
         print("INFO: Generating Result Report")
         report = generate_report(filename, assgn_data['assignment_id'], success, total)
         
-        print("INFO: Sending data to Web3 Storage")
-        cid = sendTOIPFS(report)
-        if not cid:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+        print("INFO: Logging In")
+        email = student_data['email']
+        password = codemark.account.getPasswordFromKeyring(email)
+        if not password:
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
+            
+        login_cred = db.login(email,password)
+        if not login_cred:
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            return False
+        if not force:
+            print("INFO: Sending data to Web3 Storage")
+            cid = sendTOIPFS(report)
+            if not cid:
+                print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+                return False
+        else:
+            cid = ""
             
         submission_id = generate_hash()
         if not submission_id:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
             
         print("INFO: Sending file to Cloud")
         cloud_url = db.sendDataStorage(filename, submission_id + filename)
         if not cloud_url:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
 
@@ -88,49 +103,11 @@ def generate_report_and_push(success, total, force = False):
         
         print("INFO: Logging Submission to Cloud")
         if not db.pushData("submissions", details):
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
         print("Submitted successfully!")
         
-    elif filename and assgn_data:
-        student_data = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
-        if not student_data:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
-            return False
-
-        print("INFO: Generating Result Report")
-        report = generate_report(filename, assgn_data['assignment_id'], success, total)
-        
-        cid = ""
-
-        submission_id = generate_hash()
-        if not submission_id:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
-            return False
-            
-        print("INFO: Sending file to Cloud")
-        cloud_url = db.sendDataStorage(filename, submission_id + filename)
-        if not cloud_url:
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
-            return False
-
-
-        details = {
-            "submission_id": submission_id,
-            "student_id": student_data["student_id"],
-            "assignment_id": assgn_data["assignment_id"],
-            "submission_time": str(datetime.now()),
-            "code_url": cloud_url,
-            "cid": cid,
-        }
-        
-        print("INFO: Logging Submission to Cloud")
-        if not db.pushData("submissions", details):
-            print("ERROR: Some issues occured while submitting. Run `codemark doctor` for fixing it.")
-            return False
-
-        print("Submitted successfully!")
 
 def generate_report(filename, assignment_id, success, total):
     details = codemark.utils.readJSONFile("config.json")

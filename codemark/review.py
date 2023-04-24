@@ -3,6 +3,14 @@ import codemark.secrets
 import codemark.utils
 import re
 
+"""
+Model used : ChatGPT text-davinci-003
+Currently the review system, only gives only first I/O case to CHATGPT
+This is solely done to reduce chances of accessing hidden I/O's.
+Chances that program code will be shown in code is minimal but not zero
+"""
+
+
 speaker_remove = re.compile(r"^[a-zA-Z]+[:]", re.MULTILINE)
 EXTENSION = "c"
 openai.api_key = codemark.secrets.api_key
@@ -33,18 +41,21 @@ def reviewCode():
     expectedOutput = output[0]
     extension = EXTENSION
 
-    print(generate_query_and_response(programCode,  questionTitle, questionDescription, expectedInput, expectedOutput, "c"))
+    print("\n\n" + generate_query_and_response(programCode,  questionTitle, questionDescription, expectedInput, expectedOutput, "c"))
      
 
 
 def generate_query_and_response(programCode, questionTitle, questionDescription, expectedInput, expectedOutput, extension="c"):
-    query = "Review the following code given below, written in {5}. But, in no way you have to give the correct answer or code in part or in full. Don't start with something like Answer: or ChatGPT: or Solution: etc, just plain solution."\
-            "Check for any compile time as well possible runtime errors."\
-            " Logical error based on question statement. As well recommend better algorithm to improve the code what don't give the corrected code."\
-            "\n\nProgram Code: \n\n{0}\n\n\nQuestion: \n\n{1}\n\n{2}\n\nExpected Input:\n\n{3}\n\nExpected Output:\n\n{4}".format(programCode, questionTitle, questionDescription, expectedInput, expectedOutput, extension)
+    query = "Review the following code given below, written in {5}."\
+            " But, in no way you have to give the correct answer or program code in part or in full."\
+            " Don't start with something like Answer: or ChatGPT: or Solution: etc, just plain solution."\
+            " Check for any compile time as well possible runtime errors."\
+            " Also, check for Logical error based on question statement."\
+            " As well recommend better algorithm to improve the code, but don't give the program code in part or full, just the explanation only."\
+            "\n\nProgram Code to be reviewed: \n\n{0}\n\n\nQuestion: \n\n{1}\n\n{2}\n\nExpected Input:\n\n{3}\n\nExpected Output:\n\n{4}".format(programCode, questionTitle, questionDescription, expectedInput, expectedOutput, extension)
     
     response_text = response(query)
-    return "RESPONSE: " + speaker_remove.sub("", response_text).strip().replace("\n\n", "\n")
+    return "RESPONSE\n\n" + speaker_remove.sub("", response_text).strip().replace("\n\n", "\n").replace(". ", ".\n\n")
 
 #TODO: Handle no internet issues
 def response(query):

@@ -16,7 +16,7 @@ To install and use CodeMark CLI, follow these steps:
 
 1. Install the required dependencies by running the following command:
 
- `pip install pyrebase4 firebase_admin openai keyring appdirs tabulate fuzzywuzzy python-Levenshtein`
+ `pip install pyrebase4 firebase_admin openai keyring appdirs tabulate fuzzywuzzy python-Levenshtein psutil`
 
  Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
 

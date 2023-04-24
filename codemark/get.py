@@ -3,7 +3,7 @@ import codemark.utils
 import os
 
 # Default template for every new C files
-C_CODE_TEMPLATE = "// Write your program here\n//For more help run `codemark --help`\n"
+C_CODE_TEMPLATE = "// Write your program here\n// For more help run `codemark --help`\n"
 
 
 db = FireDB.FirebaseDB()
@@ -12,10 +12,12 @@ def fetch(assgn_code):
     if not fetch_and_download(assgn_code):
         print("Some Error Ocurred, while fetching and downloading file. Talk to Support for more details.")
         return
-    print("Files fetched successfully!\nGo to", assgn_code, "directory.\nThen refer question.txt for question and other info\nRefer main.c to start coding.")
+    print("Files fetched successfully!\n\nGo to", assgn_code, "directory.\n\nThen refer question.txt for question and other info\nRefer main.c to start coding.")
 
 
 def fetch_and_download(assgn_code):
+    print("Fetching files and resources!\n")
+
     assign_info = db.getdataOrderEqual("assignments", "assignment_id", assgn_code)
     
     if not assign_info:
@@ -45,9 +47,16 @@ def generateContent(assign_info):
 
     title = assign_info['title']
     content += "Title : " + title.strip() + "\n"
+
+    # Adds Title in description of question
+    globals()['C_CODE_TEMPLATE'] += "// Title : " + title.replace('\n', ' ') + "\n\n"
     
     description = assign_info['description']
     content += "\nDescription\n\n" + description.strip() + "\n"
+
+    # Adds description too
+    # Description might be shown inaccurately in some cases
+    globals()['C_CODE_TEMPLATE'] += "/* Description : \n" + description.replace("*/", "") + "*/\n\n" 
 
     due_date = assign_info['due_date']
     content += "\n\nDue Date : " + due_date + "\n"
@@ -66,6 +75,8 @@ def generateContent(assign_info):
     for i in range(len(input)):
         content += ">>>>>> TEST CASE " + str(i + 1)  + "\n"
         content += "Input\n" + input[i] + "\nOutput\n" + output[i] + "\n"
+
+    globals()['C_CODE_TEMPLATE'] += "\n\nint main(void)\n{\n\treturn 0;\n}\n"
 
     return content
 

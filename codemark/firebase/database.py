@@ -27,6 +27,7 @@ import requests.exceptions
 import re
 import firebase_admin as firebaseadmin
 import firebase_admin._auth_utils
+from google.auth.exceptions import TransportError
 from firebase_admin import auth, db, storage
 from firebase_admin import exceptions as fireexception
 import codemark.secrets
@@ -96,28 +97,26 @@ class FirebaseDB:
 
                 None: If any error occurred like malformed email,invalid password, no internet etc
         """
-        if self.connect():
-            try:
-                user = pauth.sign_in_with_email_and_password(email, password)
-                return user
-            except requests.exceptions.HTTPError as e:
-                error_json = e.args[1]
-                error = json.loads(error_json)['error']['message']
-                if error == "INVALID_PASSWORD":
-                    print("Warning : ","Invalid credentials", "Enter correct Password!")
-                elif error == "EMAIL_NOT_FOUND":
-                    print("Warning : ","User not registered", "There is no user registered with this Email-Id.")
-                else:
-                    print("Warning : ","Error",
-                                           "Some Error Occured while Logging-in\nPlease Retry!\n" + str(
-                                               error))
-                print(error)
-        else:
-            print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
-            print("Warning : ","Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
+        try:
+            user = pauth.sign_in_with_email_and_password(email, password)
+            return user
+        except requests.exceptions.ConnectionError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+        except requests.exceptions.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            if error == "INVALID_PASSWORD":
+                print("Warning : ","Invalid credentials", "Enter correct Password!")
+            elif error == "EMAIL_NOT_FOUND":
+                print("Warning : ","User not registered", "There is no user registered with this Email-Id.")
+            else:
+                print("Warning : ","Error",
+                                        "Some Error Occured while Logging-in\nPlease Retry!\n" + str(
+                                            error))
+            print(error)
 
-    def pushData(self, child, details, showWarning=True):
+    def pushData(self, child, details):
         """
         Writes data to FirebaseDB
         :param child: The address to the node on which data has to be written
@@ -129,24 +128,21 @@ class FirebaseDB:
                     getting the keys of returned dictionaries. Each keys point of its own location
                     in database.
         :param details: Data-Type-Dictionary All the details in form of dictionary, one want to push
-        :param showWarning: Shows messageBox for errors if True else not.
         :return: True : If data is successfully written
                  None : If some error arises
-                 messageBox is shown if showWarning is True
         """
-        if self.connect():
-            try:
-                results = db.reference(child).push(details)
-                return True
-            except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
-                print("LOG : ", e)
-                return
-        elif showWarning:
-            print("Warning : ","Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-        print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+        try:
+            results = db.reference(child).push(details)
+            return True
+        except TransportError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+            return
+        except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
+            print("ERROR : ", e)
+            return
 
-    def getdataOrder(self, child, ordervar, showWarning=True):
+    def getdataOrder(self, child, ordervar):
         """
         Gets data from FirebaseDB ordered by ordervar
         :param child: The address to the node on which data has to be fetched from
@@ -158,7 +154,6 @@ class FirebaseDB:
                     getting the keys of returned dictionaries using getdataOrderEqual(...).keys().
                     Each keys point of its own location in database.
         :param ordervar: The name of attribute according to which data has to be sorted
-        :param showWarning: Shows messageBox for error if True else not.
         :return: out : If data is successfully fetched
                        Data Type-Dictionary
                         {key:values pair}
@@ -177,24 +172,22 @@ class FirebaseDB:
                         list(FirebaseDB.getdataOrder(...).values())[0]['Name']
 
                  None : If some error arises
-                 messageBox is shown if showWarning is True
         """
-        if self.connect():
-            try:
-                out = db.reference(child).order_by_child(ordervar).get()
-                print(out)
-                if out is None:
-                    out = {}  # To differentiate data from errors
-                return out
-            except Exception as e:
-                print("LOG : ", e)
-                return
-        elif showWarning:
-            print("Warning : ", "Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-        print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+        try:
+            out = db.reference(child).order_by_child(ordervar).get()
+            print(out)
+            if out is None:
+                out = {}  # To differentiate data from errors
+            return out
+        except TransportError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+            return
+        except Exception as e:
+            print("ERROR : ", e)
+            return
 
-    def getdataOrderEqual(self, child, ordervar, equalvar, showWarning=True):
+    def getdataOrderEqual(self, child, ordervar, equalvar):
         """
         Gets data from FirebaseDB ordered by ordervar
         :param child: The address to the node on which data has to be fetched from
@@ -207,7 +200,6 @@ class FirebaseDB:
                     Each keys point of its own location in database.
         :param ordervar: The name of attribute for which equality has to be checked
         :param equalvar: The corresponding value to which equality is to be checked
-        :param showWarning: Shows messageBox for error if True else not.
         :return: out : If data is successfully fetched
                        Data Type-Dictionary
                         {key:values pair}
@@ -227,23 +219,21 @@ class FirebaseDB:
 
 
                  None : If some error arises
-                 messageBox is shown if showWarning is True
         """
-        if self.connect():
-            try:
-                out = db.reference(child).order_by_child(ordervar).equal_to(equalvar).get()
-                if out is None:
-                    out = {}  # To differentiate data from errors
-                return out
-            except Exception as e:
-                print("LOG : ", e)
-                return
-        elif showWarning:
-            print("Warning : ","Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-        print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+        try:
+            out = db.reference(child).order_by_child(ordervar).equal_to(equalvar).get()
+            if out is None:
+                out = {}  # To differentiate data from errors
+            return out
+        except TransportError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+            return
+        except Exception as e:
+            print("ERROR : ", e.errno)
+            return
 
-    def updateData(self, child, data, identifier="Email", identifierval="", showWarning=True):
+    def updateData(self, child, data, identifier="Email", identifierval=""):
         """
         Updates data in RealTime Database with help of identifier.
         It will update all instances of data in case of multiple values found.
@@ -267,63 +257,54 @@ class FirebaseDB:
                             (It is recommended to use primary key type things here,
                             where there is no data duplicacy)
         :param identifierval: Value of the identifier attribute against which tuple(data) has to be found
-        :param showWarning: Shows messageBox for error if True else not.
 
         :return: True : If data is successfully over-written
                  False : If some error arises
-                 messageBox is shown if showWarning is True
         """
         try:
-            if self.connect():
-                if not identifierval:
-                    identifierval = SESSION_USER.email
-                if identifierval:
-                    ref = db.reference(child).order_by_child(identifier).equal_to(identifierval).get()
-                    if ref:
-                        for key in list(ref.keys()):
-                            result = db.reference(child).child(str(key)).update(data)
-                        return True
+            if not identifierval:
+                identifierval = SESSION_USER.email
+            if identifierval:
+                ref = db.reference(child).order_by_child(identifier).equal_to(identifierval).get()
+                if ref:
+                    for key in list(ref.keys()):
+                        result = db.reference(child).child(str(key)).update(data)
+                    return True
 
-            elif showWarning:
-                print("Warning : ","Warning!",
-                                       "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-                print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
-            else:
-                print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+        except TransportError as e:
+                # Handle the "Network is unreachable" error
+                print("ERROR: Network is unreachable.")
+        
         except Exception as e:
-            print("LOG : ", e)
+            print("ERROR : ", e)
         return False
 
 
-    def sendDataStorage(self, fileLocation, saveAsName, showWarning=True):
+    def sendDataStorage(self, fileLocation, saveAsName):
         """
         Stores the IMAGE into Google Cloud/ Firebase DB from a choosen local image location and return
         its database address
         Images will be stored as png file but can be modified to be used as any one.
 
         :param saveAsName: The name with which image would be saved on the server.(Excludes the extension)
-        :param showWarning: Shows messageBox for error if True else not.
 
         :return:savefilename The (expected) location of image on the server. (If all goes OK!)
                 False If some error occurs which is accompanied by a messageBox if allowed.
         """
         try:
-            if self.connect():
-                bucket = storage.bucket()
-                if fileLocation and saveAsName:
-                    savefilename = saveAsName
-                    blob = bucket.blob(savefilename)
-                    blob.upload_from_filename(fileLocation)
-                    return savefilename
-            elif showWarning:
-                print("Warning : ","Warning!",
-                                       "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-                print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
-            else:
-                print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+            bucket = storage.bucket()
+            if fileLocation and saveAsName:
+                savefilename = saveAsName
+                blob = bucket.blob(savefilename)
+                blob.upload_from_filename(fileLocation)
+                return savefilename
             return False
+        except TransportError as e:
+                # Handle the "Network is unreachable" error
+                print("ERROR: Network is unreachable.")
+                return False
         except Exception as e:
-            print("LOG : ", e)
+            print("ERROR : ", e)
             return False
 
 
@@ -347,7 +328,7 @@ class FirebaseDB:
             return searchVal, x1, x2, x3, x4
         return [searchVal]
 
-    def deepSearchData(self, child, identifier, searchVal, filtervar=None, filterval=None, showWarning=True):
+    def deepSearchData(self, child, identifier, searchVal, filtervar=None, filterval=None):
         """
        A more abstracted API is provided in Apptoolsv2.itemSearch(....) which searches for data in
        relation named 'Items'
@@ -386,7 +367,6 @@ class FirebaseDB:
                             Firebase API's limits doesn't affect these.
                            filtervar is the name of attribute against which secondary filtering is to be done.
        :param filterval: filterval is the value of the secondary attribute against which local filtering is to be done.
-       :param showWarning: Shows messageBox for error if True else not.
 
        :return: searchResult: Type(List nested with Dictionary of found data(no key-index just values))
                               eg.- [{'Name':Value,'Name2':Value},{.....}]
@@ -394,36 +374,35 @@ class FirebaseDB:
                []: If no data is found
 
        """
-        if self.connect():
-            try:
-                searchResult = []
-                if filterval and filtervar:
-                    ref = db.reference(child).order_by_child(filtervar).equal_to(filterval).get()
-                else:
-                    ref = db.reference(child).order_by_child(identifier).get()
-                if ref:
-                    data = list(ref.values())
-                    for i in data:
-                        if isinstance(i[identifier], (int, float)):
-                            if searchVal == i[identifier]:
+        try:
+            searchResult = []
+            if filterval and filtervar:
+                ref = db.reference(child).order_by_child(filtervar).equal_to(filterval).get()
+            else:
+                ref = db.reference(child).order_by_child(identifier).get()
+            if ref:
+                data = list(ref.values())
+                for i in data:
+                    if isinstance(i[identifier], (int, float)):
+                        if searchVal == i[identifier]:
+                            searchResult.append(i)
+                    else:
+                        if isinstance(i[identifier], str) and isinstance(searchVal, str):
+                            if searchVal.lower() in i[identifier].lower():
                                 searchResult.append(i)
                         else:
-                            if isinstance(i[identifier], str) and isinstance(searchVal, str):
-                                if searchVal.lower() in i[identifier].lower():
-                                    searchResult.append(i)
-                            else:
-                                if searchVal in i[identifier]:
-                                    searchResult.append(i)
-                return searchResult
-            except Exception as e:
-                print("LOG : ", e)
-                return
-        elif showWarning:
-            print("Warning : ","Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-        print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+                            if searchVal in i[identifier]:
+                                searchResult.append(i)
+            return searchResult
+        except TransportError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+            return False
+        except Exception as e:
+            print("ERROR : ", e)
+            return
 
-    def searchData(self, child, identifier, searchVal, filtervar=None, filterval=None, showWarning=True):
+    def searchData(self, child, identifier, searchVal, filtervar=None, filterval=None):
         """
         A more abstracted API is provided in Apptoolsv2.itemSearch(....) which searches for data in
         relation named 'Items'
@@ -463,46 +442,44 @@ class FirebaseDB:
                 []: If no data is found
 
         """
-        if self.connect():
-            try:
-                searchResult = []
-                optimisedsearchval = self.optimiseSearchVal(searchVal)
-                for i in optimisedsearchval:
-                    ref = db.reference(child).order_by_child(identifier).start_at(i).end_at(i + "\uf8ff").get()
-                    if ref:
-                        searchResult.extend(list(ref.values()))
+        try:
+            searchResult = []
+            optimisedsearchval = self.optimiseSearchVal(searchVal)
+            for i in optimisedsearchval:
+                ref = db.reference(child).order_by_child(identifier).start_at(i).end_at(i + "\uf8ff").get()
+                if ref:
+                    searchResult.extend(list(ref.values()))
 
-                if searchResult is None:
-                    searchResult = []  # To differentiate data from errors
-                if searchResult:
-                    res = []
-                    # Removing duplicate values due to using various iterations
-                    [res.append(x) for x in searchResult if x not in res]
-                    searchResult = res
-                if filterval and filtervar:
-                    res = []
-                    for x in searchResult:
-                        if isinstance(x[filtervar],str) and isinstance(filterval, str):
-                            if x[filtervar].lower() == filterval.lower():
-                                res.append(x)
-                        elif isinstance(x[filtervar],(int,float)) and isinstance(filterval, (int,float)):
-                            if x[filtervar] == filterval:
-                                res.append(x)
-                        else:
-                            if filterval in x[filterval]:
-                                res.append(x)
+            if searchResult is None:
+                searchResult = []  # To differentiate data from errors
+            if searchResult:
+                res = []
+                # Removing duplicate values due to using various iterations
+                [res.append(x) for x in searchResult if x not in res]
+                searchResult = res
+            if filterval and filtervar:
+                res = []
+                for x in searchResult:
+                    if isinstance(x[filtervar],str) and isinstance(filterval, str):
+                        if x[filtervar].lower() == filterval.lower():
+                            res.append(x)
+                    elif isinstance(x[filtervar],(int,float)) and isinstance(filterval, (int,float)):
+                        if x[filtervar] == filterval:
+                            res.append(x)
+                    else:
+                        if filterval in x[filterval]:
+                            res.append(x)
 
-                    searchResult = res
+                searchResult = res
 
-                return searchResult
-
-            except Exception as e:
-                print("LOG : ", e)
-                return
-        elif showWarning:
-            print("Warning : ","Warning!",
-                                   "Failed to Connect to Server\nNo Internet Connection or Server Unreachable")
-        print("LOG : ", "Failed to Connect to Server\tNo Internet Connection or Server Unreachable")
+            return searchResult
+        except TransportError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+            return
+        except Exception as e:
+            print("ERROR : ", e)
+            return
 
     def connect(self, hosts=['http://google.com', dbURL], check = False):
         """
@@ -516,6 +493,8 @@ class FirebaseDB:
 
         return: True if successfully connects to server
                 False if failed to connect to server
+
+        warning: unless check is set to True, this will always return True
         """
         try:
             if check:
@@ -527,7 +506,7 @@ class FirebaseDB:
                     urllib.request.urlopen(hosts)
                     return True
                 else:
-                    print("LOG : ", "Invalid data type 'hosts'-expected string/tuple/list\nself.connect")
+                    print("ERROR : ", "Invalid data type 'hosts'-expected string/tuple/list")
                     return False
             else:
                 return True
@@ -554,7 +533,7 @@ class FirebaseDB:
                 os.makedirs(SESSION_FILE_FOLDER)
             except OSError as e:
                 if e.errno != errno.EEXIST:
-                    print("LOG : ", e)
+                    print("ERROR : ", e)
             with open(SESSION_CACHE_FILE, 'wb') as f:
                 pickle.dump(pauth.current_user, f)
 
@@ -566,7 +545,7 @@ class FirebaseDB:
                 os.makedirs(SESSION_FILE_FOLDER)
             except OSError as er:
                 if er.errno != errno.EEXIST:
-                    print("LOG : ", er)
+                    print("ERROR : ", er)
             with open(SESSION_CACHE_FILE, "rb") as f:
                 file_contents = pickle.load(f)
                 if file_contents and self.connect():
@@ -581,11 +560,11 @@ class FirebaseDB:
             pauth.current_user = None
             self.clearSession()
             globals()['SESSION_USER'] = None
-            print("LOG : ", e)
+            print("ERROR : ", e)
         except fireexception.UnavailableError as e:
-            print("LOG : ", e)
+            print("ERROR : ", e)
         except Exception as e:
-            print("LOG : ", e)
+            print("ERROR : ", e)
 
     @staticmethod
     def clearSession(self):
@@ -593,7 +572,7 @@ class FirebaseDB:
             os.makedirs(SESSION_FILE_FOLDER)
         except OSError as e:
             if e.errno != errno.EEXIST:
-                print("LOG : ", e)
+                print("ERROR : ", e)
         with open(SESSION_CACHE_FILE, "wb") as f:
             pass
 

@@ -57,7 +57,8 @@ def checkCode(byPassMAXCheck = False):
     
     if final:
         print("\n\nAll tests passed successfully!")
-    else:
+    elif not byPassMAXCheck:
+        # Called from submit
         print("\n\nSome test cases failed. Retry harder!")
 
     if not byPassMAXCheck:

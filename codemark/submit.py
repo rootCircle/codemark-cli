@@ -56,7 +56,7 @@ def generate_report_and_push(success, total, force = False):
         if not student_data:
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
-            
+
         print("INFO: Logging In")
         email = student_data['email']
         password = codemark.account.getPasswordFromKeyring(email)
@@ -69,8 +69,8 @@ def generate_report_and_push(success, total, force = False):
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
-        print("INFO: Generating Result Report")
-        report = generate_report(filename, assgn_data['assignment_id'], success, total)
+        print("INFO: Generating Result & Plag Report")
+        report, cf = generate_report(filename, assgn_data['assignment_id'], success, total)
         
         if not force:
             print("INFO: Sending data to Web3 Storage")
@@ -106,9 +106,48 @@ def generate_report_and_push(success, total, force = False):
         if not db.pushData("submissions", details):
             print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
+        
+        print("INFO: Logging Code Hash to Cloud")
+        if not writePlagCacheToCloud(assgn_data["assignment_id"], cf, student_data["student_id"]):
+            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            return False
 
         print("Submitted successfully!")
         
+def writePlagCacheToCloud(assignment_id, cf, student_id):
+    assgn_hash_cache = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)
+    
+    if assgn_hash_cache is None:
+        return False
+
+    # Pushing an empty field first
+    if not assgn_hash_cache:
+        details = {
+            "assignment_id" : assignment_id,
+            "cache" : {}
+        }
+        pushed_empty = db.pushData("plagcache", details)
+
+        if pushed_empty:
+            return writePlagCacheToCloud(assignment_id, cf, student_id)
+        else:
+            print("2")
+            return False
+
+    assgn_key = list(assgn_hash_cache.keys())[0]
+
+    plag_cache = {
+        "hash": cf,
+        "student_id": student_id
+    }
+
+    push_data = db.pushData("plagcache/" + assgn_key + "/cache", plag_cache)
+    if not push_data:
+        print("3")
+        return False
+    
+    return True
+
 
 def generate_report(filename, assignment_id, success, total):
     details = codemark.utils.readJSONFile("config.json")
@@ -124,10 +163,11 @@ def generate_report(filename, assignment_id, success, total):
     report += "Test Case Passed: " + str(success) + "\n"
     report += "Total Test Cases : " + str(total) + "\n"
 
-    plag_percent = plagcheck(filename, assignment_id)
+    plag_percent, cf =  plagcheck(filename, assignment_id)
+
     report += "Plag percent as by Vansh Algo TM : " + str(plag_percent) + " %\n"
     report += "\n\nINFO : Plag percentage = -1 means the user is the first submitter to the assignment." + "\n"
-    return report
+    return report, cf
 
 def sendTOIPFS(report):
     tmpReportFile = "ResultReport.txt"
@@ -156,25 +196,32 @@ def upload_file_to_web3storage(api_token, file_path):
     return response_json['cid']
 
 def plagcheck(filename, assignment_id):
-    precomputed_hash_sf = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)
-    if precomputed_hash_sf is None:
-        return False
-    
-    if not precomputed_hash_sf:
-        return -1
-    
-    precomputed_hash_sf = list(precomputed_hash_sf.values())
-    plag_percent = -2
+    precomputed_hash_cf = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)
 
     cf1 = generate_optimised_code(filename)
+    plag_percent = -2
+    
+    if precomputed_hash_cf is None:
+        return False, cf1
+    
+    if not precomputed_hash_cf:
+        return -1, cf1
 
-    for cache in precomputed_hash_sf:
-        for sf in cache['cache'].values():
-            plag_percent = max(plag_percent, similarity_vansh_algo(cf1, sf['hash']))
+    precomputed_hash_cf = list(precomputed_hash_cf.values())
 
-    print("\n\nPlag Percent: " + plag_percent + " %\n\n")
+    for cache in precomputed_hash_cf:
+        try:
+            cached_hash = cache['cache'].values()
+            for cf in cached_hash:
+                plag_percent = max(plag_percent, similarity_vansh_algo(cf1, cf['hash']))
+        
+        except KeyError:
+            # First Submission
+            plag_percent = -1
 
-    return plag_percent
+    print("\n\nPlag Percent based on Vansh Algorithm TM: " + str(plag_percent) + " %\n\n")
+
+    return plag_percent, cf1
 
 def fnv_1a(string):
     hash_value = 2166136261
@@ -257,4 +304,4 @@ def similarity_vansh_algo(cf1, cf2,k = 5):
     d=len(hf1)+len(hf2)-c  
     percent=c/d*100
 
-    return percent
+    return round(percent, 2)

@@ -79,7 +79,7 @@ def generateContent(assign_info):
         content += ">>>>>> TEST CASE " + str(i + 1)  + "\n"
         content += "Input\n" + input[i] + "\nOutput\n" + output[i] + "\n"
 
-    globals()['C_CODE_TEMPLATE'] += "\n\nint main(void)\n{\n\treturn 0;\n}\n"
+    globals()['C_CODE_TEMPLATE'] += "\n\n#include <stdio.h>\n\nint main(void)\n{\n\treturn 0;\n}\n"
 
     return content
 

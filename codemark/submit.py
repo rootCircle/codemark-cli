@@ -16,6 +16,8 @@ include_re = re.compile(r"#include.*")
 variable_re = re.compile(r"\b(long long int|short int|long long|long int|int|char|float|long|short) ([a-zA-Z_0-9]*)[\,]?[ ]?([a-zA-Z_0-9]*)?")
 
 db = FireDB.FirebaseDB()
+
+IPFS_FILE_NAME = "ResultReport.txt"
 #TODO: Add glot.io API for cloud testing for users not having the compilers 
 
 def submit(force):
@@ -170,26 +172,20 @@ def generate_report(filename, assignment_id, success, total):
     return report, cf
 
 def sendTOIPFS(report):
-    tmpReportFile = "ResultReport.txt"
-    with open(tmpReportFile, "w") as f:
-        f.write(report)
 
-    cid = upload_file_to_web3storage(codemark.secrets.web3storage_api_key, tmpReportFile)
-
-    os.remove(tmpReportFile)
+    cid = upload_file_to_web3storage(codemark.secrets.web3storage_api_key, report)
 
     return cid
 
 
-def upload_file_to_web3storage(api_token, file_path):
+def upload_file_to_web3storage(api_token, content):
     headers = {
         'Authorization': 'Bearer ' + api_token
     }
-    with open(file_path, 'rb') as f:
-        file_content = f.read()
+
     payload = {
-        'data': file_content.hex(),
-        'name': file_path.split('/')[-1]
+        'data': content.hex(),
+        'name': IPFS_FILE_NAME
     }
     response = requests.post('https://api.web3.storage/upload', headers=headers, data=json.dumps(payload))
     response_json = json.loads(response.content)
@@ -205,6 +201,7 @@ def plagcheck(filename, assignment_id):
         return False, cf1
     
     if not precomputed_hash_cf:
+        print("\n\nFirst Submitter : KUDOS!!\n\n")
         return -1, cf1
 
     precomputed_hash_cf = list(precomputed_hash_cf.values())

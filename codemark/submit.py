@@ -184,12 +184,17 @@ def upload_file_to_web3storage(api_token, content):
     }
 
     payload = {
-        'data': content.hex(),
+        'data': content.encode().hex(),
         'name': IPFS_FILE_NAME
     }
-    response = requests.post('https://api.web3.storage/upload', headers=headers, data=json.dumps(payload))
-    response_json = json.loads(response.content)
-    return response_json['cid']
+    try:
+        response = requests.post('https://api.web3.storage/upload', headers=headers, data=json.dumps(payload))
+        response_json = json.loads(response.content)
+        return response_json['cid']
+    except requests.exceptions.ConnectionError as e:
+            # Handle the "Network is unreachable" error
+            print("ERROR: Network is unreachable.")
+ 
 
 def plagcheck(filename, assignment_id):
     precomputed_hash_cf = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)

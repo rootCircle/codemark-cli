@@ -14,7 +14,6 @@ def fetch(assgn_code):
         return
     print("Files fetched successfully!\n\nGo to", assgn_code, "directory.\n\nThen refer question.txt for question and other info\nRefer main.c to start coding.")
 
-
 def fetch_and_download(assgn_code):
     print("Fetching files and resources!\n")
 

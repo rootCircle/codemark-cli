@@ -14,22 +14,18 @@ Visit [here](https://github.com/umeshSinghVerma/codemarkweb/tree/main/codemarkfr
 
 To install and use CodeMark CLI, follow these steps:
 
-1. Install the required dependencies by running the following command:
-
- `pip install pyrebase4 firebase_admin openai keyring appdirs tabulate fuzzywuzzy python-Levenshtein psutil`
-
- Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
-
-2. Clone the CodeMark CLI repository by running the following command:
+1. Clone the CodeMark CLI repository by running the following command:
  `git clone https://github.com/rootCircle/codemark-cli.git`
 
-3. Install CodeMark CLI by running the following command:
+2. Install CodeMark CLI by running the following command:
 
  `pip3 install --editable .`
  
  Note: If pip3 is not installed on your system, use pip instead. If you encounter permission issues, add the `--user` flag at the end of the command.
 
-4. Verify that CodeMark CLI is installed correctly by running the following command:
+ Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
+
+3. Verify that CodeMark CLI is installed correctly by running the following command:
 
  `codemark --help`
 

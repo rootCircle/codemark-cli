@@ -7,6 +7,16 @@ setup(
     include_package_data=True,
     install_requires=[
         'Click',
+        'pyrebase4',
+        'firebase_admin',
+        'openai',
+        'keyring',
+        'appdirs',
+        'tabulate',
+        'fuzzywuzzy',
+        'python-Levenshtein',
+        'psutil',
+        'requests',
     ],
     entry_points={
         'console_scripts': [

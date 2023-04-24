@@ -80,6 +80,11 @@ CodeMark CLI is released under the Apache-2.0 License. See LICENSE for details.
 
 If you have any questions or issues with CodeMark CLI, please raise an issue request. We are here to help! 💬👋
 
+## Walkthrough Videos
+[![CodeMark CLI](https://img.youtube.com/vi/tDkEvjWW7QA/0.jpg)](https://www.youtube.com/watch?v=tDkEvjWW7QA "CodeMark CLI")
+[![CodeMark Web](https://img.youtube.com/vi/OzlFier3gPE/0.jpg)](https://www.youtube.com/watch?v=OzlFier3gPE "CodeMark CLI")
+
+
 ## Logo
 ![CodeMark logo](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/logo.png)
 

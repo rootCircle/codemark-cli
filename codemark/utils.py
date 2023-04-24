@@ -51,6 +51,7 @@ def makeDirectory(directory):
 def writeToFile(filename, content):
     with open(filename, 'w') as file:
         file.write(content)
+        file.flush()
 
 def writeJSONToFile(filename, content):
     # Open a file in write mode
@@ -58,6 +59,8 @@ def writeJSONToFile(filename, content):
 
         # Write the dictionary to the file in JSON format
         json.dump(content, f, indent=4)
+
+        f.flush()
 
 def readJSONFile(filename):
     try:

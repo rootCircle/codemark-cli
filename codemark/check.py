@@ -8,19 +8,19 @@ import psutil
 """
 match_io function has three modes : exact match, regex match, fuzzy match
 # By default only regex match is enabled, but can be modified using functional arguments
+
+
+BUG : Memory limit checking on windows PC won't work!
 """
 
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
-limit_time = 1 # 3 minutes in seconds
+limit_time = 180 # 3 minutes in seconds
 MAX_CHECK_CODE = 3 # Maximum codes to be checked
 
 def set_limits():
     process = psutil.Process()
     process.rlimit(psutil.RLIMIT_DATA, (limit_memory, limit_memory))
 
-    # Set the time limit (in seconds)
-    process.cpu_times()
-    process.cpu_percent(interval=limit_time)
 
 
 def checkCode(byPassMAXCheck = False):
@@ -98,6 +98,10 @@ def match_io(file, input_str, output_str, matchType = "regex"):
         # Linux platform
         run_command = ["./" + executable_file]  # prefix with './' on Linux
     try:
+        # Hotfix for preexec_fn support on Windows, Memory limit check is not supported on windows
+        if os.name == "nt":
+            set_limits = None
+        
         result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
         output = result.stdout
     except subprocess.CalledProcessError:

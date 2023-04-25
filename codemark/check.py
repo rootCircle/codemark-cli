@@ -11,6 +11,7 @@ match_io function has three modes : exact match, regex match, fuzzy match
 
 
 BUG : Memory limit checking on windows PC won't work!
+TODO : Add option to prof to write regex to match output by themselves, can be implemented in match_io easily
 """
 
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes

@@ -1,7 +1,7 @@
 import codemark.account
 import codemark.firebase.database as FireDB
 from tabulate import tabulate
-
+import textwrap as twp
 
 db = FireDB.FirebaseDB()
 
@@ -12,6 +12,9 @@ def listSmart(submitted, pending):
             for assignment in assignments:
                 del assignment['test_cases']
                 del assignment['batch_id']
+                assignment['description'] = twp.fill(assignment['description'], 50)
+                assignment['title'] = twp.fill(assignment['title'], 20)
+
         else:
             for assignment in assignments:
                 del assignment['cid']

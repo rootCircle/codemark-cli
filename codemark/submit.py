@@ -72,7 +72,7 @@ def generate_report_and_push(success, total, force = False):
             return False
 
         print("INFO: Generating Result & Plag Report")
-        report, cf = generate_report(filename, assgn_data['assignment_id'], success, total)
+        report, cf = generate_report(filename, assgn_data['assignment_id'], success, total, student_data['student_id'])
         
         if not force:
             print("INFO: Sending data to Web3 Storage")
@@ -151,7 +151,7 @@ def writePlagCacheToCloud(assignment_id, cf, student_id):
     return True
 
 
-def generate_report(filename, assignment_id, success, total):
+def generate_report(filename, assignment_id, success, total, student_id):
     details = codemark.utils.readJSONFile("config.json")
 
     report = ""
@@ -165,7 +165,7 @@ def generate_report(filename, assignment_id, success, total):
     report += "Test Case Passed: " + str(success) + "\n"
     report += "Total Test Cases : " + str(total) + "\n"
 
-    plag_percent, cf =  plagcheck(filename, assignment_id)
+    plag_percent, cf =  plagcheck(filename, assignment_id, student_id)
 
     report += "Plag percent as by Vansh Algo TM : " + str(plag_percent) + " %\n"
     report += "\n\nINFO : Plag percentage = -1 means the user is the first submitter to the assignment." + "\n"
@@ -196,11 +196,11 @@ def upload_file_to_web3storage(api_token, content):
             print("ERROR: Network is unreachable.")
  
 
-def plagcheck(filename, assignment_id):
+def plagcheck(filename, assignment_id, student_id):
     precomputed_hash_cf = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)
 
     cf1 = generate_optimised_code(filename)
-    plag_percent = -2
+    plag_percent = 0
     
     if precomputed_hash_cf is None:
         return False, cf1
@@ -215,7 +215,8 @@ def plagcheck(filename, assignment_id):
         try:
             cached_hash = cache['cache'].values()
             for cf in cached_hash:
-                plag_percent = max(plag_percent, similarity_vansh_algo(cf1, cf['hash']))
+                if cf['student_id'] != student_id:
+                    plag_percent = max(plag_percent, similarity_vansh_algo(cf1, cf['hash']))
         
         except KeyError:
             # First Submission

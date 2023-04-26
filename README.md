@@ -35,7 +35,7 @@ To install and use CodeMark CLI, follow these steps:
 
 To use CodeMark CLI, run the following command:
 
- `codemark [OPTIONS] COMMAND [ARGS]...`
+ `codemark|cmk [OPTIONS] COMMAND [ARGS]...`
  
 ### Options
 
@@ -80,6 +80,10 @@ If you have any questions or issues with CodeMark CLI, please raise an issue req
 [![CodeMark CLI](https://img.youtube.com/vi/tDkEvjWW7QA/0.jpg)](https://www.youtube.com/watch?v=tDkEvjWW7QA "CodeMark CLI")
 [![CodeMark Web](https://img.youtube.com/vi/OzlFier3gPE/0.jpg)](https://www.youtube.com/watch?v=OzlFier3gPE "CodeMark CLI")
 
+## Screenshots
+![codemark_submit](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/Screenshots/1.png)
+![codemark_review](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/Screenshots/2.png)
+![cmk_doctor](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/Screenshots/3.png)
 
 ## Logo
 ![CodeMark logo](https://raw.githubusercontent.com/rootCircle/codemark-cli/main/logo.png)

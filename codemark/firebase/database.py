@@ -18,20 +18,17 @@ TODO : Uncomment connect tests
 
 
 import os
-import errno
 import pyrebase
 import urllib.request
 import json
-import pickle
 import requests.exceptions
 import re
 import firebase_admin as firebaseadmin
-import firebase_admin._auth_utils
 from google.auth.exceptions import TransportError
-from firebase_admin import auth, db, storage
+from firebase_admin import db, storage
 from firebase_admin import exceptions as fireexception
 import codemark.secrets
-from codemark.utils import print_error, print_info, print_message, print_success, print_warning
+from codemark.utils import print_error, print_warning
 
 
 
@@ -71,7 +68,6 @@ class FirebaseDB:
     def __init__(self):
         pass
 
-    @staticmethod
     def signout(self):
         """
         Flushes pauth.current_user variable
@@ -102,7 +98,7 @@ class FirebaseDB:
         try:
             user = pauth.sign_in_with_email_and_password(email, password)
             return user
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError:
             # Handle the "Network is unreachable" error
             print_error("Network is unreachable.")
         except requests.exceptions.HTTPError as e:
@@ -134,7 +130,7 @@ class FirebaseDB:
         try:
             results = db.reference(child).push(details)
             return True
-        except TransportError as e:
+        except TransportError:
             # Handle the "Network is unreachable" error
             print_error("Network is unreachable.")
             return
@@ -181,7 +177,7 @@ class FirebaseDB:
             if out is None:
                 out = {}  # To differentiate data from errors
             return out
-        except TransportError as e:
+        except TransportError:
             # Handle the "Network is unreachable" error
             print_error("Network is unreachable.")
             return
@@ -208,10 +204,10 @@ class FirebaseDB:
                 blob.upload_from_filename(fileLocation)
                 return savefilename
             return False
-        except TransportError as e:
-                # Handle the "Network is unreachable" error
-                print_error("Network is unreachable.")
-                return False
+        except TransportError:
+            # Handle the "Network is unreachable" error
+            print_error("Network is unreachable.")
+            return False
         except Exception as e:
             print_error(e)
             return False
@@ -246,7 +242,7 @@ class FirebaseDB:
                     return False
             else:
                 return True
-        except:
+        except Exception:
             return False
 
     def check_mail(self, email):

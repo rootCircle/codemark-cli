@@ -1,8 +1,6 @@
 import requests
 import json
 import codemark.firebase.database as FireDB
-import codemark.secrets
-import codemark.submit
 from codemark.utils import print_info, print_error, print_success, print_warning
 
 db = FireDB.FirebaseDB()
@@ -56,11 +54,11 @@ def fetch_file_from_web3storage(cid):
         json_data = json.loads(response.content)
         return json_data['data']
 
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         # Handle the "Network is unreachable" error
         print_error("Network is unreachable.")
     
-    except json.decoder.JSONDecodeError as e:
+    except json.decoder.JSONDecodeError:
         print_error("Misconfiguration from our side. Contact support ASAP!")
     except Exception as e:
         print_error(e)

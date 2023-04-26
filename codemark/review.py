@@ -30,16 +30,16 @@ def reviewCode():
     
     questionTitle = assignment_info['title']
     questionDescription = assignment_info['description']
-    input = []
+    input_str = []
     output = []
 
     test_cases = assignment_info['test_cases']
 
     for test_case in test_cases:
-        input.append(test_cases[test_case]['input'])
+        input_str.append(test_cases[test_case]['input'])
         output.append(test_cases[test_case]['output'])
 
-    expectedInput = input[0]
+    expectedInput = input_str[0]
     expectedOutput = output[0]
     extension = EXTENSION
 

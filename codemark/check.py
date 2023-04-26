@@ -1,11 +1,11 @@
 import os
 import subprocess
-import codemark.utils
+import codemark.utils as cmutils
 from fuzzywuzzy import fuzz
 import re
+import sys
 import psutil
 import threading
-from codemark.utils import print_error, print_info, print_message, print_success, print_warning
 
 
 """
@@ -37,24 +37,24 @@ def check_memory_limit_win(pid, limit, process):
             process_memory = psutil.Process(pid).memory_info().rss
             if process_memory > limit:
                 process.terminate()
-                print_warning("Process terminated due to exceeding memory limit.")
+                cmutils.print_warning("Process terminated due to exceeding memory limit.")
                 break
         except psutil.NoSuchProcess:
             # The process has already exited, so we can stop monitoring its memory usage.
             break
 
 def checkCode(byPassMAXCheck = False):
-    print_info("Checking Code......")
-    print_info("Checking the code based on cached assignment code fetched from a file\n")
+    cmutils.print_info("Checking Code......")
+    cmutils.print_info("Checking the code based on cached assignment code fetched from a file\n")
 
-    filename = codemark.utils.smartGetFileName()
+    filename = cmutils.smartGetFileName()
 
     if not filename or filename in (-1, -2):
         return False
 
     compileCCode(filename)
     
-    config_info = codemark.utils.readJSONFile("config.json")
+    config_info = cmutils.readJSONFile("config.json")
     if not config_info:
         return
     
@@ -68,7 +68,7 @@ def checkCode(byPassMAXCheck = False):
     for test_case in test_cases:
         result = match_io(filename, test_case["input"], test_case["output"], matchType = config_info['match_type'])
         final = final and result
-        print_message("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
+        cmutils.print_message("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
         counter+=1
         if (counter == MAX_CHECK_CODE  or not result) and not byPassMAXCheck:
             break
@@ -76,17 +76,17 @@ def checkCode(byPassMAXCheck = False):
             success += 1
     
     if final:
-        print_success("\nAll tests passed successfully!")
+        cmutils.print_success("\nAll tests passed successfully!")
     elif not byPassMAXCheck:
         # Called from submit
-        print_message("\nSome test cases failed. Retry harder!")
+        cmutils.print_message("\nSome test cases failed. Retry harder!")
     elif byPassMAXCheck:
-        print_message("\n{} of {} test passed!\n".format(success, counter))
+        cmutils.print_message("\n{} of {} test passed!\n".format(success, counter))
 
     if not byPassMAXCheck:
         return final
-    else:
-        return (success, counter)
+    
+    return (success, counter)
 
 
 def compileCCode(filename):
@@ -95,8 +95,8 @@ def compileCCode(filename):
         # filename[:-2] trims out extension
         subprocess.check_output(['gcc', filename, '-o', filename[:-2]])
     except subprocess.CalledProcessError:
-        print_error('Compilation error')
-        exit()
+        cmutils.print_error('Compilation error')
+        sys.exit()
     
 
 def match_io(file, input_str, output_str, matchType = "regex"):
@@ -107,7 +107,7 @@ def match_io(file, input_str, output_str, matchType = "regex"):
     3. Regex Match
     """
     print()
-    print_info("Matching output using " + matchType + " match algorithm.")
+    cmutils.print_info("Matching output using " + matchType + " match algorithm.")
 
     # Run the program with the input string
     executable_file = file[:-2]
@@ -124,49 +124,49 @@ def match_io(file, input_str, output_str, matchType = "regex"):
         # Hotfix for preexec_fn support on Windows, Memory limit check is not supported on windows
         if os.name == "nt":
             globals()['MEMORY_EXCEEDED'] = False
-            process = subprocess.Popen(run_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-            # Using daemon may have unexpected effects 
-            # See this for info : https://stackoverflow.com/questions/20596918/python-exception-in-thread-thread-1-most-likely-raised-during-interpreter-shutd/20598791#20598791
-            thread = threading.Thread(target=check_memory_limit_win, args=(process.pid, limit_memory, process), daemon=True)
-            thread.start()
-
-            output, _ = process.communicate(input=input_str.encode(), timeout=limit_time)
-            thread.join() # Wait for the memory monitoring thread to stop
-            
-            if MEMORY_EXCEEDED:
-                exit() # In case of memory limit is breached
+            with subprocess.Popen(run_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                # Using daemon may have unexpected effects 
+                # See this for info : https://stackoverflow.com/questions/20596918/python-exception-in-thread-thread-1-most-likely-raised-during-interpreter-shutd/20598791#20598791
+                thread = threading.Thread(target=check_memory_limit_win, args=(process.pid, limit_memory, process), daemon=True)
+                thread.start()
+    
+                output, _ = process.communicate(input=input_str.encode(), timeout=limit_time)
+                thread.join() # Wait for the memory monitoring thread to stop
+                
+                if MEMORY_EXCEEDED:
+                    sys.exit() # In case of memory limit is breached
         else:
             # For POSIX system
             # We don't require multithreading in this case
             result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
             output = result.stdout
     except subprocess.CalledProcessError:
-        print_error('Execution error')
-        exit()
+        cmutils.print_error('Execution error')
+        sys.exit()
     except subprocess.TimeoutExpired:
-        print_error("TIMEOUT: Codes takes more than {} seconds to execute.".format(limit_time))
-        exit()
+        cmutils.print_error("TIMEOUT: Codes takes more than {} seconds to execute.".format(limit_time))
+        sys.exit()
     
 
     matchType = matchType.lower()
 
     if matchType == "fuzzy":
-       return fuzzyMatching(output, output_str)
+        return fuzzyMatching(output, output_str)
     elif matchType == "regex":
         return regexIOMatching(output_str, output.decode())
-    else:
-        # Matches to matchType == "exact"
-        return output.decode() == output_str
+    
+    # Matches to matchType == "exact"
+    return output.decode() == output_str
 
 def fuzzyMatching(output, output_str):
-     # Perform fuzzy matching on the output string
-        match_score = fuzz.ratio(output.decode(), output_str)
-        print_message(f'Fuzzy Match score: {match_score}')
-        if match_score > FUZZY_MATCH_THRESHOLD: # set a threshold for the match score
-            match = True
-        else:
-            match = False
-        return match
+    # Perform fuzzy matching on the output string
+    match_score = fuzz.ratio(output.decode(), output_str)
+    cmutils.print_message(f'Fuzzy Match score: {match_score}')
+    if match_score > FUZZY_MATCH_THRESHOLD: # set a threshold for the match score
+        match = True
+    else:
+        match = False
+    return match
 
 def regexIOMatching(output, output_str):
     pattern = ""

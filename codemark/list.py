@@ -2,7 +2,7 @@ import codemark.account
 import codemark.firebase.database as FireDB
 from tabulate import tabulate
 import textwrap as twp
-from codemark.utils import print_error, print_info, print_message, print_success, print_warning
+from codemark.utils import print_error, print_message, print_warning
 
 db = FireDB.FirebaseDB()
 
@@ -39,8 +39,7 @@ def listAssignments(submitted, pending):
         return getSubmitted()
     elif pending:
         return getPending()
-    else:
-        return assignment
+    return assignment
 
 def getPending():
     assignments = getAllAssignment()

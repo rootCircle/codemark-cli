@@ -72,7 +72,7 @@ def readJSONFile(filename):
             my_dict = json.load(f)
 
         return my_dict
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         print_error("No " + filename + " file found!")
 
 

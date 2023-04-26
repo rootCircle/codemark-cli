@@ -56,13 +56,6 @@ def submit(force):
     """Submit the code against selected test cases and report errors"""
     codemark.submit.submit(force)
 
-@click.command()
-@click.option('--code', help='Assignment Code')
-@click.argument('code')
-def get(code):
-    """Fetches assignments from cloud, based on assignment Code"""
-    #TODO: Check if assignment is completed or not and inform users
-    codemark.get.fetch(code)
 
 @click.command()
 @click.option('--id', help='Submission ID')

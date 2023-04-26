@@ -45,9 +45,9 @@ def generate_hash():
     data = rand_str + timestamp
 
     # Hash the combined data using SHA-256
-    hash = hashlib.sha256(data.encode()).hexdigest()
+    hashed_val = hashlib.sha256(data.encode()).hexdigest()
 
-    return hash
+    return hashed_val
 
 
 def generate_report_and_push(success, total, force = False):
@@ -190,9 +190,9 @@ def upload_file_to_web3storage(api_token, content):
         response = requests.post('https://api.web3.storage/upload', headers=headers, data=json.dumps(payload))
         response_json = json.loads(response.content)
         return response_json['cid']
-    except requests.exceptions.ConnectionError as e:
-            # Handle the "Network is unreachable" error
-            print_error("Network is unreachable.")
+    except requests.exceptions.ConnectionError:
+        # Handle the "Network is unreachable" error
+        print_error("Network is unreachable.")
  
 
 def plagcheck(filename, assignment_id, student_id):
@@ -233,37 +233,35 @@ def fnv_1a(string):
     return hash_value
 
 def generate_optimised_code(filename):
-    f1=open(filename,"r")
+    with open(filename,"r") as f1:
 
-    cf1=f1.read()
-
-    cf1 = comment_re.sub("", cf1)
-    cf1 = include_re.sub("", cf1)
-
-    lf1=[]
+        cf1=f1.read()
     
-    for match in variable_re.finditer(cf1):
-        lf1.append(match.group(2))
-        try:
-            if(match.group(3)):
-                lf1.append(match.group(3))
-        except:
-            pass
-
-    sp1=""
-    for item in lf1:
-        if(item):
-            sp1=sp1+item+"|"
-    sp1=sp1[:-1]
-
-    re1=re.compile(r"\b("+sp1+r")\b")
-    cf1=re1.sub("v",cf1)
-
-    cf1=cf1.replace('\n','')
-    cf1=cf1.replace('\t','')
-    cf1=cf1.replace(' ','')
-
-    f1.close()
+        cf1 = comment_re.sub("", cf1)
+        cf1 = include_re.sub("", cf1)
+    
+        lf1=[]
+        
+        for match in variable_re.finditer(cf1):
+            lf1.append(match.group(2))
+            try:
+                if(match.group(3)):
+                    lf1.append(match.group(3))
+            except Exception as e:
+                pass
+    
+        sp1=""
+        for item in lf1:
+            if(item):
+                sp1=sp1+item+"|"
+        sp1=sp1[:-1]
+    
+        re1=re.compile(r"\b("+sp1+r")\b")
+        cf1=re1.sub("v",cf1)
+    
+        cf1=cf1.replace('\n','')
+        cf1=cf1.replace('\t','')
+        cf1=cf1.replace(' ','')
 
     return cf1
 

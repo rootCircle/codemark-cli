@@ -4,7 +4,7 @@ import codemark.utils
 import codemark.account
 import codemark.firebase.database as FireDB
 import getpass
-from codemark.utils import print_error, print_info, print_message, print_success, print_warning
+from codemark.utils import print_error, print_info, print_success, print_warning
 
 
 db = FireDB.FirebaseDB()

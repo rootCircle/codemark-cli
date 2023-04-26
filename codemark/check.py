@@ -4,25 +4,43 @@ import codemark.utils
 from fuzzywuzzy import fuzz
 import re
 import psutil
+import threading
+
 
 """
 match_io function has three modes : exact match, regex match, fuzzy match
 # By default only regex match is enabled, but can be modified using functional arguments
 
 
-BUG : Memory limit checking on windows PC won't work!
 TODO : Add option to prof to write regex to match output by themselves, can be implemented in match_io easily
 """
 
 limit_memory = 256 * 1024 * 1024  # 256 MB in bytes
 limit_time = 180 # 3 minutes in seconds
 MAX_CHECK_CODE = 3 # Maximum codes to be checked
+FUZZY_MATCH_THRESHOLD = 80 # Threshold when doing fuzzy matching
+MEMORY_EXCEEDED = False # Keeps tracks of memory exceeding in Windows only, not for POSIX
 
 def set_limits():
     process = psutil.Process()
     process.rlimit(psutil.RLIMIT_DATA, (limit_memory, limit_memory))
 
-
+def check_memory_limit_win(pid, limit, process):
+    """
+    Since we can check by default in POSIX systems, this function is implemented for windows only
+    This function runs in a separate process and monitors the memory usage of the specified process.
+    If the memory usage exceeds the specified limit, it terminates the process and prints a message.
+    """
+    while True:
+        try:
+            process_memory = psutil.Process(pid).memory_info().rss
+            if process_memory > limit:
+                process.terminate()
+                print("Process terminated due to exceeding memory limit.")
+                break
+        except psutil.NoSuchProcess:
+            # The process has already exited, so we can stop monitoring its memory usage.
+            break
 
 def checkCode(byPassMAXCheck = False):
     print("Checking Code......")
@@ -98,13 +116,28 @@ def match_io(file, input_str, output_str, matchType = "regex"):
     else:
         # Linux platform
         run_command = ["./" + executable_file]  # prefix with './' on Linux
+    
+    
     try:
         # Hotfix for preexec_fn support on Windows, Memory limit check is not supported on windows
         if os.name == "nt":
-            set_limits = None
-        
-        result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
-        output = result.stdout
+            globals()['MEMORY_EXCEEDED'] = False
+            process = subprocess.Popen(run_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            # Using daemon may have unexpected effects 
+            # See this for info : https://stackoverflow.com/questions/20596918/python-exception-in-thread-thread-1-most-likely-raised-during-interpreter-shutd/20598791#20598791
+            thread = threading.Thread(target=check_memory_limit_win, args=(process.pid, limit_memory, process), daemon=True)
+            thread.start()
+
+            output, _ = process.communicate(input=input_str.encode(), timeout=limit_time)
+            thread.join() # Wait for the memory monitoring thread to stop
+            
+            if MEMORY_EXCEEDED:
+                exit() # In case of memory limit is breached
+        else:
+            # For POSIX system
+            # We don't require multithreading in this case
+            result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
+            output = result.stdout
     except subprocess.CalledProcessError:
         print('ERROR: Execution error')
         exit()
@@ -127,7 +160,7 @@ def fuzzyMatching(output, output_str):
      # Perform fuzzy matching on the output string
         match_score = fuzz.ratio(output.decode(), output_str)
         print(f'Fuzzy Match score: {match_score}')
-        if match_score > 80: # set a threshold for the match score
+        if match_score > FUZZY_MATCH_THRESHOLD: # set a threshold for the match score
             match = True
         else:
             match = False

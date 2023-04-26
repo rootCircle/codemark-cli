@@ -19,6 +19,9 @@ db = FireDB.FirebaseDB()
 
 IPFS_FILE_NAME = "ResultReport.txt"
 #TODO: Add glot.io API for cloud testing for users not having the compilers 
+"""
+BUG: If one user logout and user from other user logs in, then assignment not assigned to him can too be submitted
+"""
 
 def submit(force):
     if not force:

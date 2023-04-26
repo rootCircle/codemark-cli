@@ -21,6 +21,6 @@ def logout():
     if os.path.isfile(codemark.initialise.ACCOUNT_DATA_LOC):
         os.remove(codemark.initialise.ACCOUNT_DATA_LOC)
 
-    db.signout(None)
+    db.signout()
 
     codemark.utils.print_success("Logout successful!")

@@ -1,6 +1,7 @@
 import codemark.firebase.database as FireDB
 import codemark.utils
 import os
+from codemark.utils import print_error, print_info, print_success, print_warning
 
 # Default template for every new C files
 C_CODE_TEMPLATE = "// Write your program here\n// For more help run `codemark --help`\n"
@@ -10,12 +11,12 @@ db = FireDB.FirebaseDB()
 
 def fetch(assgn_code):
     if not fetch_and_download(assgn_code):
-        print("Some Error Ocurred, while fetching and downloading file. Talk to Support for more details.")
+        print_error("Some Error Ocurred, while fetching and downloading file. Talk to Support for more details.")
         return
-    print("Files fetched successfully!\n\nGo to", assgn_code, "directory.\n\nThen refer question.txt for question and other info\nRefer main.c to start coding.")
+    print_success("Files fetched successfully!\n\ncd into "+ assgn_code + " directory.\n\nThen refer question.txt for question and other info\nRefer main.c to start coding.")
 
 def fetch_and_download(assgn_code):
-    print("Fetching files and resources!\n")
+    print_info("Fetching files and resources!\n")
 
     assign_info = db.getdataOrderEqual("assignments", "assignment_id", assgn_code)
     
@@ -23,7 +24,7 @@ def fetch_and_download(assgn_code):
         return False
 
     if not assign_info:
-        print("Enter valid Assignment Code or Retry after some time")
+        print_warning("Enter valid Assignment Code or Retry after some time")
         return False
     
     assign_info = list(assign_info.values())[0]

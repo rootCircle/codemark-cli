@@ -2,6 +2,7 @@ import codemark.account
 import codemark.firebase.database as FireDB
 from tabulate import tabulate
 import textwrap as twp
+from codemark.utils import print_error, print_info, print_message, print_success, print_warning
 
 db = FireDB.FirebaseDB()
 
@@ -21,7 +22,7 @@ def listSmart(submitted, pending):
                 del assignment['code_url']
                 del assignment['student_id']
 
-        print(tabulate(assignments, headers="keys", tablefmt="fancy_grid", 
+        print_message(tabulate(assignments, headers="keys", tablefmt="fancy_grid", 
                numalign="center", stralign="center"))
 
 def listAssignments(submitted, pending):
@@ -31,7 +32,7 @@ def listAssignments(submitted, pending):
         return
     
     if not assignment:
-        print("No Assignments found! Relax")
+        print_message("No Assignments found! Relax")
         return
     
     if submitted:
@@ -46,35 +47,35 @@ def getPending():
     submitted_assignments = getSubmitted(printto=False)
     pending = [item for item in assignments if item['assignment_id'] not in [submitted_assignment['assignment_id'] for submitted_assignment in submitted_assignments]]
     if not pending:
-        print("No Pending Assignment! What a relief!")
+        print_message("No Pending Assignment! What a relief!")
     return pending  
 
 
 def getSubmitted(printto=True):
     student_id = codemark.account.getCurrentStudentID()
     if not student_id:
-        print("O o....Somes issues\nRun codemark doctor for resolving")
+        print_error("O o....Somes issues\nRun codemark doctor for resolving")
         return
     assignments = db.getdataOrderEqual("submissions", "student_id", student_id)
 
     if assignments is None:
-        print("Some error occurred, while fetching assignments")
+        print_error("Some error occurred, while fetching assignments")
         return
 
     if not assignments and printto:
-        print("Nothing here yet!")
+        print_warning("Nothing here yet!")
 
     return list(assignments.values())
 
 def getAllAssignment():
     batch_id = codemark.account.getBatchID()
     if not batch_id:
-        print("O o....Somes issues\nRun codemark doctor for resolving")
+        print_error("O o....Somes issues\nRun codemark doctor for resolving")
         return
     assignments = db.getdataOrderEqual("assignments", "batch_id", batch_id)
 
     if assignments is None:
-        print("Some error occurred, while fetching assignments")
+        print_error("Some error occurred, while fetching assignments")
         return
 
     return list(assignments.values())

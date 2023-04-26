@@ -5,6 +5,7 @@ from fuzzywuzzy import fuzz
 import re
 import psutil
 import threading
+from codemark.utils import print_error, print_info, print_message, print_success, print_warning
 
 
 """
@@ -36,15 +37,15 @@ def check_memory_limit_win(pid, limit, process):
             process_memory = psutil.Process(pid).memory_info().rss
             if process_memory > limit:
                 process.terminate()
-                print("Process terminated due to exceeding memory limit.")
+                print_warning("Process terminated due to exceeding memory limit.")
                 break
         except psutil.NoSuchProcess:
             # The process has already exited, so we can stop monitoring its memory usage.
             break
 
 def checkCode(byPassMAXCheck = False):
-    print("Checking Code......")
-    print("Checking the code based on cached assignment code fetched from a file\n")
+    print_info("Checking Code......")
+    print_info("Checking the code based on cached assignment code fetched from a file\n")
 
     filename = codemark.utils.smartGetFileName()
 
@@ -67,7 +68,7 @@ def checkCode(byPassMAXCheck = False):
     for test_case in test_cases:
         result = match_io(filename, test_case["input"], test_case["output"], matchType = config_info['match_type'])
         final = final and result
-        print("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
+        print_message("Match {} {}".format(counter + 1, "passed successfully!" if result else "failed"))
         counter+=1
         if (counter == MAX_CHECK_CODE  or not result) and not byPassMAXCheck:
             break
@@ -75,12 +76,12 @@ def checkCode(byPassMAXCheck = False):
             success += 1
     
     if final:
-        print("\n\nAll tests passed successfully!")
+        print_success("\nAll tests passed successfully!")
     elif not byPassMAXCheck:
         # Called from submit
-        print("\n\nSome test cases failed. Retry harder!")
+        print_message("\nSome test cases failed. Retry harder!")
     elif byPassMAXCheck:
-        print("{} of {} test passed!\n".format(success, counter))
+        print_message("\n{} of {} test passed!\n".format(success, counter))
 
     if not byPassMAXCheck:
         return final
@@ -94,7 +95,7 @@ def compileCCode(filename):
         # filename[:-2] trims out extension
         subprocess.check_output(['gcc', filename, '-o', filename[:-2]])
     except subprocess.CalledProcessError:
-        print('ERROR: Compilation error')
+        print_error('Compilation error')
         exit()
     
 
@@ -105,7 +106,8 @@ def match_io(file, input_str, output_str, matchType = "regex"):
     2. Fuzzy Match with 80 % threshold
     3. Regex Match
     """
-    print("Matching output using " + matchType + " match algorithm.")
+    print()
+    print_info("Matching output using " + matchType + " match algorithm.")
 
     # Run the program with the input string
     executable_file = file[:-2]
@@ -139,10 +141,10 @@ def match_io(file, input_str, output_str, matchType = "regex"):
             result = subprocess.run(run_command, input=input_str.encode() ,stdout=subprocess.PIPE, preexec_fn=set_limits, timeout=limit_time)
             output = result.stdout
     except subprocess.CalledProcessError:
-        print('ERROR: Execution error')
+        print_error('Execution error')
         exit()
     except subprocess.TimeoutExpired:
-        print("TIMEOUT: Codes takes more than {} seconds to execute.".format(limit_time))
+        print_error("TIMEOUT: Codes takes more than {} seconds to execute.".format(limit_time))
         exit()
     
 
@@ -159,7 +161,7 @@ def match_io(file, input_str, output_str, matchType = "regex"):
 def fuzzyMatching(output, output_str):
      # Perform fuzzy matching on the output string
         match_score = fuzz.ratio(output.decode(), output_str)
-        print(f'Fuzzy Match score: {match_score}')
+        print_message(f'Fuzzy Match score: {match_score}')
         if match_score > FUZZY_MATCH_THRESHOLD: # set a threshold for the match score
             match = True
         else:

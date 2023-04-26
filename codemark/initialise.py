@@ -4,6 +4,8 @@ import codemark.utils
 import codemark.account
 import codemark.firebase.database as FireDB
 import getpass
+from codemark.utils import print_error, print_info, print_message, print_success, print_warning
+
 
 db = FireDB.FirebaseDB()
 
@@ -16,24 +18,24 @@ ACCOUNT_DATA_LOC = os.path.join(ACCOUNT_DATA_DIR, "account_cred.json")
 def initApp():
     if not checkAlreadyInitialized():
         if initialiseCred():
-            print("Credentials is initialized successfully!")
+            print_success("Credentials is initialized successfully!")
         else:
-            print("ERROR: Error initializing the credentials for app! Retry later")
+            print_error("Error initializing the credentials for app! Retry later")
     else:
-        print("INFO: User Credentials already initialized")
+        print_warning("User Credentials already initialized")
         return True
 
 def initialiseCred():
-    print("Initializing Configurations for User")
+    print_info("Initializing Configurations for User")
 
     email = input("Enter Email : ")
     if not db.check_mail(email):
-        print("Invalid Email")
+        print_error("Invalid Email")
         return False
     
     password = getpass.getpass("Enter Password : ")
     if len(password) < 8:
-        print("Please enter at-least 8 character password!")
+        print_warning("Please enter at-least 8 character password!")
         return False
 
     cred = db.login(email, password)
@@ -43,15 +45,15 @@ def initialiseCred():
         return False
 
     # User has login-ed successfully
-    print("Logined Successfully!")
+    print_success("Logined Successfully!")
 
     user_content = db.getdataOrderEqual("users", "email", email)
     student_content = db.getdataOrderEqual("students", "email", email)
 
     if not user_content or not student_content:
-        print("Error! Fetching Details. Retry Later.") 
+        print_error("Error! Fetching Details. Retry Later.") 
         if student_content is not None and not student_content:
-            print("You sure are student?")
+            print_warning("You sure are student?")
         return False
 
     codemark.account.saveCredToKeyring(email, password)

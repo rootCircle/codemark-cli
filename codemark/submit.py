@@ -7,6 +7,7 @@ import requests
 import json
 import codemark.firebase.database as FireDB
 import codemark.utils
+from codemark.utils import print_info, print_error, print_success, print_message
 import codemark.secrets
 import codemark.initialise
 import codemark.account
@@ -25,18 +26,15 @@ BUG: If one user logout and user from other user logs in, then assignment not as
 
 def submit(force):
     if not force:
-        print("INFO: Checking Code")
+        print_info("Checking Code")
         success, total = codemark.check.checkCode(byPassMAXCheck=True)
         generate_report_and_push(success, total)
-    # else:
-    #     print("You need to ensure, that all test cases match successfully!")
-    #     print("In case of distress, use `codemark submit --force`")
     else:
         generate_report_and_push(0, 0, force)
 
 
 def generate_hash():
-    print("INFO: Generating Hash")
+    print_info("Generating Hash")
     # Generate a random string
     rand_str = os.urandom(16).hex()
 
@@ -59,42 +57,42 @@ def generate_report_and_push(success, total, force = False):
     if filename and assgn_data:
         student_data = codemark.utils.readJSONFile(codemark.initialise.ACCOUNT_DATA_LOC)
         if not student_data:
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
-        print("INFO: Logging In")
+        print_info("Logging In")
         email = student_data['email']
         password = codemark.account.getPasswordFromKeyring(email)
         if not password:
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
         login_cred = db.login(email,password)
         if not login_cred:
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
-        print("INFO: Generating Result & Plag Report")
+        print_info("Generating Result & Plag Report")
         report, cf = generate_report(filename, assgn_data['assignment_id'], success, total, student_data['student_id'])
         
         if not force:
-            print("INFO: Sending data to Web3 Storage")
+            print_info("Sending data to Web3 Storage")
             cid = sendTOIPFS(report)
             if not cid:
-                print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+                print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
                 return False
         else:
             cid = ""
             
         submission_id = generate_hash()
         if not submission_id:
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
             
-        print("INFO: Sending file to Cloud")
+        print_info("Sending file to Cloud")
         cloud_url = db.sendDataStorage(filename, submission_id + filename)
         if not cloud_url:
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
 
@@ -107,17 +105,17 @@ def generate_report_and_push(success, total, force = False):
             "cid": cid,
         }
         
-        print("INFO: Logging Submission to Cloud")
+        print_info("Logging Submission to Cloud")
         if not db.pushData("submissions", details):
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
         
-        print("INFO: Logging Code Hash to Cloud")
+        print_info("Logging Code Hash to Cloud")
         if not writePlagCacheToCloud(assgn_data["assignment_id"], cf, student_data["student_id"]):
-            print("ERROR: Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
+            print_error("Some issues occurred while submitting. Run `codemark doctor` for fixing it.")
             return False
 
-        print("Submitted successfully!")
+        print_success("Submitted successfully!")
         
 def writePlagCacheToCloud(assignment_id, cf, student_id):
     assgn_hash_cache = db.getdataOrderEqual("plagcache", "assignment_id", assignment_id)
@@ -136,7 +134,6 @@ def writePlagCacheToCloud(assignment_id, cf, student_id):
         if pushed_empty:
             return writePlagCacheToCloud(assignment_id, cf, student_id)
         else:
-            print("2")
             return False
 
     assgn_key = list(assgn_hash_cache.keys())[0]
@@ -148,7 +145,6 @@ def writePlagCacheToCloud(assignment_id, cf, student_id):
 
     push_data = db.pushData("plagcache/" + assgn_key + "/cache", plag_cache)
     if not push_data:
-        print("3")
         return False
     
     return True
@@ -196,7 +192,7 @@ def upload_file_to_web3storage(api_token, content):
         return response_json['cid']
     except requests.exceptions.ConnectionError as e:
             # Handle the "Network is unreachable" error
-            print("ERROR: Network is unreachable.")
+            print_error("Network is unreachable.")
  
 
 def plagcheck(filename, assignment_id, student_id):
@@ -209,7 +205,7 @@ def plagcheck(filename, assignment_id, student_id):
         return False, cf1
     
     if not precomputed_hash_cf:
-        print("\n\nFirst Submitter : KUDOS!!\n\n")
+        print_success("\n\nFirst Submitter : KUDOS!!\n\n")
         return -1, cf1
 
     precomputed_hash_cf = list(precomputed_hash_cf.values())
@@ -225,7 +221,7 @@ def plagcheck(filename, assignment_id, student_id):
             # First Submission
             plag_percent = -1
 
-    print("\n\nPlag Percent based on Vansh Algorithm TM: " + str(plag_percent) + " %\n\n")
+    print_message("\nPlag Percent based on Vansh Algorithm TM: " + str(plag_percent) + " %\n")
 
     return plag_percent, cf1
 

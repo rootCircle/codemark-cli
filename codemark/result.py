@@ -3,12 +3,13 @@ import json
 import codemark.firebase.database as FireDB
 import codemark.secrets
 import codemark.submit
+from codemark.utils import print_info, print_error, print_success, print_warning
 
 db = FireDB.FirebaseDB()
 
 def fetch(submission_code):
     
-    print("Fetching your report from decentralized server!\n\n\n")
+    print_info("Fetching your report from decentralized server!\n")
 
     cid = getCID(submission_code)
     if not cid:
@@ -22,8 +23,9 @@ def fetch(submission_code):
     parsed_content = parseContent(content)
     if not parseContent(content):
         return
-
-    print(parsed_content)
+    print("=" * 90)
+    print_success(parsed_content, prefix=False)
+    print("=" * 90)
 
 def parseContent(content):
     try:
@@ -31,16 +33,16 @@ def parseContent(content):
         content = content.decode()
         return content
     except Exception as e:
-        print("ERROR :", e)
+        print_error(e)
 
 def getCID(submission_code):
     report_data = db.getdataOrderEqual("submissions", "submission_id", submission_code)
 
     if report_data is None:
-        print("ERROR: Some issues occurred while fetching result. Run `codemark doctor` for fixing it.")
+        print_error("Some issues occurred while fetching result. Run `codemark doctor` for fixing it.")
         return
     if not report_data:
-        print("INVALID Submission ID")
+        print_warning("INVALID Submission ID")
         return
     
     return list(report_data.values())[0]['cid']
@@ -56,9 +58,9 @@ def fetch_file_from_web3storage(cid):
 
     except requests.exceptions.ConnectionError as e:
         # Handle the "Network is unreachable" error
-        print("ERROR: Network is unreachable.")
+        print_error("Network is unreachable.")
     
     except json.decoder.JSONDecodeError as e:
-        print("Misconfiguration from our side. Contact support ASAP!")
+        print_error("Misconfiguration from our side. Contact support ASAP!")
     except Exception as e:
-        print("ERROR :", e)
+        print_error(e)

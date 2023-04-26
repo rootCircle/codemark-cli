@@ -2,6 +2,7 @@ import openai
 import codemark.secrets
 import codemark.utils
 import re
+import textwrap as twp
 
 """
 Model used : ChatGPT text-davinci-003
@@ -16,6 +17,7 @@ EXTENSION = "c"
 openai.api_key = codemark.secrets.api_key
 
 def reviewCode():
+    codemark.utils.print_info("Generating Response from AI")
     programCode = codemark.utils.smartGetCode()
 
     assignment_info = codemark.utils.readJSONFile("config.json")
@@ -23,7 +25,7 @@ def reviewCode():
     # If some error occured while getting program Code
     if isinstance(programCode, int) or assignment_info is None:
         if assignment_info is None:
-            print("Did you used `codemark get <ASSIGNMENT-CODE>` before reviewing it?")
+            codemark.utils.print_warning("Did you used `codemark get <ASSIGNMENT-CODE>` before reviewing it?")
         return
     
     questionTitle = assignment_info['title']
@@ -43,7 +45,7 @@ def reviewCode():
 
     response_report = generate_query_and_response(programCode,  questionTitle, questionDescription, expectedInput, expectedOutput, extension)
     if response_report:
-        print("\n\n" + response_report)
+        codemark.utils.print_message("\n\n" + response_report)
      
 
 
@@ -58,7 +60,9 @@ def generate_query_and_response(programCode, questionTitle, questionDescription,
     
     response_text = response(query)
     if response_text:
-        return "RESPONSE\n\n" + speaker_remove.sub("", response_text).strip().replace("\n\n", "\n").replace(". ", ".\n\n")
+        output = speaker_remove.sub("", response_text).strip()
+        output = output.replace("\n\n", "\n").replace(". ", ".\n\n")
+        return "RESPONSE\n\n" + twp.fill(output, 100)
     else:
         return
 
@@ -79,6 +83,6 @@ def response(query):
         answer=completion.choices[0].text
         return answer.strip()
     except openai.error.APIConnectionError:
-        print("ERROR: Network is unreachable.")
+        codemark.utils.print_error("Network is unreachable.")
         return
 

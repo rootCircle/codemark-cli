@@ -31,6 +31,8 @@ from google.auth.exceptions import TransportError
 from firebase_admin import auth, db, storage
 from firebase_admin import exceptions as fireexception
 import codemark.secrets
+from codemark.utils import print_error, print_info, print_message, print_success, print_warning
+
 
 
 
@@ -81,7 +83,7 @@ class FirebaseDB:
             pauth.current_user = None
             return True
         except Exception as e:
-            print(e)
+            print_error(e)
 
     def login(self, email, password):
         """
@@ -102,19 +104,17 @@ class FirebaseDB:
             return user
         except requests.exceptions.ConnectionError as e:
             # Handle the "Network is unreachable" error
-            print("ERROR: Network is unreachable.")
+            print_error("Network is unreachable.")
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
             if error == "INVALID_PASSWORD":
-                print("Warning : ","Invalid credentials", "Enter correct Password!")
+                print_warning("Invalid credentials! Enter correct Password!")
             elif error == "EMAIL_NOT_FOUND":
-                print("Warning : ","User not registered", "There is no user registered with this Email-Id.")
+                print_warning("User not registered! There is no user registered with this Email-Id.")
             else:
-                print("Warning : ","Error",
-                                        "Some Error Occured while Logging-in\nPlease Retry!\n" + str(
-                                            error))
-            print(error)
+                print_error("Some Error Occured while Logging-in\nPlease Retry!\n" + str(error))
+            print_error(error)
 
     def pushData(self, child, details):
         """
@@ -136,56 +136,12 @@ class FirebaseDB:
             return True
         except TransportError as e:
             # Handle the "Network is unreachable" error
-            print("ERROR: Network is unreachable.")
+            print_error("Network is unreachable.")
             return
         except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
-            print("ERROR : ", e)
+            print_error(e)
             return
 
-    def getdataOrder(self, child, ordervar):
-        """
-        Gets data from FirebaseDB ordered by ordervar
-        :param child: The address to the node on which data has to be fetched from
-                    If one has created a table named Institute and another sub-table inside
-                    the table say named Students.Idea being ,at a time all students of same
-                    branch name is to be put at one branch.
-                    So every new entry is defined by a random set of character allocated on data creation.
-                    This key(random set of character) can be fetched using getdataOrderEqual function and
-                    getting the keys of returned dictionaries using getdataOrderEqual(...).keys().
-                    Each keys point of its own location in database.
-        :param ordervar: The name of attribute according to which data has to be sorted
-        :return: out : If data is successfully fetched
-                       Data Type-Dictionary
-                        {key:values pair}
-                        each key:values pair correspond to a single a result found
-                            This key is same as random set of character allocated on data creation.
-                            and can be useful for accessing sub-child for that table.
-
-                            The values is again a nested dictionary containing info about
-                            fetched data in key:values pair where key is attribute and values is
-                            the data in that attribute
-
-                        In order to get data, say Name is the attribute and we need it
-                        list(FirebaseDB.getdataOrder(...).values()) -> Contains all sets of N results found
-
-                        To get first one:
-                        list(FirebaseDB.getdataOrder(...).values())[0]['Name']
-
-                 None : If some error arises
-        """
-        try:
-            out = db.reference(child).order_by_child(ordervar).get()
-            print(out)
-            if out is None:
-                out = {}  # To differentiate data from errors
-            return out
-        except TransportError as e:
-            # Handle the "Network is unreachable" error
-            print("ERROR: Network is unreachable.")
-            return
-        except Exception as e:
-            print("ERROR : ", e)
-            return
 
     def getdataOrderEqual(self, child, ordervar, equalvar):
         """
@@ -227,10 +183,10 @@ class FirebaseDB:
             return out
         except TransportError as e:
             # Handle the "Network is unreachable" error
-            print("ERROR: Network is unreachable.")
+            print_error("Network is unreachable.")
             return
         except Exception as e:
-            print("ERROR : ", e)
+            print_error(e)
             return
 
     def sendDataStorage(self, fileLocation, saveAsName):
@@ -254,10 +210,10 @@ class FirebaseDB:
             return False
         except TransportError as e:
                 # Handle the "Network is unreachable" error
-                print("ERROR: Network is unreachable.")
+                print_error("Network is unreachable.")
                 return False
         except Exception as e:
-            print("ERROR : ", e)
+            print_error(e)
             return False
 
     
@@ -286,7 +242,7 @@ class FirebaseDB:
                     urllib.request.urlopen(hosts)
                     return True
                 else:
-                    print("ERROR : ", "Invalid data type 'hosts'-expected string/tuple/list")
+                    print_error("Invalid data type 'hosts'-expected string/tuple/list")
                     return False
             else:
                 return True

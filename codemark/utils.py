@@ -1,5 +1,6 @@
 import os
 import json
+from termcolor import colored
 
 def detectFile(extension="c"):
     matchingFiles = []
@@ -18,24 +19,25 @@ def smartGetCode(extension="c"):
     matchingFiles = detectFile(extension)
 
     if len(matchingFiles) > 1:
-        print("ERROR: More than one file found!")
+        print_error("More than one file found!")
         return -1 
     elif len(matchingFiles) == 0:
-        print("ERROR: No {} files found!".format(extension))
+        print_error("No {} files found!".format(extension))
         return -2
-    print("INFO: Found {} file in root file!".format(matchingFiles[0]))
+    print_success("Found {} file in current directory!".format(matchingFiles[0]))
     return getProgramCode(matchingFiles[0])
 
 def smartGetFileName(extension="c"):
     matchingFiles = detectFile(extension)
 
     if len(matchingFiles) > 1:
-        print("ERROR: More than one file found!")
+        print_error("More than one file found!")
         return -1 
     elif len(matchingFiles) == 0:
-        print("ERROR: No {} files found!".format(extension))
+        print_error("No {} files found!".format(extension))
         return -2
-    print("INFO: Found {} file in root file!".format(matchingFiles[0]))
+
+    print_success("Found {} file in current directory!".format(matchingFiles[0]))
     return matchingFiles[0]
 
 def makeDirectory(directory):
@@ -44,7 +46,7 @@ def makeDirectory(directory):
         os.mkdir(directory)
         return True
     except FileExistsError:
-        print("ERROR: Directory ", directory, " already exists.")
+        print_error("Directory " + directory + " already exists.")
         return False
 
 
@@ -71,4 +73,30 @@ def readJSONFile(filename):
 
         return my_dict
     except FileNotFoundError as e:
-        print("No", filename, "file found!")
+        print_error("No " + filename + " file found!")
+
+
+
+def print_info(message, prefix = True):
+    if prefix:
+        message = "[INFO] " + message
+    print(colored(message, "blue"))
+
+def print_success(message, prefix = True):
+    if prefix:
+        message = "[SUCCESS] " + message
+    print(colored(message, "green", attrs=["bold"]))
+
+
+def print_warning(message, prefix = True):
+    if prefix:
+        message = "[WARNING] " + message
+    print(colored(message, "yellow"))
+
+def print_error(message, prefix = True):
+    if prefix:
+        message = "[ERROR] " + message
+    print(colored(message, "red", attrs=["bold"]))
+
+def print_message(message):
+    print(colored(message, "cyan", attrs=["bold"]))

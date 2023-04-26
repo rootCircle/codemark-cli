@@ -23,4 +23,4 @@ def logout():
 
     db.signout(None)
 
-    print("Logout successful!")
+    codemark.utils.print_success("Logout successful!")

@@ -63,6 +63,8 @@ To install and use CodeMark CLI, follow these steps:
  
   Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
 
+  Issues with requests-toolbelt: In some PCs running latest bleeding edge version of Python may have some issues with pip installation. To fix it type `pip3 install requests-toolbelt==0.10.1` in your terminal.
+
 3. Verify that CodeMark CLI is installed correctly by running the following command:
 
   `codemark --help`

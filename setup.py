@@ -20,6 +20,7 @@ setup(
         'python-Levenshtein',
         'psutil',
         'requests',
+        'requests-toolbelt==0.10.1',
     ],
     entry_points={
         'console_scripts': [

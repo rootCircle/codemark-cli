@@ -8,8 +8,9 @@ import codemark.check
 import codemark.logout
 import codemark.submit
 import codemark.result
+from trogon import tui
 
-
+@tui()
 @click.group()
 def cli():
     """A command-line interface that helps you manage your coding assignments and tests with the CodeMark cloud service.

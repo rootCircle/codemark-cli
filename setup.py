@@ -21,6 +21,7 @@ setup(
         'psutil',
         'requests',
         'requests-toolbelt==0.10.1',
+        'trogon'
     ],
     entry_points={
         'console_scripts': [

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "codemark"
 version = "0.2.1"
-description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
+description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
 authors = ["Lab Rat <dev.frolics@gmail.com>"]
 maintainers = [
    {name = "Lab Rat", email = "dev.frolics@gmail.com"},

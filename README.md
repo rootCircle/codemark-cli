@@ -42,40 +42,6 @@ The repository offers the following capabilities:
 
 - **Error Fixing:** Fix any known common issues for the app with the doctor command.
 
-## Installation instructions
-
-To install and use CodeMark CLI, follow these steps:
-
-1. Clone the CodeMark CLI repository by running the following command:
- `git clone https://github.com/rootCircle/codemark-cli.git`
-
-2. Install CodeMark CLI by running the following commands:
-
-     `cd codemark-cli`
-
-     `pip3 install poetry`
-
-     `poetry install`
-
-     `pip3 install --editable .`
-
-     Note: If pip3 is not installed on your system, use pip instead. If you encounter permission issues, add the `--user` flag at the end of the command. 
-
-     Make sure Python's Script library is in System PATH
-
-     Use this to setup: https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7 or https://realpython.com/add-python-to-path/
-
-     Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
-
-  Issues with requests-toolbelt: In some PCs running latest bleeding edge version of Python may have some issues with pip installation. To fix it type `pip3 install requests-toolbelt==0.10.1` in your terminal.
-
-3. Verify that CodeMark CLI is installed correctly by running the following command:
-     `poetry run codemark --help`
-
-     `codemark --help`
-
-     If you encounter any issues, feel free to raise a pull request.
-
 ## Usage
 
 To use CodeMark CLI, run the following command:
@@ -102,21 +68,9 @@ To use CodeMark CLI, run the following command:
 
 CodeMark CLI requires a working internet connection to interact with the cloud database. Additionally, make sure you have Python installed on your system.
 
-### These fine people helped us with the project
-
-For HackOFiesta v4.0 Submission | Team Silicon Sorcerers
-
-| Name | Username | Role | Key Contributions
-| --- | --- | --- | --- |
-| Praveen Jaiswal | @rootCircle | Team Lead, CLI Developer | CLI App and Code Integration |
-| Umesh Verma | @umeshSinghVerma | Backend Developer | Firebase Integration in Website |
-| Vansh Khare | @real-Vansh-Khare | AI & Algorithm Design with frontend web developer | Frontend Pages Designs, Plag Report Detection |
-| Yash Agarwal | @Yash7426 | Chief Frontend Developer | All the frontend designs and pages and their integrations with backend |
-| Manan Patel | @manan9993 | Blockchain Developer | Web3 based decentralised Storage and management for report of submitted code |
-
 ## License
 
-CodeMark CLI is released under the Apache-2.0 License. See LICENSE for details.
+CodeMark CLI is released under the Apache-2.0 License. See [LICENSE](LICENSE) for details.
 
 ## Support
 

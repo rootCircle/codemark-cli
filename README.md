@@ -70,6 +70,7 @@ To install and use CodeMark CLI, follow these steps:
   Issues with requests-toolbelt: In some PCs running latest bleeding edge version of Python may have some issues with pip installation. To fix it type `pip3 install requests-toolbelt==0.10.1` in your terminal.
 
 3. Verify that CodeMark CLI is installed correctly by running the following command:
+     `poetry run codemark --help`
 
      `codemark --help`
 

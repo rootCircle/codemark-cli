@@ -1,20 +1,29 @@
 [tool.poetry]
 name = "codemark"
-version = "0.2.1"
-description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
+description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests."
+version = "0.2.2"
 authors = ["Lab Rat <dev.frolics@gmail.com>"]
 maintainers = [
-   {name = "Lab Rat", email = "dev.frolics@gmail.com"},
-   {name = "real-Vansh-Khare", email = "kharevansh13@gmail.com"},
-]
-classifiers = [
-  "Development Status :: 0 - alpha",
-  "Programming Language :: Python"
+    "Lab Rat <dev.frolics@gmail.com>",
+    "real-Vansh-Khare <kharevansh13@gmail.com>"
 ]
 keywords = ["python", "cli", "firebase", "click"]
 license = "Apache-2.0"
 readme = "README.md"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Topic :: Education",
+  "Operating System :: Unix",
+  "Operating System :: Microsoft :: Windows",
+  "Natural Language :: English",
+  "License :: OSI Approved :: Apache Software License",
+  "Intended Audience :: Education",
+  "Intended Audience :: Developers",  
+]
 
+[project]
+description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
 
 [tool.poetry.dependencies]
 python = "^3.10"

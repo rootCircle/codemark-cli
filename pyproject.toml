@@ -3,6 +3,14 @@ name = "codemark"
 version = "0.2.1"
 description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
 authors = ["Lab Rat <dev.frolics@gmail.com>"]
+maintainers = [
+  {"Lab Rat <dev.frolics@gmail.com>","real-Vansh-Khare <lcs2022055@iiitl.ac.in>"}
+]
+classifiers = [
+  "Development Status :: 0 - alpha",
+  "Programming Language :: Python"
+]
+keywords = ["python", "cli", "firebase", "click", "hacktoberfest"]
 license = "Apache-2.0"
 readme = "README.md"
 
@@ -38,3 +46,6 @@ cmk = "codemark.scripts.cm_cli:cli"
 [package.metadata.package_data]
 codemark = ["firebase/res/service-account-file.json"]
 
+[project.urls]
+Homepage = "https://github.com/rootCircle/codemark-cli"
+Documentation = "https://github.com/rootCircle/codemark-cli#readme"

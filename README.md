@@ -53,6 +53,10 @@ To install and use CodeMark CLI, follow these steps:
 
      `cd codemark-cli`
 
+     `pip3 install poetry`
+
+     `poetry install`
+
      `pip3 install --editable .`
 
      Note: If pip3 is not installed on your system, use pip instead. If you encounter permission issues, add the `--user` flag at the end of the command. 

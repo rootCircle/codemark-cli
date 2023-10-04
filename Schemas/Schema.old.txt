@@ -1,0 +1,114 @@
+Authentication:
+
+    users
+        email: string
+        user_type: string (either "student" or "professor")
+        name: string
+        college_name: string
+        student_id: string (only for students)
+        professor_id: string (only for professors)
+
+Students:
+
+    students
+	email: string
+        student_id: string                       [enrollment number] 
+        name: string
+        college_name: string
+        passing_year: integer
+        batch_semester: string
+        field_of_study: string
+        batch_id: string
+
+Professors:
+
+    professors
+        professor_id: string
+        name: string
+        college_name: string
+
+Student Results:
+
+    student_results
+        result_id: string
+        student_id: string
+	  professor_id: string
+        assignment_id: string
+        score: float
+        plagiarism_report: string
+
+subjectes:
+
+    subjectes
+        subject_id: string
+        professor_id: string
+        subject_name: string
+        batch_id: ["1st" , "2nd"]
+        
+Batches:
+
+	batches 
+		batch_id: string
+		subject_id: string
+		batch_name: string
+		assignments:
+			assignment_id_1: boolean
+			assignment_id_2: boolean
+			// ...other assignment IDs
+	  
+	
+
+Enrollment:
+
+    enrollment
+        enrollment_id: string
+        subject_id: string
+        student_id: string
+        batch_id: string
+
+Assignments:
+
+    assignments
+	  	assignment_id: string
+	  	subject_id: string
+	  	professor_id: string
+		batch_id: string   [generated based on passing year, batch, subject_id, course stream]
+	  	assignment_name: string
+	  	title: string
+	  	description: string
+	  
+	  	test_cases:
+				test_case_id_1: 
+				  	input: string
+				  	output: string
+				  	
+				test_case_id_2:
+				  	input: string
+				  	output: string
+			
+				// ...other test case IDs
+
+	  	due_date: string
+	  	title: string
+	  	match_type: string    ["fuzzy" or "regex" or "exact"]
+
+	
+Submissions:
+
+	submissions
+	  submission_id: string
+	  student_id: string
+	  assignment_id: string
+	  submission_time: string
+	  code_url: string
+	  cid: string
+	  
+PlagirismCache
+	plagcache
+		assignment_id: string,
+		cache: {
+			student_id: string,
+			hash: string
+		}
+
+

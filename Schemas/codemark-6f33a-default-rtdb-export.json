@@ -1,0 +1,454 @@
+{
+  "assignments": {
+    "CS101_B1_1": {
+      "assignment_id": "CS101_B1_1",
+      "batch_id": "B1",
+      "description": "Write a program to find the factorial of a number",
+      "due_date": "2023-05-10",
+      "professor_id": "PROF001",
+      "subject_id": "CS101",
+      "test_cases": {
+        "test_case_1": {
+          "input": "5",
+          "output": "120"
+        },
+        "test_case_2": {
+          "input": "10",
+          "output": "3628800"
+        }
+      },
+      "title": "Factorial"
+    },
+    "CS101_B1_2": {
+      "assignment_id": "CS101_B1_2",
+      "batch_id": "B1",
+      "description": "Write a program to convert Celsius to Fahrenheit",
+      "due_date": "2023-05-15",
+      "professor_id": "PROF001",
+      "subject_id": "CS101",
+      "test_cases": {
+        "test_case_1": {
+          "input": "0",
+          "output": "32"
+        },
+        "test_case_2": {
+          "input": "100",
+          "output": "212"
+        }
+      },
+      "title": "Temperature"
+    }
+  },
+  "batches": {
+    "batch1": {
+      "assignments": {
+        "assignment1": true,
+        "assignment2": true
+      },
+      "batch_id": "batch1",
+      "batch_name": "CS Batch",
+      "subject_id": "subject1"
+    }
+  },
+  "enrollment": {
+    "enrollment1": {
+      "batch_id": "batch1",
+      "enrollment_id": "enrollment1",
+      "student_id": "12345",
+      "subject_id": "subject1"
+    }
+  },
+  "plagcache": {
+    "-NTnX4lcAVARKWJi20cb": {
+      "assignment_id": "CS101_B1_1",
+      "cache": {
+        "-NTnY3Q-C0CmrRcw8QVv": {
+          "hash": "intv(void){return0;}",
+          "student_id": "12345"
+        },
+        "-NTnYAIxeQj7H5aZ9y_u": {
+          "hash": "intv(void){return0;}",
+          "student_id": "12345"
+        },
+        "-NTnYMitjsk8G4lNryb8": {
+          "hash": "intv(void){return0;}",
+          "student_id": "12345"
+        },
+        "-NTnYYXlm89Ny07f1Lwa": {
+          "hash": "intv(void){printf(\"hEKKOWORLD\");return0;}",
+          "student_id": "12345"
+        },
+        "-NTndnu5RliUGVudhOiq": {
+          "hash": "intv(void){printf(\"hEKKOWORLD\");return0;}",
+          "student_id": "12345"
+        },
+        "-NTne0ll29UoapVBZiNX": {
+          "hash": "<Down>intv(void){printf(\"hEKKOWORLD\");intv(){printf(\"Sleepingfor20seconds...\\n\");sleep(20);printf(\"Donesleeping.\\n\");return0;}return0;}",
+          "student_id": "12345"
+        }
+      }
+    },
+    "-NTncr4pHYTRW5d_nXcd": {
+      "assignment_id": "CS101_B1_2",
+      "cache": {
+        "-NTncrEmG0Nx3JFbHNTT": {
+          "hash": "intv(void){return0;}",
+          "student_id": "12345"
+        },
+        "-NTndBvy7Q636-aZ3Pwx": {
+          "hash": "intv(void){return0;}",
+          "student_id": "12345"
+        }
+      }
+    },
+    "dsaahdsgjhasdh": {
+      "assignment_id": "assignment_1",
+      "cache": {
+        "4a99d1f5-b6e5-43b9-b3f5-b04fb5bb5d5a": {
+          "hash": "intv(void){intv;scanf(\"%d\",&v);intv=1;for(intv=1;v<=v;v++){v*=v;}printf(\"%d\\v\",v);}",
+          "student_id": "student_1"
+        },
+        "5e5d5dd5-5bd5-5f5d-bd5a-2bdff5f5d5c5": {
+          "hash": "efgh5678",
+          "student_id": "student_2"
+        }
+      }
+    },
+    "sadasdghasdgbj": {
+      "assignment_id": "assignment_2",
+      "cache": {
+        "2c2d1d1d-5c5d-4e5c-a5f5-5d5c2d5f5c5e": {
+          "hash": "mnop3456",
+          "student_id": "student_3"
+        },
+        "7c5d2f2d-665d-45e9-9c9d-34b1a06d8f3c": {
+          "hash": "ijkl9012",
+          "student_id": "student_1"
+        }
+      }
+    }
+  },
+  "professors": {
+    "67890": {
+      "college_name": "ABC College",
+      "name": "Jane Smith",
+      "professor_id": "67890"
+    }
+  },
+  "student_results": {
+    "result1": {
+      "assignment_id": "assignment1",
+      "plagiarism_report": "",
+      "professor_id": "67890",
+      "result_id": "result1",
+      "score": 90,
+      "student_id": "12345"
+    }
+  },
+  "students": {
+    "12345": {
+      "batch_id": "B1",
+      "batch_semester": "1st",
+      "college_name": "ABC College",
+      "email": "user1@example.com",
+      "field_of_study": "Computer Science",
+      "name": "John Doe",
+      "passing_year": 2022,
+      "student_id": "12345"
+    }
+  },
+  "subjects": {
+    "subject1": {
+      "batch_id": "1st",
+      "professor_id": "67890",
+      "subject_id": "subject1",
+      "subject_name": "Database Systems"
+    }
+  },
+  "submissions": {
+    "-NTin8r--O2sNTOcecuA": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreifhs62l3kvweu2ucuau2s62tictzprwvbrfhta3h7xdyieqsakfiy",
+      "code_url": "b5f90f1505a78fcd337c33d7953a2a518af4ad89140a15728f0ba38d8d7b75c01.c.png",
+      "student_id": "12345",
+      "submission_id": "b5f90f1505a78fcd337c33d7953a2a518af4ad89140a15728f0ba38d8d7b75c0",
+      "submission_time": "2023-04-23 21:17:37.911957"
+    },
+    "-NTinen3vJbIj8ajqeHj": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "4b4aa1f6fa76187a3f69f39cbe6abf8414c260020de72e74c1b5d09924f94a731.c",
+      "student_id": "12345",
+      "submission_id": "4b4aa1f6fa76187a3f69f39cbe6abf8414c260020de72e74c1b5d09924f94a73",
+      "submission_time": "2023-04-23 21:19:52.826195"
+    },
+    "-NTipryzWUP5q5y1ndHP": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreifhs62l3kvweu2ucuau2s62tictzprwvbrfhta3h7xdyieqsakfiy",
+      "code_url": "eb383470cf7018ce231bbd17124b5626bd7087b3992dc5837e3881d2488f16161.c",
+      "student_id": "12345",
+      "submission_id": "eb383470cf7018ce231bbd17124b5626bd7087b3992dc5837e3881d2488f1616",
+      "submission_time": "2023-04-23 21:29:31.061765"
+    },
+    "-NTiv5mOCIO_abtFruZw": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreigeqzxb3g27ujevgjjr7z7kkri6ih6kbl7scj2eewxkl4nnx4vdzq",
+      "code_url": "6732c585805420672fa4e42b90e60bbedba0ce7f0228020e154e71bc4b79f319main.c",
+      "student_id": "12345",
+      "submission_id": "6732c585805420672fa4e42b90e60bbedba0ce7f0228020e154e71bc4b79f319",
+      "submission_time": "2023-04-23 21:52:22.474685"
+    },
+    "-NTiykd96z8XFU-X-TYz": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "8b1f8a8af5f61816a062273023b81c88830faaa5befeebe29eedf3ebf02ac832main.c",
+      "student_id": "12345",
+      "submission_id": "8b1f8a8af5f61816a062273023b81c88830faaa5befeebe29eedf3ebf02ac832",
+      "submission_time": "2023-04-23 22:08:20.345321"
+    },
+    "-NTiynPzntoixrgkjnqK": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreigeqzxb3g27ujevgjjr7z7kkri6ih6kbl7scj2eewxkl4nnx4vdzq",
+      "code_url": "33695289d83f6cc6a07c0d97c8ecdb9d2f1acce34b1d129f178712a902a3b5c2main.c",
+      "student_id": "12345",
+      "submission_id": "33695289d83f6cc6a07c0d97c8ecdb9d2f1acce34b1d129f178712a902a3b5c2",
+      "submission_time": "2023-04-23 22:08:31.750390"
+    },
+    "-NTj8T6_B7-Om3YLDt4Q": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreifhs62l3kvweu2ucuau2s62tictzprwvbrfhta3h7xdyieqsakfiy",
+      "code_url": "125e3ab864a56aeeed55239ba789c02eeb84a51d08f91ff66583a6158fcac4541.c",
+      "student_id": "12345",
+      "submission_id": "125e3ab864a56aeeed55239ba789c02eeb84a51d08f91ff66583a6158fcac454",
+      "submission_time": "2023-04-23 22:55:08.066442"
+    },
+    "-NTjBp7F6gVe49R8hL7V": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "f6bf6a3b1c881ef407536730cb5b864ece08cf2c8341f85175dacd880d0432edmain.c",
+      "student_id": "12345",
+      "submission_id": "f6bf6a3b1c881ef407536730cb5b864ece08cf2c8341f85175dacd880d0432ed",
+      "submission_time": "2023-04-23 23:09:48.669894"
+    },
+    "-NTjMsvEZwkyDA8RzgDR": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreifhs62l3kvweu2ucuau2s62tictzprwvbrfhta3h7xdyieqsakfiy",
+      "code_url": "f998aa2404f418dca8f3d15bad2837ebd3ab35dad1c8aa70b099ab9d3a6c9f031.c",
+      "student_id": "12345",
+      "submission_id": "f998aa2404f418dca8f3d15bad2837ebd3ab35dad1c8aa70b099ab9d3a6c9f03",
+      "submission_time": "2023-04-23 23:58:07.853032"
+    },
+    "-NTjMyUuFt0Xack83OqR": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "f66caefb9f2366aa105f7787275c62491de645fdcf99c49f56904fe3bfe9b3981.c",
+      "student_id": "12345",
+      "submission_id": "f66caefb9f2366aa105f7787275c62491de645fdcf99c49f56904fe3bfe9b398",
+      "submission_time": "2023-04-23 23:58:30.717595"
+    },
+    "-NTjl9xhZr7dnmDGuKCc": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "b25f3f5e9812df40dde14dd018e09eea69265989abc072a1b13791b718a7da1e1.c",
+      "student_id": "12345",
+      "submission_id": "b25f3f5e9812df40dde14dd018e09eea69265989abc072a1b13791b718a7da1e",
+      "submission_time": "2023-04-24 01:48:35.339830"
+    },
+    "-NTjlDknpK02pKR37JKB": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "fb8ec51d554710d55d85f83a1e53c591bb932be97db788c63562c3098d0bcfcf1.c",
+      "student_id": "12345",
+      "submission_id": "fb8ec51d554710d55d85f83a1e53c591bb932be97db788c63562c3098d0bcfcf",
+      "submission_time": "2023-04-24 01:48:50.899372"
+    },
+    "-NTjm5OK2DE3TzlmxaoV": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "6fddec4a574b7bf4585e892485ad85f0ff50e28d86a8de37f9d13c30eca58a701.c",
+      "student_id": "12345",
+      "submission_id": "6fddec4a574b7bf4585e892485ad85f0ff50e28d86a8de37f9d13c30eca58a70",
+      "submission_time": "2023-04-24 01:52:38.771852"
+    },
+    "-NTk3FcsBAU7A9cDJPNH": {
+      "assignment_id": "CS101_B1_2",
+      "cid": "bafkreidatbs2zw5gpxrufvsdhkznvt6qv7tnv3oaczkhd43l5oscrj6gpm",
+      "code_url": "84c27514f0eda5c7a2125f20b74131fb3b8a551570e5c1f106fc5fa34dfac44emain.c",
+      "student_id": "12345",
+      "submission_id": "84c27514f0eda5c7a2125f20b74131fb3b8a551570e5c1f106fc5fa34dfac44e",
+      "submission_time": "2023-04-24 03:11:59.659839"
+    },
+    "-NTk3SiyeutQ8YgzX3bw": {
+      "assignment_id": "CS101_B1_2",
+      "cid": "",
+      "code_url": "145801e502b47f1ff78837d5902a75074225621b2d178cd2e9bda2870a967249main.c",
+      "student_id": "12345",
+      "submission_id": "145801e502b47f1ff78837d5902a75074225621b2d178cd2e9bda2870a967249",
+      "submission_time": "2023-04-24 03:12:53.300663"
+    },
+    "-NTmueh7vWQSsWz1WZJJ": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "83f7420dd05f3631e1ae0e06111a6b88ed3c4af6bea492c24bcd06fe9956144amain.c",
+      "student_id": "12345",
+      "submission_id": "83f7420dd05f3631e1ae0e06111a6b88ed3c4af6bea492c24bcd06fe9956144a",
+      "submission_time": "2023-04-24 16:28:56.290662"
+    },
+    "-NTmvms5AMyu3-ANzFxA": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "d6a2f8ac47c9ba98eead6f8a9429110289bb28ee467ad14adbc073c8fa9434171.c",
+      "student_id": "12345",
+      "submission_id": "d6a2f8ac47c9ba98eead6f8a9429110289bb28ee467ad14adbc073c8fa943417",
+      "submission_time": "2023-04-24 16:33:51.977375"
+    },
+    "-NTnQQ174YsUTkh0hcV2": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "08d31c2159c0db5ae7def5b4e9a9984b058799cbcd8351aba68a1b91de9c66afmain.c",
+      "student_id": "12345",
+      "submission_id": "08d31c2159c0db5ae7def5b4e9a9984b058799cbcd8351aba68a1b91de9c66af",
+      "submission_time": "2023-04-24 18:52:02.796723"
+    },
+    "-NTnWUwe-EcKD9fbfRBX": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "a1f73d3dff906d23be8bbca55f91c3492dda257542611508576c536aedb339dcmain.c",
+      "student_id": "12345",
+      "submission_id": "a1f73d3dff906d23be8bbca55f91c3492dda257542611508576c536aedb339dc",
+      "submission_time": "2023-04-24 19:18:35.840982"
+    },
+    "-NTnWwLuZt4X2CiVBlSZ": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "324bce2be757ea4da9834d16343ae4ceab5ce698ac7c52a677cdefaa8ac949e2main.c",
+      "student_id": "12345",
+      "submission_id": "324bce2be757ea4da9834d16343ae4ceab5ce698ac7c52a677cdefaa8ac949e2",
+      "submission_time": "2023-04-24 19:20:32.127529"
+    },
+    "-NTnX4dTB3zEPkFKRyqf": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "8c335b99df63bc60703c4ce85b99921e10f94b6d0593fecd589f0f6deb790734main.c",
+      "student_id": "12345",
+      "submission_id": "8c335b99df63bc60703c4ce85b99921e10f94b6d0593fecd589f0f6deb790734",
+      "submission_time": "2023-04-24 19:21:10.158781"
+    },
+    "-NTnXsKqJBoJpfTisaCJ": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "e13cacb9b4e15e22d58623a37715a7effd22e736645744f3e71815a14e63a0cdmain.c",
+      "student_id": "12345",
+      "submission_id": "e13cacb9b4e15e22d58623a37715a7effd22e736645744f3e71815a14e63a0cd",
+      "submission_time": "2023-04-24 19:24:37.909520"
+    },
+    "-NTnY3H5_se7biaEFFfP": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreicgyxjjpdh6yjpvtxgqcr5p5utd4uh2qc47jqg3onf2xpfwqulz7e",
+      "code_url": "0224d96f9d93df9db149b4ba2e1455fb2f6237757b0726122805c7b0d82047c3main.c",
+      "student_id": "12345",
+      "submission_id": "0224d96f9d93df9db149b4ba2e1455fb2f6237757b0726122805c7b0d82047c3",
+      "submission_time": "2023-04-24 19:25:26.803322"
+    },
+    "-NTnYABAgjruKi7iYfqN": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreihtxlughybtwbvsehzot64ykoocck3cnvpya3uduthx2o7nzl3biq",
+      "code_url": "8310ce2153ed577745dd5a41ff9580f632d56867461286edcc76380e531f6762main.c",
+      "student_id": "12345",
+      "submission_id": "8310ce2153ed577745dd5a41ff9580f632d56867461286edcc76380e531f6762",
+      "submission_time": "2023-04-24 19:25:55.107252"
+    },
+    "-NTnYMZoStXXxo-qdhej": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreihtxlughybtwbvsehzot64ykoocck3cnvpya3uduthx2o7nzl3biq",
+      "code_url": "f0ed4f28fa24cdaa2c5c7e2486de3c2d8080ced761e074a76339c627c7526115main.c",
+      "student_id": "12345",
+      "submission_id": "f0ed4f28fa24cdaa2c5c7e2486de3c2d8080ced761e074a76339c627c7526115",
+      "submission_time": "2023-04-24 19:26:45.831525"
+    },
+    "-NTnYYOS2DgaPXoIx6ll": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "bafkreif3fb7y3jckzmt7vju3ad43bbw6erdnrdyrlu5eqh3liyfov2np34",
+      "code_url": "d2e72df658957667b37f5f113a43b9f894c5dd5e958031f8bf297a11f6389cc5main.c",
+      "student_id": "12345",
+      "submission_id": "d2e72df658957667b37f5f113a43b9f894c5dd5e958031f8bf297a11f6389cc5",
+      "submission_time": "2023-04-24 19:27:34.232064"
+    },
+    "-NTncqxOimHrDA__QQ6d": {
+      "assignment_id": "CS101_B1_2",
+      "cid": "bafkreidjilmas3d2x3vq76mqpfhqqvt5bjfivjitxktutwzndvr7zaekbi",
+      "code_url": "1d911970ae69db7e7665121973c4220bc38c2251870828b17c6be4b5208f7df9main.c",
+      "student_id": "12345",
+      "submission_id": "1d911970ae69db7e7665121973c4220bc38c2251870828b17c6be4b5208f7df9",
+      "submission_time": "2023-04-24 19:50:44.963510"
+    },
+    "-NTndBoBppbW8nUKzpjP": {
+      "assignment_id": "CS101_B1_2",
+      "cid": "bafkreifkor2373yy72uprjf3iqpg6tyyj4i7fk2qhzyl4dk7re4t7lui6i",
+      "code_url": "e830fd3474ec2b3386d73887c089cc4bd73f438593e364463f429b63b4266f04main.c",
+      "student_id": "12345",
+      "submission_id": "e830fd3474ec2b3386d73887c089cc4bd73f438593e364463f429b63b4266f04",
+      "submission_time": "2023-04-24 19:52:14.631812"
+    },
+    "-NTndnmCUMd8qbgtQgz9": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "04a7ceb1358e37cf04202ad413ee53fcc2c87aef07c27ce70f1a8e5b2dc38286main.c",
+      "student_id": "12345",
+      "submission_id": "04a7ceb1358e37cf04202ad413ee53fcc2c87aef07c27ce70f1a8e5b2dc38286",
+      "submission_time": "2023-04-24 19:54:54.252538"
+    },
+    "-NTne0e0EIZxiiU3DM8p": {
+      "assignment_id": "CS101_B1_1",
+      "cid": "",
+      "code_url": "54c0bd90449a79f9b3d30237d7813f648b15750aff632ad24707aaa8fa312127main.c",
+      "student_id": "12345",
+      "submission_id": "54c0bd90449a79f9b3d30237d7813f648b15750aff632ad24707aaa8fa312127",
+      "submission_time": "2023-04-24 19:55:51.064337"
+    },
+    "SUB001": {
+      "assignment_id": "CS101_B1_1",
+      "code_url": "https://github.com/user/repo/blob/main/assignment1.py",
+      "student_id": "STU001",
+      "submission_id": "SUB001",
+      "submission_time": "2023-05-09 20:15:00"
+    },
+    "SUB002": {
+      "assignment_id": "CS101_B1_1",
+      "code_url": "https://github.com/user/repo/blob/main/assignment1.cpp",
+      "student_id": "STU002",
+      "submission_id": "SUB002",
+      "submission_time": "2023-05-10 15:30:00"
+    },
+    "SUB003": {
+      "assignment_id": "CS101_B1_2",
+      "code_url": "https://github.com/user/repo/blob/main/assignment2.py",
+      "student_id": "STU001",
+      "submission_id": "SUB003",
+      "submission_time": "2023-05-15 18:45:00"
+    },
+    "SUB004": {
+      "assignment_id": "CS101_B1_2",
+      "code_url": "https://github.com/user/repo/blob/main/assignment2.cpp",
+      "student_id": "STU002",
+      "submission_id": "SUB004",
+      "submission_time": "2023-05-15 20:30:00"
+    }
+  },
+  "users": {
+    "user1@example_com": {
+      "college_name": "ABC College",
+      "email": "user1@example.com",
+      "name": "John Doe",
+      "student_id": "12345",
+      "user_type": "student"
+    },
+    "user2@example_com": {
+      "college_name": "ABC College",
+      "email": "user2@example.com",
+      "name": "Jane Smith",
+      "professor_id": "67890",
+      "user_type": "professor"
+    }
+  }
+}

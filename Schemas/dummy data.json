@@ -1,0 +1,195 @@
+{
+  "users": {
+    "user1@example_com": {
+      "email": "user1@example.com",
+      "user_type": "student",
+      "name": "John Doe",
+      "college_name": "ABC College",
+      "student_id": "12345"
+    },
+    "user2@example_com": {
+      "email": "user2@example.com",
+      "user_type": "professor",
+      "name": "Jane Smith",
+      "college_name": "ABC College",
+      "professor_id": "67890"
+    }
+  },
+  "students": {
+    "12345": {
+      "email": "user1@example.com",
+      "student_id": "12345",
+      "name": "John Doe",
+      "college_name": "ABC College",
+      "passing_year": 2022,
+      "batch_semester": "1st",
+      "field_of_study": "Computer Science",
+      "batch_id": "B1"
+    }
+  },
+  "professors": {
+    "67890": {
+      "professor_id": "67890",
+      "name": "Jane Smith",
+      "college_name": "ABC College"
+    }
+  },
+  "student_results": {
+    "result1": {
+      "result_id": "result1",
+      "student_id": "12345",
+      "professor_id": "67890",
+      "assignment_id": "assignment1",
+      "score": 90,
+      "plagiarism_report": ""
+    }
+  },
+  "subjects": {
+    "subject1": {
+      "subject_id": "subject1",
+      "professor_id": "67890",
+      "subject_name": "Database Systems",
+      "batch_id": "1st"
+    }
+  },
+  "batches": {
+    "batch1": {
+      "batch_id": "batch1",
+      "subject_id": "subject1",
+      "batch_name": "CS Batch",
+      "assignments": {
+        "assignment1": true,
+        "assignment2": true
+      }
+    }
+  },
+  "enrollment": {
+    "enrollment1": {
+      "enrollment_id": "enrollment1",
+      "subject_id": "subject1",
+      "student_id": "12345",
+      "batch_id": "batch1"
+    }
+  },
+  "assignments": {
+    "CS101_B1_1": {
+        "assignment_id": "CS101_B1_1",
+        "batch_id": "B1",
+        "description": "Write a program to find the factorial of a number",
+        "due_date": "2023-05-10",
+        "professor_id": "PROF001",
+        "subject_id": "CS101",
+        "test_cases": {
+            "test_case_1": {
+                "input": "5",
+                "output": "120"
+            },
+            "test_case_2": {
+                "input": "10",
+                "output": "3628800"
+            }
+        },
+        "title": "Factorial",
+        "match_type": "exact"
+    },
+    "CS101_B1_2": {
+        "assignment_id": "CS101_B1_2",
+        "batch_id": "B1",
+        "description": "Write a program to convert Celsius to Fahrenheit",
+        "due_date": "2023-05-15",
+        "professor_id": "PROF001",
+        "subject_id": "CS101",
+        "test_cases": {
+            "test_case_1": {
+                "input": "0",
+                "output": "32"
+            },
+            "test_case_2": {
+                "input": "100",
+                "output": "212"
+            }
+        },
+        "title": "Temperature",
+        "match_type": "fuzzy"
+    },
+    "CS101_B1_3": {
+        "assignment_id": "CS101_B1_3",
+        "batch_id": "B1",
+        "description": "Write a program to find the factorial of a number. Regex match is done.",
+        "due_date": "2023-05-10",
+        "professor_id": "PROF001",
+        "subject_id": "CS101",
+        "test_cases": {
+            "test_case_1": {
+                "input": "5",
+                "output": "120"
+            },
+            "test_case_2": {
+                "input": "10",
+                "output": "3628800"
+            }
+        },
+        "title": "Factorial",
+        "match_type": "exact"
+    }
+  },
+  "submissions": {
+    "SUB001": {
+        "assignment_id": "CS101_B1_1",
+        "code_url": "https://github.com/user/repo/blob/main/assignment1.py",
+        "student_id": "STU001",
+        "submission_id": "SUB001",
+        "submission_time": "2023-05-09 20:15:00"
+    },
+    "SUB002": {
+        "assignment_id": "CS101_B1_1",
+        "code_url": "https://github.com/user/repo/blob/main/assignment1.cpp",
+        "student_id": "STU002",
+        "submission_id": "SUB002",
+        "submission_time": "2023-05-10 15:30:00"
+    },
+    "SUB003": {
+        "assignment_id": "CS101_B1_2",
+        "code_url": "https://github.com/user/repo/blob/main/assignment2.py",
+        "student_id": "STU001",
+        "submission_id": "SUB003",
+        "submission_time": "2023-05-15 18:45:00"
+    },
+    "SUB004": {
+        "assignment_id": "CS101_B1_2",
+        "code_url": "https://github.com/user/repo/blob/main/assignment2.cpp",
+        "student_id": "STU002",
+        "submission_id": "SUB004",
+        "submission_time": "2023-05-15 20:30:00"
+    }
+  },
+
+  "plagcache": {
+    "dsaahdsgjhasdh": {
+      "assignment_id": "assignment_1",
+    "cache": {
+      "4a99d1f5-b6e5-43b9-b3f5-b04fb5bb5d5a": {
+        "student_id": "student_1",
+        "hash": "abcd1234"
+      },
+      "5e5d5dd5-5bd5-5f5d-bd5a-2bdff5f5d5c5": {
+        "student_id": "student_2",
+        "hash": "efgh5678"
+      }
+        }
+      },
+      "sadasdghasdgbj": {
+        "assignment_id":"assignment_2",
+        "cache": {
+          "7c5d2f2d-665d-45e9-9c9d-34b1a06d8f3c": {
+            "student_id": "student_1",
+            "hash": "ijkl9012"
+          },
+          "2c2d1d1d-5c5d-4e5c-a5f5-5d5c2d5f5c5e": {
+            "student_id": "student_3",
+            "hash": "mnop3456"
+          }
+        }
+      }
+  }
+}

@@ -2,7 +2,7 @@
 
 Drafted by "Him7n <knockknockletthedevilin777@proton.me>"
 
-To be approved by "Lab Rat <dev.frolics@gmail.com>"
+Approved by "Lab Rat <dev.frolics@gmail.com>"
 
 Thank you for considering contributing to our repository! We welcome contributions from the community to help improve our project. Before you start, please take a moment to read and understand these guidelines to ensure a smooth collaboration.
 

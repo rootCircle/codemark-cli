@@ -31,15 +31,13 @@ Before you start setting up Firebase and pushing dummy data, ensure you meet the
     - Go to the Firebase console: https://console.firebase.google.com/
     - Click on the **Add project** button.
     - Enter a name for your project and click on the **Continue** button.
-    - Select the Google Cloud Platform project to associate with your Firebase project, or create a new one.
-    - Select the location where you want to store your Firebase project data.
     - Click on the **Create project** button.
     - Once your project is created, click on the **Project settings** tab.
     - Click on the **Service accounts** tab.
     - Click on the **Generate new private key** button.
     - Click on the **Generate Key** button.
     - A file will be downloaded to your computer rename to `service-account-file.json`.
-    - Save the downloaded JSON file in the `firebase/res/` directory.
+    - Save the downloaded JSON file in the `./codemark/firebase/res/` directory.
 
 3. **Enable Firebase Authentication (with email and password):**
     - Go to the Firebase Console: Firebase Console.
@@ -64,51 +62,48 @@ These steps should help you enable Firebase Authentication with email and passwo
 
 ### API Keys
 
-#### OpenAI API Key
+1. **OpenAI API Key**
 
-- Go to the OpenAI platform: [platform.openai.com](https://platform.openai.com/)
-- Click on the Sign in button.
-- Sign in with your OpenAI account.
-- Click on the API Keys tab.
-- Click on the Create new API key button.
-- Copy the API key and save it in a safe place.
+    - Go to the OpenAI platform: [platform.openai.com](https://platform.openai.com/)
+    - Click on the Sign in button.
+    - Sign in with your OpenAI account.
+    - Click on the API Keys tab.
+    - Click on the Create new API key button.
+    - Copy the API key and save it in a safe place.
 
-#### Web3.Storage API Key
+2. **Web3.Storage API Key**
+    - Go to Web3 Storage: [web3.storage](https://web3.storage)
+    - Click on the Sign up button.
+    - Create a Web3 Storage account.
+    - Click on the API keys tab.
+    - Click on the Create new API key button.
+    - Copy the API key and save it in a safe place.
 
-- Go to Web3 Storage: [web3.storage](https://web3.storage)
-- Click on the Sign up button.
-- Create a Web3 Storage account.
-- Click on the API keys tab.
-- Click on the Create new API key button.
-- Copy the API key and save it in a safe place.
-
-## Additional Configuration
-
+### Additional Configuration
 Before initializing Firebase and pushing dummy data, perform the following additional configurations:
 
-#### Firebase Storage
+1. **Firebase Storage**
+    - Enable Firebase Storage: In the Firebase Console, navigate to your project and go to "Storage." Follow the prompts to enable Firebase Storage.
+    - Go to the Firebase console: https://console.firebase.google.com/
+    - Click on your project.
+    - Click on the **Storage** tab.
+    - Click on the **Get started** button.
+    - Follow the instructions to enable Firebase Storage.
 
-**Enable Firebase Storage**: In the Firebase Console, navigate to your project and go to "Storage." Follow the prompts to enable Firebase Storage.
-- Go to the Firebase console: https://console.firebase.google.com/
-- Click on your project.
-- Click on the **Storage** tab.
-- Click on the **Get started** button.
-- Follow the instructions to enable Firebase Storage.
 
+2. **Set up your secrets:**
+    - To get your firebase config:
+    - Go to Project Setting
+    - Click on General
+    - Scroll to bottom Section 
+    - Select Your Apps and Add new App in web 
+    - copy the key, values and place them selectively in firebaseConfig
 
-## Set up your secrets:
-**To get your firebase config:**
-- Go to Project Setting
-- Click on General
-- Scroll to bottom Section 
-- Select Your Apps and Add new App in web 
-- copy the key, values and place them selectively in firebaseConfig
+Note: your `databaseURL` value in `dbURL` and then reference it here!<br>
 
-Note: your `databaseURL` value in `dbURL` and then reference it here!
+To store sensitive information and configuration details, create a `secrets.py` file in the `./codemark` directory. Then, add the following code to the `secrets.py` file:
 
-- To store sensitive information and configuration details, create a `secrets.py` file in the `codemark-cli/codemark` directory. Then, add the following code to the `secrets.py` file:
-
-   ```python
+```python
 
    import os
 
@@ -131,39 +126,31 @@ Note: your `databaseURL` value in `dbURL` and then reference it here!
    # from web3.storage
    web3storage_api_key = 'zxjkkcljzxkc.eyJzdWIiOiJkaWQ'
 
-   ```
-   <b>Note:</b> You will need to replace the `api_key`, `web3storage_api_key` in your `secrets.py` file with your own `OPENAI_API_KEY`, and the `web3storage_api_key` value in the file.
+```
+<b>Note:</b> You will need to replace the `api_key`, `web3storage_api_key` in your `secrets.py` file with your own `OPENAI_API_KEY`, and the `web3storage_api_key` value in the file.
 
 
-### Import JSON Data Using the GUI
+## Import JSON Data Using the GUI
 
 If you prefer a graphical interface for importing data into Firebase, follow these steps to use the Firebase Console GUI:
 
-1. **Go to the Firebase Console**: Navigate to the [Firebase Console](https://console.firebase.google.com/).
-
-2. **Select Your Project**: Click on your Firebase project in the console. If you haven't created a project yet, follow the earlier instructions to create one.
-
-3. **Access Realtime Database**: In the Firebase Console, click on the **Realtime Database** tab on the left sidebar.
-
-4. **Import Data**: Click on the **Import JSON** button located at the top of the Realtime Database section.
-
-5. **Choose Your JSON File**: A file selection dialog will appear. Select the `Schemas/dummy_data.json` file from your project directory.
-
-6. **Start Import**: After selecting the file, click on the **Open** or **Import** button (the label may vary depending on your operating system).
-
-7. **Confirm Import**: Firebase will display a preview of the data to be imported. Verify that it matches your dummy data structure.
-
-8. **Initiate Import**: If everything looks correct, click on the **Import** button to start the data import process.
-
-9. **Monitor Progress**: Firebase will show the progress of the data import. Once completed, you will receive a confirmation message.
+- **Go to the Firebase Console**: Navigate to the [Firebase Console](https://console.firebase.google.com/).
+- **Select Your Project**: Click on your Firebase project in the console. If you haven't created a project yet, follow the earlier instructions to create one.
+- **Access Realtime Database**: In the Firebase Console, click on the **Realtime Database** tab on the left sidebar.
+- **Import Data**: Click on the **Import JSON** button located at the top of the Realtime Database section.
+- **Choose Your JSON File**: A file selection dialog will appear. Select the `../Schemas/dummy_data.json` file from your project directory.
+- **Start Import**: After selecting the file, click on the **Open** or **Import** button (the label may vary depending on your operating system).
+- **Confirm Import**: Firebase will display a preview of the data to be imported. Verify that it matches your dummy data structure.
+- **Initiate Import**: If everything looks correct, click on the **Import** button to start the data import process.
+- **Monitor Progress**: Firebase will show the progress of the data import. Once completed, you will receive a confirmation message.
 
 
 
 <details><summary>Optional: <b>Uploading through a Python script</b></summary>
 
-**If you prefer to upload data using a Python script, follow these steps:** creating a new Python file called `push_dummy_data.py` and adding the following code:
+**If you prefer to upload data using a Python script, follow these steps:** creating a new Python file called `dummy_data.py` and adding the following code:
 
-   ```python
+```python
 
    ### Optional: Uploading Data Through a Python Script
 
@@ -182,7 +169,7 @@ If you prefer a graphical interface for importing data into Firebase, follow the
    ref = db.reference("/")
 
    # Load the dummy data from the schema file
-   with open("schemas/dummy_data.json", "r") as file:
+   with open("../Schemas/dummy_data.json", "r") as file:
        dummy_data = json.load(file)
 
    # Push the dummy data to the Firebase Realtime Database
@@ -190,7 +177,7 @@ If you prefer a graphical interface for importing data into Firebase, follow the
 
    print("Dummy data has been pushed to the Firebase Realtime Database.")
 
-   ```
+```
    
 Run Script using
 
@@ -198,8 +185,7 @@ Run Script using
    python upload_dummy_data.py
 ```
 
-This code will push the dummy data in the `Schemas/users.json` file to the Firebase Realtime Database.
-
+This code will push the dummy data in the `dummy_data.json` file to the Firebase Realtime Database.
 
 </details>
 

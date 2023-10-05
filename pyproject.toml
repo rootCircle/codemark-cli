@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "codemark"
+description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests."
+version = "0.2.2"
+authors = ["Lab Rat <dev.frolics@gmail.com>"]
+maintainers = [
+    "Lab Rat <dev.frolics@gmail.com>",
+    "real-Vansh-Khare <kharevansh13@gmail.com>"
+]
+keywords = ["python", "cli", "firebase", "click"]
+license = "Apache-2.0"
+readme = "README.md"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Topic :: Education",
+  "Operating System :: Unix",
+  "Operating System :: Microsoft :: Windows",
+  "Natural Language :: English",
+  "License :: OSI Approved :: Apache Software License",
+  "Intended Audience :: Education",
+  "Intended Audience :: Developers",  
+]
+
+[project]
+description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+Pyrebase4 = "^4.7.1"
+firebase-admin = "^6.2.0"
+openai = "^0.28.1"
+keyring = "^24.2.0"
+appdirs = "^1.4.4"
+tabulate = "^0.9.0"
+fuzzywuzzy = "^0.18.0"
+python-Levenshtein = "^0.22.0"
+psutil = "^5.9.5"
+requests = "^2.19.1"
+requests-toolbelt = "0.10.1"
+trogon = "^0.5.0"
+termcolor = "^2.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+codemark = "codemark.scripts.cm_cli:cli"
+cmk = "codemark.scripts.cm_cli:cli"
+
+
+
+[package.metadata.package_data]
+codemark = ["firebase/res/service-account-file.json"]
+
+[project.urls]
+Homepage = "https://github.com/rootCircle/codemark-cli"
+Documentation = "https://github.com/rootCircle/codemark-cli#readme"

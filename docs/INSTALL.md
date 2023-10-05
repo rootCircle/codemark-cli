@@ -1,22 +1,22 @@
-<div style="display: flex; align-items: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Logo" width="100">
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Logo" width="100" align="left" >
   <h1 style="margin-left: 10px;">Install Python</h1>
-</div>
+
 
 
 
 
 A Quick Guide for Installing Python on Common Operating Systems
 
-1. [Install on Windows](#windows-)
-2. [Install on MacOS](#macos-)
-3. [Install on Linux](#linux-)
+<br>
 
-<div style="display: flex; align-items: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/132px-Windows_logo_-_2012.svg.png" alt="Windows Logo" width="50">
-  <h2 style="margin-left: 10px;">Windows</h2>
-</div>
+1. [Install on Windows](#windows)
+2. [Install on MacOS](#macos)
+3. [Install on Linux](#linux)
 
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/132px-Windows_logo_-_2012.svg.png" alt="Windows Logo" width="50" align="left">
+  <h2 style="margin-left: 20px;"> Windows</h2>
 
 1. If you have not yet installed Python on your Windows OS, then download and install the latest Python3 installer from [Python Downloads Page](https://www.python.org/downloads/)
    - Make sure to check the box during installation which adds Python to PATH. Labeled something like *Add Python 3.X to PATH*
@@ -43,6 +43,11 @@ A Quick Guide for Installing Python on Common Operating Systems
      ```
 
      - If the path is already in your PATH, no further action is needed. You can use `python` and `pip` without modification.
+     - **Separate Paths for Different Versions**:
+     - Note that you might have separate paths for different Python versions. Check for the paths     associated with your specific Python version.
+
+     - **Methods of Installation**:
+     - Depending on the method of Python installation, the PATH entry may differ. Ensure that you add the correct path associated with your Python installation method.
 
    - **Add to PATH (if not present)**:
 
@@ -76,8 +81,8 @@ A Quick Guide for Installing Python on Common Operating Systems
 
 
 <div style="display: flex; align-items: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Finder_Icon_macOS_Big_Sur.png/900px-Finder_Icon_macOS_Big_Sur.png?20200704175319" alt="Finder Icon macOS Big Sur" width="50">
-  <h2 style="margin-left: 10px;">Mac OS</h2>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Finder_Icon_macOS_Big_Sur.png/900px-Finder_Icon_macOS_Big_Sur.png?20200704175319" alt="Finder Icon macOS Big Sur" width="50" align="left">
+  <h2 style="margin-left: 10px;" id="macos" >Mac OS</h2>
 </div>
 
 
@@ -95,26 +100,33 @@ MacOS comes with a native version of Python. As of this writing, it comes with a
 
 ### Option 2: Install with Homebrew
 [Homebrew](https://brew.sh/) is a MacOS Linux-like package manager. Walk through the below steps to install Homebrew and an updated Python interpreter along with it.
-1. Open your *Terminal* application and run: xcode-select --install. This will open a window. Click *'Get Xcode'* and install it from the app store.
-2. Install Homebrew. Run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+1. Open your *Terminal* application and run: 
+```bash 
+ xcode-select --install 
+``` 
+This will open a window. Click *'Get Xcode'* and install it from the app store.
+2. Install Homebrew. Run:
+```bash
+ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
+ ```
    - You can also find this command on the [Homebrew website](https://brew.sh/)
-3. Install latest Python3 with brew install python
-4. Once Python is installed, you should be able to open your *Terminal* application, type python3, hit ENTER, and see a Python 3.X.X prompt opened. Type quit() to exit it. You should also be able to run the command pip3 and see its options. If both of these work, then you are ready to go
+3. Install latest Python3 with `brew install python`
+4. Once Python is installed, you should be able to open your *Terminal* application, type `python3`, hit ENTER, and see a Python 3.X.X prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip3` and see its options. If both of these work, then you are ready to go
    - Here are some additional resources on [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 
 <div style="display: flex; align-items: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" alt="Tux Linux Mascot" width="50">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" alt="Tux Linux Mascot"  align="left" width="50">
   <h2 style="margin-left: 10px;">Linux</h2>
 </div>
 
 - *Raspberry Pi OS* may need Python and PIP
-  - Install them: sudo apt install -y python3-pip
+  - Install them: `sudo apt install -y python3-pip`
 - *Debian (Ubuntu)* distributions may need Python and PIP
-  - Update the list of available APT repos with sudo apt update
-  - Install Python and PIP: sudo apt install -y python3-pip
+  - Update the list of available APT repos with `sudo apt update`
+  - Install Python and PIP: `sudo apt install -y python3-pip`
 - *RHEL (CentOS)* distributions usually need PIP
-  - Install the EPEL package: sudo yum install -y epel-release
-  - Install PIP: sudo yum install -y python3-pip    
+  - Install the EPEL package: `sudo yum install -y epel-release`
+  - Install PIP: sudo yum install `-y python3-pip`    
 - *Fedora* distributions may need Python and PIP
   - Install Python and PIP: `sudo dnf install -y python3 python3-pip`
 - *Arch Linux* may need Python and PIP
@@ -123,8 +135,8 @@ MacOS comes with a native version of Python. As of this writing, it comes with a
 
 
 <div style="display: flex; align-items: center;">
-  <img src="https://raw.githubusercontent.com/rootCircle/codemark-cli/main/logo.png" alt="Codemark CLI Logo" width="100">
-  <h1 style="margin-left: 10px;">Install Codemark CLI</h1>
+  <img src="https://raw.githubusercontent.com/rootCircle/codemark-cli/main/logo.png" alt="Codemark CLI Logo" width="100" align="left">
+  <h1 style="margin-left: 10px;" id="linux" >Install Codemark CLI</h1>
 </div>
 
 
@@ -139,21 +151,24 @@ To install and use CodeMark CLI, follow these steps:
     ```
 
 2. Install CodeMark CLI by running the following commands:
+
     ```bash
-     cd codemark-cli
-     pip3 install poetry # use pip if pip3 is not available
-     poetry install # python3 -m poetry install
-     pip3 install --editable .
+    cd codemark-cli
+    pip3 install poetry # use pip if pip3 is not available
+    poetry install # python3 -m poetry install
+    pip3 install --editable .
     ```
-     Note: If pip3 is not installed on your system, use pip instead. If you encounter permission issues in `pip3 install --editable .`, add the --user flag at the end of the command. 
 
-     Make sure Python's Script library is in System PATH
+    - **Note:** If pip3 is not installed on your system, use pip instead.
+    - **Note:** If you encounter permission issues in `pip3 install --editable .`, add the --user flag at the end of the command.
 
-     Use this to setup: [https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7](https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7) or [https://realpython.com/add-python-to-path/](https://realpython.com/add-python-to-path/)
+    - **Note:** Make sure Python's Script library is in System PATH.
+    - **Use this to set up:** [https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7](https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7) or [https://realpython.com/add-python-to-path/](https://realpython.com/add-python-to-path)
 
-     Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: [https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails](https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails)
+    - **Note:** If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: [https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails](https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails)
 
-     Issues with requests-toolbelt: In some PCs running the latest bleeding edge version of Python may have some issues with pip installation. To fix it type pip3 install requests-toolbelt==0.10.1 in your terminal.
+    - **Note:** Issues with requests-toolbelt: In some PCs running the latest bleeding edge version of Python may have some issues with pip installation. To fix it, type `pip3 install requests-toolbelt==0.10.1` in your terminal.
+
 
 3. Verify that CodeMark CLI is installed correctly by running the following command:
     
@@ -164,7 +179,7 @@ To install and use CodeMark CLI, follow these steps:
 
      If you encounter any issues, feel free to raise a issue request.
 
-     *Note:* CodeMark CLI might not work if our Firebase has not been set up yet. for setting it up, religously follow the instructions at [this page](README.md).
+     *Note:* CodeMark CLI might not work if our Firebase has not been set up yet. for setting it up, religously follow the instructions at [this page](docs/FIREBASE_SETUP).
 
 # Running the Code Live
 
@@ -176,4 +191,4 @@ To run CodeMark CLI live, you can follow these steps:
    poetry run codemark
    ```
    
-   If you encounter any issues, please note that CodeMark might not work because our Firebase has not been set up yet. For setting it up, please follow the instructions at [this page](README.md).
+   If you encounter any issues, please note that CodeMark might not work because our Firebase has not been set up yet. For setting it up, please follow the instructions at [this page](docs/FIREBASE_SETUP).

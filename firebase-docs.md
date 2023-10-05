@@ -28,18 +28,39 @@ Before you start setting up Firebase and pushing dummy data, ensure you meet the
 1. **Google Account**: You need a Google account to create and manage Firebase projects.
 2. **Get your Firebase on.** This means creating a Firebase account and downloading the JSON key file.
 
-- Go to the Firebase console: https://console.firebase.google.com/
-- Click on the **Add project** button.
-- Enter a name for your project and click on the **Continue** button.
-- Select the Google Cloud Platform project to associate with your Firebase project, or create a new one.
-- Select the location where you want to store your Firebase project data.
-- Click on the **Create project** button.
-- Once your project is created, click on the **Project settings** tab.
-- Click on the **Service accounts** tab.
-- Click on the **Generate new private key** button.
-- Click on the **Generate Key** button.
-- A file named `service-account-file.json` will be downloaded to your computer.
-- Save the downloaded JSON file in the `firebase/res/` directory.
+    - Go to the Firebase console: https://console.firebase.google.com/
+    - Click on the **Add project** button.
+    - Enter a name for your project and click on the **Continue** button.
+    - Select the Google Cloud Platform project to associate with your Firebase project, or create a new one.
+    - Select the location where you want to store your Firebase project data.
+    - Click on the **Create project** button.
+    - Once your project is created, click on the **Project settings** tab.
+    - Click on the **Service accounts** tab.
+    - Click on the **Generate new private key** button.
+    - Click on the **Generate Key** button.
+    - A file will be downloaded to your computer rename to `service-account-file.json`.
+    - Save the downloaded JSON file in the `firebase/res/` directory.
+
+3. **Enable Firebase Authentication (with email and password):**
+    - Go to the Firebase Console: Firebase Console.
+    - Select your Firebase project.
+    - In the left sidebar, click on "Authentication."
+    - In the "Authentication" section, click on the "Sign-in method" tab.
+    - Find the "Email/Password" sign-in method and click the "Edit" button (pencil icon).
+    - Enable the "Email/Password" sign-in method by toggling the switch to the "Enabled" position.
+    - Click the "Save" button to save your changes.
+
+4. **Enable Firebase Realtime Database:**
+    - In the Firebase Console, select your Firebase project.
+    - In the left sidebar, click on "Realtime Database."
+    - Click the "Create Database" button.
+    - Choose the "Start in test mode" option for now. You can adjust the security rules later as needed for your application.
+    - Click the "Next" button.
+    - Choose a location for your database and click the "Done" button.
+    - Your Realtime Database is now created and accessible from the Firebase Console.
+
+These steps should help you enable Firebase Authentication with email and password and set up the Realtime Database for your Firebase project.
+
 
 ### API Keys
 
@@ -74,8 +95,18 @@ Before initializing Firebase and pushing dummy data, perform the following addit
 - Click on the **Get started** button.
 - Follow the instructions to enable Firebase Storage.
 
+
 ## Set up your secrets:
-- This involves creating a new Python file called `secrets.py` and adding the following code:
+**To get your firebase config:**
+- Go to Project Setting
+- Click on General
+- Scroll to bottom Section 
+- Select Your Apps and Add new App in web 
+- copy the key, values and place them selectively in firebaseConfig
+
+Note: your `databaseURL` value in `dbURL` and then reference it here!
+
+- To store sensitive information and configuration details, create a `secrets.py` file in the `codemark-cli/codemark` directory. Then, add the following code to the `secrets.py` file:
 
    ```python
 
@@ -101,7 +132,7 @@ Before initializing Firebase and pushing dummy data, perform the following addit
    web3storage_api_key = 'zxjkkcljzxkc.eyJzdWIiOiJkaWQ'
 
    ```
-   <b>note:</b> You will need to replace the `api_key` and `web3storage_api_key` values with your own API keys.
+   <b>Note:</b> You will need to replace the `api_key`, `web3storage_api_key` in your `secrets.py` file with your own `OPENAI_API_KEY`, and the `web3storage_api_key` value in the file.
 
 
 ### Import JSON Data Using the GUI

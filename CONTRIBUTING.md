@@ -1,37 +1,150 @@
-# CONTRIBUTING
-@TODO
+# Contributing Guidelines
 
-## Installation instructions
+Drafted by "Him7n <knockknockletthedevilin777@proton.me>"
 
-To install and use CodeMark CLI, follow these steps:
+To be approved by "Lab Rat <dev.frolics@gmail.com>"
 
-1. Clone the CodeMark CLI repository by running the following command:
- `git clone https://github.com/rootCircle/codemark-cli.git`
+Thank you for considering contributing to our repository! We welcome contributions from the community to help improve our project. Before you start, please take a moment to read and understand these guidelines to ensure a smooth collaboration.
 
-2. Install CodeMark CLI by running the following commands:
+## Table of Contents
+1. [Code of Conduct](#code-of-conduct)
+2. [How Can I Contribute?](#how-can-i-contribute)
+    - [Reporting Bugs](#reporting-bugs)
+    - [Suggesting Enhancements](#suggesting-enhancements)
+    - [Code Contributions](#code-contributions)
+3. [Getting Started](#getting-started)
+    - [Setting Up the Development Environment](#setting-up-the-development-environment)
+    - [Forking the Repository](#forking-the-repository)
+    - [Creating a Branch](#creating-a-branch)
+    - [Making Changes](#making-changes)
+4. [Submitting a Pull Request](#submitting-a-pull-request)
+5. [Code Review](#code-review)
+6. [License](#license)
 
-     `cd codemark-cli`
+## Code of Conduct
 
-     `pip3 install poetry`
+Please review and adhere to our [Code of Conduct](CODE_OF_CONDUCT.md) to maintain a friendly and inclusive environment for all contributors and users.
 
-     `poetry install`
+## How Can I Contribute?
 
-     `pip3 install --editable .`
+There are several ways to contribute to our project:
 
-     Note: If pip3 is not installed on your system, use pip instead. If you encounter permission issues, add the `--user` flag at the end of the command. 
+### Reporting Bugs
 
-     Make sure Python's Script library is in System PATH
+If you encounter a bug or unexpected behavior, please [create a new issue](https://github.com/rootCircle/codemark-cli/issues/new) in our issue tracker. Provide a detailed description, including steps to reproduce the issue and any relevant error messages.
 
-     Use this to setup: https://gist.github.com/martinohanlon/c0abb7281cb9020e75053fba7011daf7 or https://realpython.com/add-python-to-path/
+### Suggesting Enhancements
 
-     Note: If you are a Windows user and encounter issues installing pyrebase, refer to this Stack Overflow post: https://stackoverflow.com/questions/53461316/pyrebase-install-on-windows-python-3-7-fails
+If you have an idea for an enhancement or new feature, you can open a new issue in the issue tracker to discuss it. Please include a clear and concise description of your suggestion.
 
-  Issues with requests-toolbelt: In some PCs running latest bleeding edge version of Python may have some issues with pip installation. To fix it type `pip3 install requests-toolbelt==0.10.1` in your terminal.
+### Code Contributions
 
-3. Verify that CodeMark CLI is installed correctly by running the following command:
-     `poetry run codemark --help`
+If you want to contribute code to the project, follow the steps outlined below:
 
-     `codemark --help`
+## Getting Started
 
-     If you encounter any issues, feel free to raise a pull request.
+### Setting Up the Development Environment
 
+Follow instructions in [INSTALL](docs/INSTALL.md) to smoothly set up your environment and get going. If you need any additional help, then please ask it out by creating a new issue.
+
+### Forking the Repository
+
+If you haven't already, fork our repository on GitHub by clicking the "Fork" button on the top right of the repository page. This creates a copy of the repository under your GitHub account.
+
+### Creating a Branch
+
+Before making changes, create a new branch to work in. Choose a descriptive name for your branch related to the issue or feature you're working on:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### Making Changes
+
+Now you can make changes to the code. Ensure you follow the project's coding standards and guidelines. Commit your changes with clear and concise commit messages:
+
+```bash
+git add .
+git commit -m "feat: Add your descriptive commit message here"
+```
+
+### Commits
+
+It is a recommended best practice to keep your changes as logically grouped as
+possible within individual commits.
+There is no limit to the number of commits any single Pull Request may have, and
+many contributors find it easier to review changes that are split across
+multiple commits.
+
+Please adhere to the general guideline that you should never force push to a
+publicly shared branch.
+Once you have opened your pull request, you should consider your branch publicly shared.
+Instead of force pushing you can just add incremental commits;
+this is generally easier on your reviewers.
+If you need to pick up changes from main, you can merge main into your branch.
+
+A reviewer might ask you to rebase a long-running pull request
+in which case force pushing is okay for that request.
+
+Note that squashing at the end of the review process should also not be done,
+that can be done when the pull request is integrated via GitHub.
+
+
+#### Commit message guidelines
+
+```text
+<type>: <short summary>
+│             │
+│             └── Summary in present tense.
+|                 Not capitalized.
+|                 No period at the end.
+│         
+│         
+└── Commit Type: build | chore | ci | docs | feat | fix | perf | refactor | test
+```
+
+`<type>` must be one of the following:
+
+- `build`: Changes that affect the build system or external dependencies
+  (example scopes: `deps`, `dev-deps`, `metadata`)
+- `chore`: Changes such as fixing formatting or addressing warnings or lints, or
+  other maintenance changes
+- `ci`: Changes to our CI configuration files and scripts (examples: `workflows`,
+  `dependabot`, `renovate`)
+- `docs`: Documentation only changes
+- `feat`: A new feature
+- `fix`: A bug fix
+- `perf`: A code change that improves performance
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `test`: Adding missing tests or correcting existing tests
+
+Use the `<summary>` field to provide a succinct description of the change:
+
+- Use the imperative, present tense: "change" not "changed" nor "changes".
+- Don't capitalize the first letter.
+- No period (.) at the end.
+
+
+### Documentation
+
+If you make changes that affect the project's documentation, please update the documentation accordingly in the `/docs` directory.
+
+## Submitting a Pull Request
+
+When you're ready to submit your changes, push your branch to your forked repository on GitHub:
+
+```bash
+git push origin feature/your-feature-name
+```
+
+Then, open a Pull Request (PR) on the main repository. Be sure to provide a clear title and description of your changes.
+
+## Code Review
+
+Your PR will be reviewed by our maintainers, who may provide feedback or request further changes. Be responsive to their comments and update your branch as needed.
+
+Once your changes are approved, they will be merged into the main branch, and your contribution will become part of the project!
+
+## License
+
+By contributing to this project, you agree that your contributions will be licensed under the [Apache-2.0](LICENSE.md).

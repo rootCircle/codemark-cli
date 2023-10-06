@@ -62,7 +62,7 @@ These steps should help you enable Firebase Authentication with email and passwo
 
 ### API Keys
 
-1. **OpenAI API Key**
+1. #### OpenAI API Key
 
     - Go to the OpenAI platform: [platform.openai.com](https://platform.openai.com/)
     - Click on the Sign in button.
@@ -71,7 +71,7 @@ These steps should help you enable Firebase Authentication with email and passwo
     - Click on the Create new API key button.
     - Copy the API key and save it in a safe place.
 
-2. **Web3.Storage API Key**
+2. #### Web3.Storage API Key
     - Go to Web3 Storage: [web3.storage](https://web3.storage)
     - Click on the Sign up button.
     - Create a Web3 Storage account.
@@ -82,7 +82,7 @@ These steps should help you enable Firebase Authentication with email and passwo
 ### Additional Configuration
 Before initializing Firebase and pushing dummy data, perform the following additional configurations:
 
-1. **Firebase Storage**
+1. #### Firebase Storage
     - Enable Firebase Storage: In the Firebase Console, navigate to your project and go to "Storage." Follow the prompts to enable Firebase Storage.
     - Go to the Firebase console: https://console.firebase.google.com/
     - Click on your project.
@@ -91,7 +91,7 @@ Before initializing Firebase and pushing dummy data, perform the following addit
     - Follow the instructions to enable Firebase Storage.
 
 
-2. **Set up your secrets:**
+2. #### Set up your secrets:
     - To get your firebase config:
     - Go to Project Setting
     - Click on General

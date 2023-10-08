@@ -57,8 +57,9 @@ Before you start setting up Firebase and pushing dummy data, ensure you meet the
     - Choose a location for your database and click the "Done" button.
     - Your Realtime Database is now created and accessible from the Firebase Console.
     - Go to the Rules Section, and put the below data and publish
-        ```json
-        {
+  
+```json
+{
   "rules": {
     "assignments" :{
       ".indexOn":["batch_id", "assignment_id"],
@@ -76,11 +77,12 @@ Before you start setting up Firebase and pushing dummy data, ensure you meet the
       ".indexOn" : ["assignment_id"],
     },
   
-    ".read": "false",  // 2023-5-22
-    ".write": "false",  // 2023-5-22
+    ".read": "true",  // Testing, change it later
+    ".write": "true",  // Testing, Change it later
   }
 }
-        ```
+```
+
 These steps should help you enable Firebase Authentication with email and password and set up the Realtime Database for your Firebase project.
 
 

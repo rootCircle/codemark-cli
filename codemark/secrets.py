@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 load_dotenv()
 dir_path = os.path.dirname(os.path.realpath(__file__))
 SERVICEACCOUNTFILE = os.path.join(dir_path,"firebase", "res", "service-account-file.json")
-api_key= os.getenv("API_KEY")# OPENAI KEY
+api_key= os.getenv("OPENAPI_KEY")# OPENAI KEY
 dbURL = os.getenv("DBURL")
 firebaseConfig = {
-    "apiKey":os.getenv("FBAPIKEY") ,
+    "apiKey":os.getenv("FIREBASEAPIKEY") ,
     "authDomain":os.getenv("AUTHDOMAIN"),
     'databaseURL': dbURL,
     "projectId": os.getenv("PROJECTID"),

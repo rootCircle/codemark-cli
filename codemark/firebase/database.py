@@ -81,6 +81,29 @@ class FirebaseDB:
         except Exception as e:
             print_error(e)
 
+    def register(self, email, password):
+        '''
+        Registers a user to the firebase realtime database 
+        :param email: Email
+        :param password: Password
+        '''
+        try:
+            user = pauth.create_user_with_email_and_password(email, password)
+            return user
+        except requests.exceptions.ConnectionError:
+            # Handle the "Network is unreachable" error
+            print_error("Network is unreachable.")
+        except requests.exceptions.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            if error == "INVALID_PASSWORD":
+                print_warning("Invalid credentials! Enter correct Password!")
+            elif error == "EMAIL_NOT_FOUND":
+                print_warning("User not registered! There is no user registered with this Email-Id.")
+            else:
+                print_error("Some Error Occured while Logging-in\nPlease Retry!\n" + str(error))
+            print_error(error)
+
     def login(self, email, password):
         """
         Provides SESSION details and service for authentication.

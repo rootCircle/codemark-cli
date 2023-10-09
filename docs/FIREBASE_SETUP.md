@@ -125,36 +125,17 @@ Before initializing Firebase and pushing dummy data, perform the following addit
     - Select Your Apps and Add new App in web 
     - copy the key, values and place them selectively in firebaseConfig
 
-Note: your `databaseURL` value in `dbURL` and then reference it here!<br>
-
-To store sensitive information and configuration details, create a `secrets.py` file in the `./codemark` directory. Then, add the following code to the `secrets.py` file:
-
-```python
-
-   import os
-
-   dir_path = os.path.dirname(os.path.realpath(__file__))
-   SERVICEACCOUNTFILE = os.path.join(dir_path, "firebase", "res", "service-account-file.json")
-   api_key = "sk-asjkdsakdasasdklldas"  # OPENAI KEY
-   dbURL = "https://codemark-jdxknzklndkasnkldjkasljd.firebasedatabase.app/"
-   firebaseConfig = {
-      "apiKey": "jfdskjlksdflskfkslfk-QEhUe_bI",
-      "authDomain": "codemark-hfksjdfksdf.firebaseapp.com",
-      'databaseURL': dbURL,
-      "projectId": "codemark-6f33a",
-      "storageBucket": "codemark-sdjfkjkflsd.appspot.com",
-      "messagingSenderId": "jfdskfjdsk",
-      "appId": "1:lkjsdfjsdjfklsj:web:hsdfkjkdlsjfklsdj",
-      "serviceAccount": SERVICEACCOUNTFILE
-   }
-   STORAGE_BUCKET_URL = 'codemark-jkhsdkfjskdfjlksdjf.appspot.com'
-
-   # from web3.storage
-   web3storage_api_key = 'zxjkkcljzxkc.eyJzdWIiOiJkaWQ'
-
-```
-<b>Note:</b> You will need to replace the `api_key`, `web3storage_api_key` in your `secrets.py` file with your own `OPENAI_API_KEY`, and the `web3storage_api_key` value in the file.
-
+| Name of env variable | Type | Description | Source |
+| -------------------- | ---- | ----------- | ------ | 
+| OPENAI_API_KEY | string | OpenAI Api Key | platform.openai.com |
+| FIREBASE_DATABASE_URL | string | databaseUrl of firebaseConfig | console.firebase.google.com |
+| FIREBASE_API_KEY | string | apiKey of firebaseConfig | console.firebase.google.com | 
+| FIREBASE_AUTH_DOMAIN | string | authDomain of firebaseConfig | console.firebase.google.com |
+| FIREBASE_PROJECT_ID | string | projectID of firebaseConfig | console.firebase.google.com | 
+| FIREBASE_MESSAGEING_SENDER_ID | string | messagingSenderId of firebaseConfig | console.firebase.google.com |
+| FIREBASE_APP_ID | string | appId of firebaseConfig | console.firebase.google.com |
+| FIREBASE_STORAGE_BUCKET_URL | string | storageBucket of firebaseConfig | console.firebase.google.com |
+| WEB3_STORAGE_API_KEY | string | Web3 Storage API Key | web3.storage |
 
 ## Import JSON Data Using the GUI
 

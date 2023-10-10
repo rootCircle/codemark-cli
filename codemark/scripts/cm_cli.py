@@ -84,7 +84,7 @@ def logout():
 
 @click.command()
 def signup():
-    '''Signs out the user'''
+    """Signs up the user"""
     codemark.signup.signup()
 
 cli.add_command(init)

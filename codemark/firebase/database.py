@@ -81,14 +81,22 @@ class FirebaseDB:
         except Exception as e:
             print_error(e)
 
-    def register(self, email, password):
-        '''
+    def register(self, email, password, user_type, user_config, user_type_config):
+        """
         Registers a user to the firebase realtime database 
         :param email: Email
         :param password: Password
-        '''
+        :param user_type: Whether the user is a 'student' or a 'professor'
+        :param user_config: Dictionary containing the details of the user
+            Keys: 'email', 'user_type', 'name', 'college', 'student_id'
+        :param user_type_config: Dictionary containing the details specific to a user_type
+            Keys (student): 'batch_id', 'batch_semester', 'college_name', 'email', 'field_of_study', 'name', 'passing_year', 'student_id'
+            Keys (professor): 'college_name', 'name', 'professor_id'
+        """
         try:
             user = pauth.create_user_with_email_and_password(email, password)
+            res = self.pushData('users', user_config)
+            res = self.pushData(user_type, user_type_config)
             return user
         except requests.exceptions.ConnectionError:
             # Handle the "Network is unreachable" error
@@ -96,13 +104,11 @@ class FirebaseDB:
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
-            if error == "INVALID_PASSWORD":
-                print_warning("Invalid credentials! Enter correct Password!")
-            elif error == "EMAIL_NOT_FOUND":
-                print_warning("User not registered! There is no user registered with this Email-Id.")
+            if str(error).find('EMAIL_EXISTS'):
+                print_error('Sorry this email already exists!')
             else:
-                print_error("Some Error Occured while Logging-in\nPlease Retry!\n" + str(error))
-            print_error(error)
+                print_error("Some Error Occured while Logging-in\nPlease Retry!\n")
+                print_error(error)
 
     def login(self, email, password):
         """

@@ -25,13 +25,10 @@ import requests.exceptions
 import re
 import firebase_admin as firebaseadmin
 from google.auth.exceptions import TransportError
-from firebase_admin import db, storage
+from firebase_admin import db, storage, auth
 from firebase_admin import exceptions as fireexception
 import codemark.secrets
 from codemark.utils import print_error, print_warning
-
-
-
 
 """
 Firebase Credentials
@@ -93,23 +90,25 @@ class FirebaseDB:
             Keys (student): 'batch_id', 'batch_semester', 'college_name', 'email', 'field_of_study', 'name', 'passing_year', 'student_id'
             Keys (professor): 'college_name', 'name', 'professor_id'
         """
-        try:
-            user = pauth.create_user_with_email_and_password(email, password)
-            res = self.pushData('users', user_config)
-            res = self.pushData(user_type, user_type_config)
-            return user
-        except requests.exceptions.ConnectionError:
-            # Handle the "Network is unreachable" error
-            print_error("Network is unreachable.")
-        except requests.exceptions.HTTPError as e:
-            error_json = e.args[1]
-            error = json.loads(error_json)['error']['message']
-            if str(error).find('EMAIL_EXISTS'):
-                print_error('Sorry this email already exists!')
-            else:
-                print_error("Some Error Occured while Logging-in\nPlease Retry!\n")
-                print_error(error)
-
+        if self.connect():
+            try:
+                user = auth.create_user(email=email, password=password, display_name=user_config['name'])
+                res = self.pushData('users', 'user_config')
+                res = self.pushData(user_type, user_type_config)
+                return user
+            except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
+                e = str(e)
+                if e.find('EMAIL_EXISTS') != -1:
+                    print_error('Account with this email already created.\nTry Another Email Address')
+                elif e.find("Invalid password") != -1:
+                    print_error("Weak Password", "Password must be of atleast 6 characters.")
+                elif e.find("Malformed email address") != -1:
+                    print_error("Invalid Email Address", "Email Address must be of Valid format!")
+                else:
+                    print_error("Error", e)
+        else:
+            print_error('Failed to Connect to Server\nNo Internet Connection or Server Unreachable')
+        
     def login(self, email, password):
         """
         Provides SESSION details and service for authentication.

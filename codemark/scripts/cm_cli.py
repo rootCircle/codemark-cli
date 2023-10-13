@@ -8,6 +8,7 @@ import codemark.check
 import codemark.logout
 import codemark.submit
 import codemark.result
+import codemark.signup
 from trogon import tui
 
 @tui()
@@ -81,6 +82,11 @@ def logout():
     """Logout the user"""
     codemark.logout.logout()
 
+@click.command()
+def signup():
+    """Signs up the user"""
+    codemark.signup.signup()
+
 cli.add_command(init)
 cli.add_command(list)
 cli.add_command(get)
@@ -90,3 +96,4 @@ cli.add_command(submit)
 cli.add_command(review)
 cli.add_command(doctor)
 cli.add_command(logout)
+cli.add_command(signup)

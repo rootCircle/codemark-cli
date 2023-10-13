@@ -95,7 +95,7 @@ def print_warning(message, prefix = True):
 
 def print_error(message, prefix = True):
     if prefix:
-        message = "[ERROR] " + message
+        message = "[ERROR] " + str(message)
     print(colored(message, "red", attrs=["bold"]))
 
 def print_message(message):

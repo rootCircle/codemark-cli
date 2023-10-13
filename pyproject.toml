@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "codemark"
+# description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
 description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests."
 version = "0.2.2"
 authors = ["Lab Rat <dev.frolics@gmail.com>"]
@@ -21,9 +22,8 @@ classifiers = [
   "Intended Audience :: Education",
   "Intended Audience :: Developers",  
 ]
-
-[project]
-description = "CodeMark CLI is a command-line interface that helps you manage your coding assignments and tests.\nWith this tool, you can easily initialize the configuration, list assignments, fetch and check your code, submit your code for grading, and get AI-powered error recommendations."
+repository = "https://github.com/rootCircle/codemark-cli"
+documentation = "https://github.com/rootCircle/codemark-cli#readme"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -53,11 +53,6 @@ build-backend = "poetry.core.masonry.api"
 codemark = "codemark.scripts.cm_cli:cli"
 cmk = "codemark.scripts.cm_cli:cli"
 
+# [package.metadata.package_data]
+# codemark = ["firebase/res/service-account-file.json"]
 
-
-[package.metadata.package_data]
-codemark = ["firebase/res/service-account-file.json"]
-
-[project.urls]
-Homepage = "https://github.com/rootCircle/codemark-cli"
-Documentation = "https://github.com/rootCircle/codemark-cli#readme"

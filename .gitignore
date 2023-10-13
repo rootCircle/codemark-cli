@@ -161,6 +161,9 @@ cython_debug/
 
 
 # secrets
-secrets.py
+
 service-account-file.json
 firebase/res
+
+#env
+.env/

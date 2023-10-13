@@ -90,24 +90,27 @@ class FirebaseDB:
             Keys (student): 'batch_id', 'batch_semester', 'college_name', 'email', 'field_of_study', 'name', 'passing_year', 'student_id'
             Keys (professor): 'college_name', 'name', 'professor_id'
         """
-        if self.connect():
-            try:
-                user = auth.create_user(email=email, password=password, display_name=user_config['name'])
-                res = self.pushData('users', 'user_config')
-                res = self.pushData(user_type, user_type_config)
-                return user
-            except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
-                e = str(e)
-                if e.find('EMAIL_EXISTS') != -1:
-                    print_error('Account with this email already created.\nTry Another Email Address')
-                elif e.find("Invalid password") != -1:
-                    print_error("Weak Password", "Password must be of atleast 6 characters.")
-                elif e.find("Malformed email address") != -1:
-                    print_error("Invalid Email Address", "Email Address must be of Valid format!")
-                else:
-                    print_error("Error", e)
-        else:
-            print_error('Failed to Connect to Server\nNo Internet Connection or Server Unreachable')
+        try:
+            if user_type not in ['student', 'professor']:
+                print_error("[Backend Error]: Invalid User Type!")
+                return False
+            user = auth.create_user(email=email, password=password, display_name=user_config['name'])
+            self.pushData('users', user_config)
+            self.pushData(user_type, user_type_config)
+            return user
+        except requests.exceptions.ConnectionError:
+            # Handle the "Network is unreachable" error
+            print_error("Network is unreachable.")
+        except (ValueError, fireexception.FirebaseError, fireexception.UnavailableError) as e:
+            e = str(e)
+            if e.find('EMAIL_EXISTS') != -1:
+                print_error('Account with this email already created.\nTry Another Email Address')
+            elif e.find("Invalid password") != -1:
+                print_error("Weak Password", "Password must be of atleast 6 characters.")
+            elif e.find("Malformed email address") != -1:
+                print_error("Invalid Email Address", "Email Address must be of Valid format!")
+            else:
+                print_error("Error", e)
         
     def login(self, email, password):
         """
@@ -279,6 +282,3 @@ class FirebaseDB:
             if re.fullmatch(regex, email):
                 return True
         return False
-
-
-

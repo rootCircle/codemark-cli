@@ -127,15 +127,15 @@ Before initializing Firebase and pushing dummy data, perform the following addit
 
 | Name of env variable | Type | Description | Source |
 | -------------------- | ---- | ----------- | ------ | 
-| OPENAI_API_KEY | string | OpenAI Api Key | platform.openai.com |
-| FIREBASE_DATABASE_URL | string | databaseUrl of firebaseConfig | console.firebase.google.com |
-| FIREBASE_API_KEY | string | apiKey of firebaseConfig | console.firebase.google.com | 
-| FIREBASE_AUTH_DOMAIN | string | authDomain of firebaseConfig | console.firebase.google.com |
-| FIREBASE_PROJECT_ID | string | projectID of firebaseConfig | console.firebase.google.com | 
-| FIREBASE_MESSAGEING_SENDER_ID | string | messagingSenderId of firebaseConfig | console.firebase.google.com |
-| FIREBASE_APP_ID | string | appId of firebaseConfig | console.firebase.google.com |
-| FIREBASE_STORAGE_BUCKET_URL | string | storageBucket of firebaseConfig | console.firebase.google.com |
-| WEB3_STORAGE_API_KEY | string | Web3 Storage API Key | web3.storage |
+| OPENAI_API_KEY | string | OpenAI Api Key | [OPEN AI](platform.openai.com) |
+| FIREBASE_DATABASE_URL | string | databaseUrl of firebaseConfig |[Firebase Database](https://console.firebase.google.com) |
+| FIREBASE_API_KEY | string | apiKey of firebaseConfig | [Firebase API key](https://console.firebase.google.com) | 
+| FIREBASE_AUTH_DOMAIN | string | authDomain of firebaseConfig |[Firebase Auth Domain](https://console.firebase.google.com) |
+| FIREBASE_PROJECT_ID | string | projectID of firebaseConfig | [Firebase Project Id](https://console.firebase.google.com) | 
+| FIREBASE_MESSAGEING_SENDER_ID | string | messagingSenderId of firebaseConfig | [Firebase Sender Id](https://console.firebase.google.com) |
+| FIREBASE_APP_ID | string | appId of firebaseConfig | [Firebase App Id](https://console.firebase.google.com) |
+| FIREBASE_STORAGE_BUCKET_URL | string | storageBucket of firebaseConfig | [Firebase Storage Bucket](https://console.firebase.google.com) |
+| WEB3_STORAGE_API_KEY | string | Web3 Storage API Key | [Web3 Storage API Key](https://web3.storage) |
 
 ## Import JSON Data Using the GUI
 
